@@ -1,6 +1,6 @@
-# Jeu du Corridor en Java avec une interface graphique en JavaFX
+# Jeu du Quoridor en Java avec une interface graphique en JavaFX
 
-Ce dépôt contient le code source pour un jeu du corridor en Java avec une interface graphique en JavaFX. Le jeu est basé sur le concept du jeu du corridor, où le joueur doit éviter les obstacles en déplaçant un personnage sur une piste étroite.
+Ce dépôt contient le code source pour un jeu du corridor en Java avec une interface graphique en JavaFX. Le jeu est basé sur le concept du jeu du Quoridor, où le joueur doit éviter les obstacles en déplaçant un personnage sur une piste étroite.
 
 ## Prérequis
 
@@ -16,10 +16,7 @@ Ce dépôt contient le code source pour un jeu du corridor en Java avec une inte
 
 ## Utilisation
 
-Utilisez les touches fléchées gauche et droite pour déplacer le personnage sur la piste.
-
-- Évitez les obstacles pour marquer des points.
-- Le jeu se termine si le personnage heurte un obstacle ou sort de la piste.
+Comming Soon
 
 ## Contribuer
 
