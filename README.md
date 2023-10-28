@@ -4,7 +4,7 @@ Bienvenue dans notre projet Quoridor ! Ce projet a été réalisé dans le cadre
 
 ## Aperçu
 
-Le Quoridor est un jeu de société stratégique dans lequel deux joueurs s'affrontent pour atteindre le bord opposé du plateau. Les joueurs peuvent déplacer leur pion ou placer des barrières pour bloquer leur adversaire. Notre application Java vous permet de jouer à ce jeu classique sur votre ordinateur.
+Le Quoridor est un jeu de société stratégique dans lequel deux joueurs s'affrontent pour atteindre le bord opposé du plateau. Les joueurs peuvent déplacer leur pion ou placer des barrières pour bloquer leur adversaire. Attention, un mur ne peut être placé que lorsqu'il laisse une possibilité de chemin pour les deux joueurs. Notre application Java vous permet de jouer à ce jeu classique sur votre ordinateur.
 
 ![Aperçu du jeu](https://www.google.com/imgres?imgurl=http%3A%2F%2Fwww.jeuxdenim.be%2Fimages%2Fjeux%2FQuoridor_large02.jpg&tbnid=nas9GMDuaKEJ_M&vet=12ahUKEwj4jpvf_5aCAxUFnCcCHTrMBHwQMygAegQIARBN..i&imgrefurl=https%3A%2F%2Fwww.labri.fr%2Fperso%2Frenault%2Fworking%2Fteaching%2Fprojets%2F2020-21-S6-C-Quoridor.php&docid=UxYdTWrS5zfCvM&w=600&h=436&q=quoridor%20jeu%20en%20ligne&client=safari&ved=2ahUKEwj4jpvf_5aCAxUFnCcCHTrMBHwQMygAegQIARBN)
 
@@ -14,9 +14,8 @@ Le Quoridor est un jeu de société stratégique dans lequel deux joueurs s'affr
 - Deux modes de jeu : joueur contre joueur et joueur contre ordinateur (IA basique).
 - Plateau de jeu personnalisable avec différentes tailles.
 - Possibilité de déplacer le pion et de placer des barrières.
-- Gestion des règles du jeu (déplacement, sauts, etc.).
+- Gestion des règles du jeu (déplacement, sauts, placement des murs, etc.).
 - Possibilité de sauvegarder et de charger des parties en cours.
-- fghjklm
 
 ## Configuration requise
 
