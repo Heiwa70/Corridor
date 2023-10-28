@@ -41,8 +41,8 @@ Nous sommes ouverts aux contributions. Si vous souhaitez contribuer à ce projet
 ## Auteurs
 
 - Clément Seiler - [GitHub](https://github.com/Heiwa70)
-- Maxence - [GitHub](https://github.com/nomutilisateur2)
-- Nicolas - [GitHub](https://github.com/nomutilisateur3)
+- Maxence Lelandais- [GitHub](https://github.com/nomutilisateur2)
+- Nicolas Pierrel- [GitHub](https://github.com/nomutilisateur3)
 
 ## Licence
 
