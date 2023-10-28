@@ -27,4 +27,5 @@ hs_err_pid*
 replay_pid*
 
 # Maven-specific
-/target/            # Exclut le répertoire target généré par Maven (contenant les artefacts de build)
+# Exclut le répertoire target généré par Maven (contenant les artefacts de build)
+/target
