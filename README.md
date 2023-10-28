@@ -16,6 +16,7 @@ Le Quoridor est un jeu de société stratégique dans lequel deux joueurs s'affr
 - Possibilité de déplacer le pion et de placer des barrières.
 - Gestion des règles du jeu (déplacement, sauts, etc.).
 - Possibilité de sauvegarder et de charger des parties en cours.
+- fghjklm
 
 ## Configuration requise
 
