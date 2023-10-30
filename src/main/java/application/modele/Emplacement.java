@@ -3,12 +3,12 @@ package application.modele;
 public class Emplacement {
     private int x;
     private int y;
-    private boolean occupation;
+    private int valeur;
 
-    public Emplacement(int x, int y){
+    public Emplacement(int x, int y, int valeur){
         setX(x);
         setY(y);
-        this.occupation = false;
+        setValeur(valeur);
     }
 
     public int getX() {
@@ -27,11 +27,15 @@ public class Emplacement {
         this.y = y;
     }
 
-    public boolean getOccupation() {
-        return occupation;
+    public int getValeur() {
+        return valeur;
     }
 
-    public void setOccupation(boolean occupation) {
-        this.occupation = occupation;
+    public void setValeur(int valeur) {
+        this.valeur = valeur;
+    }
+
+    public String toString(){
+        return ""+getValeur();
     }
 }

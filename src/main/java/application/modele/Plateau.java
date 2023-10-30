@@ -4,45 +4,57 @@ import java.util.ArrayList;
 
 public class Plateau {
     private int width, height;
-    private ArrayList<ArrayList<Emplacement>> listeCasesPion;
-    private ArrayList<ArrayList<Emplacement>> listeEmplacementsHorizontale;
-    private ArrayList<ArrayList<Emplacement>> listeEmplacementsVerticale;
+    public final int VALCASEPION = 1, VALPION = 2, VALCASEMURS =1111111, VALMURS=0, VALVIDE=9999999;
+    private ArrayList<ArrayList<Emplacement>> listeToutesLesCases;
 
     public Plateau(int width, int height){
+        this.listeToutesLesCases = new ArrayList<>();
         setWidth(width);
         setHeight(height);
         initialialisationPlateau();
     }
 
     private void initialialisationPlateau() {
-        remplissage(this.listeCasesPion, this.width, this.height);
-        remplissage(this.listeEmplacementsHorizontale, this.width, this.height-1);
-        remplissage(this.listeEmplacementsVerticale, this.width-1, this.height);
-    }
 
-    private void remplissage(ArrayList<ArrayList<Emplacement>> liste2D, int width, int height) {
-        if(liste2D.size()!=0){
-            liste2D.clear();
-        }
-        for (int y = 0; y < height; y++) {
+        for (int y = 0; y < this.height*2-1; y++) {
             ArrayList<Emplacement> ligne = new ArrayList<>();
-            for (int x = 0; x < width; x++) {
-                ligne.add(new Emplacement(x, y));
+            for (int x = 0; x < this.width*2-1; x++) {
+                ligne.add(new Emplacement(x, y,y%2==0? (x%2==0?this.VALCASEPION:this.VALMURS) : (x%2==0?this.VALMURS:this.VALVIDE)));
             }
-            liste2D.add(ligne);
+            this.listeToutesLesCases.add(ligne);
         }
     }
 
-    public Emplacement recupererEmplacementCasePion(int x, int y){
-        return this.listeCasesPion.get(y).get(x);
+    public Emplacement getEmplacementCasePion(int x, int y){
+        if(0<=x && x<this.width*2-1 && 0<=y && y<this.height*2-1){
+            return this.listeToutesLesCases.get(y*2).get(x*2);
+        }
+        return null;
     }
 
-    public Emplacement recupererEmplacementHorizontalMurs(int x, int y){
-        return this.listeEmplacementsHorizontale.get(y).get(x);
-    }
-
-    public Emplacement recupererEmplacementVerticaleMurs(int x, int y){
-        return this.listeEmplacementsVerticale.get(y).get(x);
+    public String getTypeEmplacement(int x, int y){
+        String resultat = "";
+        switch(this.listeToutesLesCases.get(y).get(x).getValeur()){
+            case VALCASEPION:
+                resultat = "case pion";
+                break;
+            case VALPION:
+                resultat = "pion";
+                break;
+            case VALCASEMURS:
+                resultat = "case murs";
+                break;
+            case VALMURS:
+                resultat = "murs";
+            break;
+            case VALVIDE:
+                resultat = "case interdite";
+                break;
+            default:
+                resultat = "NULL";
+                break;
+        }
+        return resultat;
     }
 
     public int getWidth() {
@@ -59,5 +71,17 @@ public class Plateau {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public String toString(){
+        StringBuilder plateauEnText = new StringBuilder();
+        for(ArrayList<Emplacement> ligne : this.listeToutesLesCases){
+            for(Emplacement emplacement : ligne){
+                String valeur = emplacement.toString();
+                plateauEnText.append(emplacement.getValeur()!=this.VALVIDE?"|   "+valeur+"   |":"|"+valeur+"|");
+            }
+            plateauEnText.append("\n");
+        }
+        return plateauEnText.toString();
     }
 }
