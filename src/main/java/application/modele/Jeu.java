@@ -1,8 +1,7 @@
 package application.modele;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Jeu {
 
@@ -34,111 +33,46 @@ public class Jeu {
     public void listeMouvementsPion(int x, int y){
         if(testCase(x,y,this.plateau.VALPION)){
 
-            int[][] pas = {{0,-1},{0,1},{-1,0},{1}};
+            List<List<Integer>> vec = Arrays.asList(Arrays.asList(1,0),Arrays.asList(0,1),Arrays.asList(-1,0),Arrays.asList(0,-1));
+            for (List<Integer> i : vec){
+                if(!testCase(x+i.get(0), y+i.get(1),this.plateau.VALCASEMURS)){
+                    if(testCase(x+2*i.get(0), y+2*i.get(1),this.plateau.VALPION)){
+                        if (!testCase(x+3*i.get(0), y+3*i.get(1),this.plateau.VALCASEMURS)){
+                            if(testCase(x+4*i.get(0), y+4*i.get(1),this.plateau.VALCASEPION)){
+                                //x+4*i.get(0) et y+4*i.get(1) possibilité
 
-            int pasX = pas[0][0];
-            int pasY = pas[0][1];
-
-
-            // HAUT
-            if(testCase(x, y-1,this.plateau.VALCASEMURS)){
-                if(testCase(x, y-2,this.plateau.VALPION)){
-                    if(testCase(x, y-3,this.plateau.VALCASEMURS)){
-                        if(testCase(x, y-4,this.plateau.VALCASEPION)){
-                            //x et y-4 possibilité
-                        }
-                    }else{
-                        if(testCase(x-1, y-2,this.plateau.VALCASEMURS)){
-                            if(testCase(x-2, y-2,this.plateau.VALCASEPION)){
-                                //x-2 et y-2 possibilité
                             }
-                        }
-                        if(testCase(x+1, y-2,this.plateau.VALCASEMURS)){
-                            if(testCase(x+2, y-2,this.plateau.VALCASEPION)){
-                                //x+2 et y-2 possibilité
+                        }else{
+                            if (i.get(0)==0) {
+                                if (testCase(x - 1, y + 2 * i.get(1), this.plateau.VALCASEMURS)) {
+                                    if (testCase(x - 2, y + 2 * i.get(1), this.plateau.VALCASEPION)) {
+                                        //x-2 et y+2*i.get(1) possibilité
+                                    }
+                                }
+                                if (testCase(x + 1, y + 2 * i.get(1), this.plateau.VALCASEMURS)) {
+                                    if (testCase(x + 2, y + 2 * i.get(1), this.plateau.VALCASEPION)) {
+                                        //x+2 et y+2*i.get(1) possibilité
+                                    }
+                                }
                             }
-                        }
-                    }
-                }
-            }else{
-                //x, y-2 possibilité
-            }
-
-            // BAS
-            if(testCase(x, y+1,this.plateau.VALCASEMURS)){
-                if(testCase(x, y+2,this.plateau.VALPION)){
-                    if(testCase(x, y+3,this.plateau.VALCASEMURS)){
-                        if(testCase(x, y+4,this.plateau.VALCASEPION)){
-                            //x et y+4 possibilité
-                        }
-                    }else{
-                        if(testCase(x-1, y+2,this.plateau.VALCASEMURS)){
-                            if(testCase(x-2, y+2,this.plateau.VALCASEPION)){
-                                //x-2 et y+2 possibilité
-                            }
-                        }
-                        if(testCase(x+1, y+2,this.plateau.VALCASEMURS)){
-                            if(testCase(x+2, y+2,this.plateau.VALCASEPION)){
-                                //x+2 et y+2 possibilité
+                            else {
+                                if (testCase(x+2*i.get(0), y -1, this.plateau.VALCASEMURS)) {
+                                    if (testCase(x+2*i.get(0), y - 2, this.plateau.VALCASEPION)) {
+                                        //x+2*i.get(0)  et y-2 possibilité
+                                    }
+                                }
+                                if (testCase(x+2*i.get(0), y +1, this.plateau.VALCASEMURS)) {
+                                    if (testCase(x+2*i.get(0), y + 2 , this.plateau.VALCASEPION)) {
+                                        //x+2*i.get(0) et y+2 possibilité
+                                    }
+                                }
                             }
                         }
                     }
+                }else{
+                    //x+2*i.get(0), y+2*i.get(1)  possibilité
                 }
-            }else{
-                //x, y+2 possibilité
             }
-
-
-
-            // Gauche
-            if(testCase(x-1, y,this.plateau.VALCASEMURS)){
-                if(testCase(x-2, y,this.plateau.VALPION)){
-                    if(testCase(x-3, y,this.plateau.VALCASEMURS)){
-                        if(testCase(x-4, y,this.plateau.VALCASEPION)){
-                            //x et y-4 possibilité
-                        }
-                    }else{
-                        if(testCase(x-2, y-1,this.plateau.VALCASEMURS)){
-                            if(testCase(x-2, y-2,this.plateau.VALCASEPION)){
-                                //x-2 et y-2 possibilité
-                            }
-                        }
-                        if(testCase(x-2, y+1,this.plateau.VALCASEMURS)){
-                            if(testCase(x-2, y+2,this.plateau.VALCASEPION)){
-                                //x-2 et y+2 possibilité
-                            }
-                        }
-                    }
-                }
-            }else{
-                //x-2, y possibilité
-            }
-
-            // Droite
-            if(testCase(x+1, y,this.plateau.VALCASEMURS)){
-                if(testCase(x+2, y,this.plateau.VALPION)){
-                    if(testCase(x+3, y,this.plateau.VALCASEMURS)){
-                        if(testCase(x+4, y,this.plateau.VALCASEPION)){
-                            //x+4 et y possibilité
-                        }
-                    }else{
-                        if(testCase(x+2, y-1,this.plateau.VALCASEMURS)){
-                            if(testCase(x+2, y-2,this.plateau.VALCASEPION)){
-                                //x+2 et y-2 possibilité
-                            }
-                        }
-                        if(testCase(x+2, y+1,this.plateau.VALCASEMURS)){
-                            if(testCase(x+2, y+2,this.plateau.VALCASEPION)){
-                                //x+2 et y+2 possibilité
-                            }
-                        }
-                    }
-                }
-            }else{
-                //x+2, y possibilité
-            }
-
-
         }
     }
 
