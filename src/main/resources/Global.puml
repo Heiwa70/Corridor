@@ -82,9 +82,14 @@ package application.controleur {
     }
     }
     package application.vue{
-class Main {
-        + main(args: String[]): void
+class Home {
     }
+class Jeu {
+}
+class LoadGame {
+}
+class NewGame {
+}
     }
 
 
