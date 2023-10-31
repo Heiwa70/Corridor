@@ -1,4 +1,6 @@
-package application.modele;
+package application.controleur;
+
+import application.modele.Emplacement;
 
 import java.util.ArrayList;
 

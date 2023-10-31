@@ -1,4 +1,6 @@
-package application.modele;
+package application.vue;
+
+import application.controleur.Plateau;
 
 public class Main {
     public static void main(String[] args){

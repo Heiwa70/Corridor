@@ -1,6 +1,9 @@
-package application.modele;
+package application.controleur;
 
-import java.lang.reflect.Array;
+import application.controleur.Plateau;
+import application.modele.Emplacement;
+import application.modele.Joueur;
+
 import java.util.*;
 
 public class Jeu {
@@ -40,7 +43,6 @@ public class Jeu {
                         if (!testCase(x+3*i.get(0), y+3*i.get(1),this.plateau.VALCASEMURS)){
                             if(testCase(x+4*i.get(0), y+4*i.get(1),this.plateau.VALCASEPION)){
                                 //x+4*i.get(0) et y+4*i.get(1) possibilité
-
                             }
                         }else{
                             if (i.get(0)==0) {

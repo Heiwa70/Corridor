@@ -19,9 +19,7 @@ public class Joueur {
     }
 
     public void initialisationListeMurs(int nombre) {
-        if(this.listeMursNonPoses.size()!=0){
-            this.listeMursNonPoses.clear();
-        }
+
         for (int nbr = 0; nbr < nombre; nbr++) {
             this.listeMursNonPoses.add(new Murs());
         }
