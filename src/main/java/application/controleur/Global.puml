@@ -1,0 +1,91 @@
+@startuml
+
+package application.controleur {
+    class Plateau {
+        - width: int
+        - height: int
+        - VALCASEPION: final int
+        - VALPION: final int
+        - VALCASEMURS: final int
+        - VALMURS: final int
+        - VALVIDE: final int
+        - listeToutesLesCases: ArrayList<ArrayList<Emplacement>>
+
+        + Plateau(width: int, height: int)
+        - initialialisationPlateau(): void
+        + getEmplacementCasePion(x: int, y: int): Emplacement
+        + getTypeEmplacement(x: int, y: int): String
+        + getWidth(): int
+        + setWidth(width: int): void
+        + getHeight(): int
+        + setHeight(height: int): void
+        + toString(): String
+    }
+
+    class Jeu {
+            - plateau: Plateau
+            - listeJoueurs: ArrayList<Joueur>
+            - joueurActuel: int
+            - pointsJoueur: HashMap<Joueur, Integer>
+
+            + Jeu(taillePlateauWidth: int, taillePlateauHeight: int, listeJoueur: ArrayList<Joueur>)
+            - initialisation(): void
+            + reinitialisation(): void
+            + listeMouvementsPion(x: int, y: int): void
+            + testCase(x: int, y: int, type: int): boolean
+        }
+
+    package application.model{
+         class Emplacement {
+                - x: int
+                - y: int
+                - valeur: int
+
+                + Emplacement(x: int, y: int, valeur: int)
+                + getX(): int
+                + setX(x: int): void
+                + getY(): int
+                + setY(y: int): void
+                + getValeur(): int
+                + setValeur(valeur: int): void
+                + toString(): String
+            }
+ class Joueur {
+        - nom: String
+        - couleur: String
+        - listeMursNonPoses: ArrayList<Murs>
+        - listeMursSurPlateau: ArrayList<Murs>
+        - pion: Pion
+
+        + Joueur(nom: String, couleur: String, nombreMurs: int)
+        + initialisationListeMurs(nombre: int): void
+        + getNom(): String
+        + setNom(nom: String): void
+        + getCouleur(): String
+        + setCouleur(couleur: String): void
+    }
+      class Murs {
+            - casesPrises: ArrayList<Emplacement>
+
+            + Murs()
+            + setPosition(case1: Emplacement, case2: Emplacement): void
+        }
+  class Pion {
+        - couleur: String
+        - emplacement: Emplacement
+
+        + Pion(couleur: String)
+        + getCouleur(): String
+        + setCouleur(couleur: String): void
+        + getEmplacement(): Emplacement
+        + setEmplacement(emplacement: Emplacement): void
+    }
+    }
+    package application.vue{
+class Main {
+        + main(args: String[]): void
+    }
+    }
+
+
+@enduml
