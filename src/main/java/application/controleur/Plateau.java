@@ -34,6 +34,13 @@ public class Plateau {
         return null;
     }
 
+    public Emplacement getEmplacement(int x, int y){
+        if(0<=x && x<this.width*2-1 && 0<=y && y<this.height*2-1){
+            return this.listeToutesLesCases.get(y).get(x);
+        }
+        return null;
+    }
+
     public String getTypeEmplacement(int x, int y){
         String resultat = "";
         switch(this.listeToutesLesCases.get(y).get(x).getValeur()){

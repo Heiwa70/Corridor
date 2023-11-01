@@ -12,16 +12,24 @@ public class Joueur {
     public Joueur(String nom, String couleur, int nombreMurs){
         setNom(nom);
         setCouleur(couleur);
-        this.listeMursNonPoses = new ArrayList<>();
-        this.listeMursSurPlateau = new ArrayList<>();
         this.pion = new Pion(couleur);
-        initialisationListeMurs(nombreMurs);
+
+        initialisationListeMurs(this.listeMursNonPoses, nombreMurs);
+        initialisationListeMurs(this.listeMursSurPlateau, 0);
     }
 
-    public void initialisationListeMurs(int nombre) {
+    public Joueur(String nom, String couleur, int nombreMurs, int nombreMursPoses){
+        setNom(nom);
+        setCouleur(couleur);
+        this.pion = new Pion(couleur);
+        initialisationListeMurs(this.listeMursNonPoses, nombreMurs);
+        initialisationListeMurs(this.listeMursSurPlateau, nombreMursPoses);
+    }
 
+    public void initialisationListeMurs(ArrayList<Murs> liste, int nombre) {
+        liste = new ArrayList<>();
         for (int nbr = 0; nbr < nombre; nbr++) {
-            this.listeMursNonPoses.add(new Murs());
+            liste.add(new Murs());
         }
     }
 
@@ -39,6 +47,10 @@ public class Joueur {
 
     public void setCouleur(String couleur) {
         this.couleur = couleur;
+    }
+
+    public String toString(){
+        return this.nom+" : "+this.couleur+" : "+this.listeMursNonPoses.size()+" : "+this.listeMursSurPlateau.size();
     }
 }
 
