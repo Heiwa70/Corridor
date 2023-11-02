@@ -8,29 +8,28 @@ public class Joueur {
     private ArrayList<Murs> listeMursNonPoses;
     private ArrayList<Murs> listeMursSurPlateau;
     private Pion pion;
+    private int id;
 
-    public Joueur(String nom, String couleur, int nombreMurs){
+    public Joueur(int id, String nom, String couleur, int nombreMurs, int nombreMursPoses){
+        setId(id);
         setNom(nom);
         setCouleur(couleur);
-        this.pion = new Pion(couleur);
-
-        initialisationListeMurs(this.listeMursNonPoses, nombreMurs);
-        initialisationListeMurs(this.listeMursSurPlateau, 0);
+        this.listeMursNonPoses = initialisationListeMurs(nombreMurs);
+        this.listeMursSurPlateau = initialisationListeMurs(nombreMursPoses);
     }
 
-    public Joueur(String nom, String couleur, int nombreMurs, int nombreMursPoses){
-        setNom(nom);
-        setCouleur(couleur);
-        this.pion = new Pion(couleur);
-        initialisationListeMurs(this.listeMursNonPoses, nombreMurs);
-        initialisationListeMurs(this.listeMursSurPlateau, nombreMursPoses);
-    }
-
-    public void initialisationListeMurs(ArrayList<Murs> liste, int nombre) {
-        liste = new ArrayList<>();
+    public ArrayList<Murs> initialisationListeMurs(int nombre) {
+        ArrayList<Murs> liste = new ArrayList<>();
         for (int nbr = 0; nbr < nombre; nbr++) {
             liste.add(new Murs());
         }
+        return liste;
+    }
+
+    public void setPion(Emplacement emplacement){
+
+        emplacement.setValeur(2);
+        this.pion = new Pion(couleur,emplacement);
     }
 
     public String getNom() {
@@ -49,8 +48,28 @@ public class Joueur {
         this.couleur = couleur;
     }
 
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public int getId(){
+        return this.id;
+    }
+
+    public String getCoordsString(){
+        return getX()+" : "+getY();
+    }
+
+    public int getX(){
+        return this.pion.getEmplacement().getX();
+    }
+
+    public int getY(){
+        return this.pion.getEmplacement().getY();
+    }
+
     public String toString(){
-        return this.nom+" : "+this.couleur+" : "+this.listeMursNonPoses.size()+" : "+this.listeMursSurPlateau.size();
+        return this.id+" : "+this.nom+" : "+this.couleur+" : "+getCoordsString()+" : "+this.listeMursNonPoses.size()+" : "+this.listeMursSurPlateau.size();
     }
 }
 

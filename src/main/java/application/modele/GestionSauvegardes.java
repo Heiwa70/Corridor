@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class GestionSauvegardes {
 
@@ -21,7 +22,7 @@ public class GestionSauvegardes {
 
     public boolean enregistrement(String nom, Plateau plateau, HashMap<Joueur, Integer> pointsJoueur) {
 
-        StringBuilder text = new StringBuilder(plateau.toString());
+        StringBuilder text = new StringBuilder(plateau.toString(true));
 
         for (Joueur joueur : pointsJoueur.keySet()) {
             text.append("\n").append(joueur.toString()).append(" : ").append(pointsJoueur.get(joueur));
@@ -57,20 +58,23 @@ public class GestionSauvegardes {
 
         try {
             Path chemin = Paths.get(path + nom + ".save");
-            String text = Files.readAllLines(chemin).get(0);
-            for (String ligne : text.split("\n")) {
+            List<String> text = Files.readAllLines(chemin);
+            ArrayList<Integer[]> coordsPions = new ArrayList<>();
+            for (String ligne : text) {
 
-                if (ligne.isEmpty()) {
+                if (ligne.equals("")) {
                     modeLectureJoueurs = true;
                 }
-                if (modeLectureJoueurs) {
+                else if (modeLectureJoueurs) {
                     String[] donnees = ligne.split(" : ");
-                    Joueur joueur = new Joueur(donnees[0], donnees[1], Integer.parseInt(donnees[2]), Integer.parseInt(donnees[3]));
+                    Joueur joueur = new Joueur(Integer.parseInt(donnees[0]), donnees[1], donnees[2],Integer.parseInt(donnees[5]), Integer.parseInt(donnees[6]));
                     pointsJoueur.put(joueur, Integer.parseInt(donnees[4]));
+                    coordsPions.add(new Integer[]{Integer.parseInt(donnees[3]), Integer.parseInt(donnees[4])});
                 } else {
 
-                    ligne.replace(" ", "");
-                    ligne.replace("||", ",");
+                    ligne = ligne.replace(" ", "");
+                    ligne = ligne.replace("||", ",");
+                    ligne = ligne.replace("|", "");
                     ArrayList<Integer> ligneMatrice = new ArrayList<>();
                     for (String valeur : ligne.split(",")) {
                         ligneMatrice.add(Integer.parseInt(valeur));
@@ -90,6 +94,11 @@ public class GestionSauvegardes {
                     }
                 }
             }
+
+            for(Joueur joueur : pointsJoueur.keySet()){
+                joueur.setPion(plateau.getEmplacement(coordsPions.get(joueur.getId())[0], coordsPions.get(joueur.getId())[1]));
+            }
+
             retour.put(plateau, pointsJoueur);
         } catch (IOException e) {
             e.printStackTrace();

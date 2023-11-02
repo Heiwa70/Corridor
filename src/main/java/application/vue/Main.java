@@ -1,12 +1,52 @@
 package application.vue;
 
-import application.controleur.Plateau;
+import application.controleur.Jeu;
+import application.modele.Joueur;
 import application.modele.Log;
 
+import java.util.ArrayList;
+import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
-        Plateau plateau = new Plateau(9,9);
-        System.out.println(plateau.toString());
-        Log.info("main","test");
+
+        Log.info("Main", "start");
+        Scanner scanner = new Scanner(System.in);
+        int nombreJoueur = 2;
+        int nombreMurs = 10;
+        int width = 9;
+        int height = 9;
+
+        do {
+			System.out.print("\nNombre de joueurs entre 2-4 : ");
+			try {
+				nombreJoueur = Integer.parseInt(scanner.nextLine());
+			} catch (Exception e) {
+			}
+		} while (nombreJoueur>4 || nombreJoueur<2);
+
+        ArrayList<Joueur> listeJoueur = new ArrayList<>();
+
+        int idJoueur = 0;
+
+        while(nombreJoueur>0){
+
+            System.out.print("\nNom du joueur : ");
+			String nom = scanner.nextLine();
+            System.out.print("Couleur du joueur : ");
+			String couleur = scanner.nextLine();
+
+            listeJoueur.add(new Joueur(idJoueur, nom, couleur, nombreMurs, 0));
+            nombreJoueur--;
+            idJoueur++;
+        }
+
+        System.out.println("\nCréation du jeu avec un plateau de "+width+" x "+height);
+
+        Jeu jeu = new Jeu(width, height, listeJoueur);
+        jeu.start();
+        scanner.close();
+        jeu.sauvegarde("test");
+        //jeu.chargement("test");
+        //jeu.start();
     }
 }
