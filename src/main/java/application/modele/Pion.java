@@ -4,8 +4,9 @@ public class Pion {
     private String couleur;
     private Emplacement emplacement;
 
-    public Pion(String couleur){
+    public Pion(String couleur, Emplacement emplacement){
         setCouleur(couleur);
+        setEmplacement(emplacement);
     }
 
     public String getCouleur() {
@@ -22,5 +23,9 @@ public class Pion {
 
     public void setEmplacement(Emplacement emplacement) {
         this.emplacement = emplacement;
+    }
+
+    public String toString(){
+        return this.emplacement.toString();
     }
 }
