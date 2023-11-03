@@ -11,7 +11,7 @@ public class Jeu {
 
     private Plateau plateau;
     private ArrayList<Joueur> listeJoueurs;
-    private int idJoueurActuel;
+    private Integer idJoueurActuel;
     private HashMap<Joueur, Integer> pointsJoueur;
     private Integer[][] emplacementJoueur;
     private Scanner scanner;
@@ -34,7 +34,7 @@ public class Jeu {
     }
 
     public Jeu(String nomSauvegarde){
-
+        this.idJoueurActuel = new Integer(0);
         gestionSauvegardes = new GestionSauvegardes();
         chargement(nomSauvegarde);
         this.scanner = new Scanner(System.in);

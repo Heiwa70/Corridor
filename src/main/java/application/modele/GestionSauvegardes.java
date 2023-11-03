@@ -41,7 +41,7 @@ public class GestionSauvegardes {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+            FileWriter fw = new FileWriter(file.getAbsoluteFile(), false);
             fw.write(text.toString()+"\n"+idJoueurActuel);
             fw.close();
 
@@ -52,7 +52,7 @@ public class GestionSauvegardes {
         return true;
     }
 
-    public HashMap<Plateau, HashMap<Joueur, Integer>> chargement(String nom, int idJoueurActuel) {
+    public HashMap<Plateau, HashMap<Joueur, Integer>> chargement(String nom, Integer idJoueurActuel) {
 
         HashMap<Joueur, Integer> pointsJoueur = new HashMap<>();
         Plateau plateau;
@@ -71,8 +71,9 @@ public class GestionSauvegardes {
                     modeLectureJoueurs = true;
                 }
                 else if (modeLectureJoueurs) {
-                    if(ligne.length()==1){
-                        idJoueurActuel = Integer.parseInt(ligne);
+                    if(ligne.length()<=2){
+                        idJoueurActuel = idJoueurActuel.parseInt(ligne);
+                        break;
                     }
                     String[] donnees = ligne.split(" : ");
                     Joueur joueur = new Joueur(Integer.parseInt(donnees[0]), donnees[1], donnees[2],Integer.parseInt(donnees[5]), Integer.parseInt(donnees[6]));

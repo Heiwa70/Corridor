@@ -17,7 +17,6 @@ public class Main {
         int width = 9;
         int height = 9;
 
-
         do {
 			System.out.print("\nNombre de joueurs entre 2-4 : ");
 			try {
