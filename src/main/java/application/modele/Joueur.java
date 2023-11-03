@@ -1,7 +1,15 @@
+/**
+ * Classe Joueur écrite par Clément, Maxence et Nicolas.
+ * FISA Informatique UTBM en PR70 2023.
+ */
+
 package application.modele;
 
 import java.util.ArrayList;
 
+/**
+ * La classe Joueur
+ */
 public class Joueur {
     private String nom;
     private String couleur;
@@ -28,7 +36,7 @@ public class Joueur {
 
     public void setPion(Emplacement emplacement){
 
-        emplacement.setValeur(2);
+        emplacement.setValeur(Val.__PION__);
         this.pion = new Pion(couleur,emplacement);
     }
 

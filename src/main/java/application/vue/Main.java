@@ -10,11 +10,13 @@ public class Main {
     public static void main(String[] args){
 
         Log.info("Main", "start");
+
         Scanner scanner = new Scanner(System.in);
         int nombreJoueur = 2;
         int nombreMurs = 10;
         int width = 9;
         int height = 9;
+
 
         do {
 			System.out.print("\nNombre de joueurs entre 2-4 : ");
@@ -44,9 +46,12 @@ public class Main {
 
         Jeu jeu = new Jeu(width, height, listeJoueur);
         jeu.start();
-        scanner.close();
         jeu.sauvegarde("test");
-        //jeu.chargement("test");
-        //jeu.start();
+
+        jeu = new Jeu("test");
+
+        jeu.start();
+
+        scanner.close();
     }
 }

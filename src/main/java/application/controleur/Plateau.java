@@ -1,12 +1,12 @@
 package application.controleur;
 
 import application.modele.Emplacement;
+import application.modele.Val;
 
 import java.util.ArrayList;
 
 public class Plateau {
-    public final int VALCASEPION = 1, VALPION = 2, VALCASEMURS =1111111, VALMURS=0, VALVIDE=9999999;
-    private ArrayList<ArrayList<Emplacement>> listeToutesLesCases;
+   private ArrayList<ArrayList<Emplacement>> listeToutesLesCases;
 
     public Plateau(int width, int height){
         this.listeToutesLesCases = new ArrayList<>();
@@ -18,7 +18,7 @@ public class Plateau {
         for (int y = 0; y < height*2-1; y++) {
             ArrayList<Emplacement> ligne = new ArrayList<>();
             for (int x = 0; x < width*2-1; x++) {
-                ligne.add(new Emplacement(x, y,y%2==0? (x%2==0?this.VALCASEPION:this.VALMURS) : (x%2==0?this.VALMURS:this.VALVIDE)));
+                ligne.add(new Emplacement(x, y,y%2==0? (x%2==0?Val.CASEPION:Val.__MURS__) : (x%2==0?Val.__MURS__:Val.__VIDE__)));
             }
             this.listeToutesLesCases.add(ligne);
         }
@@ -41,19 +41,19 @@ public class Plateau {
     public String getTypeEmplacement(int x, int y){
         String resultat = "";
         switch(this.listeToutesLesCases.get(y).get(x).getValeur()){
-            case VALCASEPION:
+            case CASEPION:
                 resultat = "case pion";
                 break;
-            case VALPION:
+            case __PION__:
                 resultat = "pion";
                 break;
-            case VALCASEMURS:
+            case CASEMURS:
                 resultat = "case murs";
                 break;
-            case VALMURS:
+            case __MURS__:
                 resultat = "murs";
             break;
-            case VALVIDE:
+            case __VIDE__:
                 resultat = "case interdite";
                 break;
             default:
@@ -95,12 +95,10 @@ public class Plateau {
             for(Emplacement emplacement : ligne){
 
                 String valeur = emplacement.toString();
-                if(vueValeur){
-                    plateauEnText.append(emplacement.getValeur()!=this.VALVIDE?"|   "+valeur+"   |":"|"+valeur+"|");
-                }else{
-                    valeur = valeur.equals("2")?"O":valeur.equals("1")?" ":valeur.equals("0")?"=":valeur;
-                    plateauEnText.append(emplacement.getValeur()!=this.VALVIDE?"|   "+valeur+"   |":"|"+valeur+"|");
+                if(!vueValeur){
+                    valeur = valeur.equals("__PION__")?"O":valeur.equals("CASEPION")?" ":valeur.equals("__MURS__")?"=":"X";
                 }
+                plateauEnText.append("|   "+valeur+"   |");
              }
             plateauEnText.append("\n");
             y++;
