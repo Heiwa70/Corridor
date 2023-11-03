@@ -3,9 +3,9 @@ package application.modele;
 public class Emplacement {
     private int x;
     private int y;
-    private int valeur;
+    private Val valeur;
 
-    public Emplacement(int x, int y, int valeur){
+    public Emplacement(int x, int y, Val valeur){
         setX(x);
         setY(y);
         setValeur(valeur);
@@ -27,11 +27,11 @@ public class Emplacement {
         this.y = y;
     }
 
-    public int getValeur() {
+    public Val getValeur() {
         return valeur;
     }
 
-    public void setValeur(int valeur) {
+    public void setValeur(Val valeur) {
         this.valeur = valeur;
     }
 

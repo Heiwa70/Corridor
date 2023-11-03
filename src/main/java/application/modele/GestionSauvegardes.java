@@ -14,13 +14,20 @@ import java.util.List;
 
 public class GestionSauvegardes {
 
-    private final String path = "src//main//ressources//sauvegardes//";
+    private String path;
+    private HashMap<String, Val> conversionCase;
 
     public GestionSauvegardes() {
-
+        this.path = "src//main//ressources//sauvegardes//";
+        this.conversionCase = new HashMap<>();
+        this.conversionCase.put("CASEPION", Val.CASEPION);
+        this.conversionCase.put("__PION__", Val.__PION__);
+        this.conversionCase.put("CASEMURS", Val.CASEMURS);
+        this.conversionCase.put("__MURS__", Val.__MURS__);
+        this.conversionCase.put("__VIDE__", Val.__VIDE__);
     }
 
-    public boolean enregistrement(String nom, Plateau plateau, HashMap<Joueur, Integer> pointsJoueur) {
+    public boolean enregistrement(String nom, Plateau plateau, HashMap<Joueur, Integer> pointsJoueur, int idJoueurActuel) {
 
         StringBuilder text = new StringBuilder(plateau.toString(true));
 
@@ -35,7 +42,7 @@ public class GestionSauvegardes {
                 file.createNewFile();
             }
             FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
-            fw.write(text.toString());
+            fw.write(text.toString()+"\n"+idJoueurActuel);
             fw.close();
 
         } catch (IOException e) {
@@ -45,16 +52,14 @@ public class GestionSauvegardes {
         return true;
     }
 
-    public HashMap<Plateau, HashMap<Joueur, Integer>> chargement(String nom) {
-
+    public HashMap<Plateau, HashMap<Joueur, Integer>> chargement(String nom, int idJoueurActuel) {
 
         HashMap<Joueur, Integer> pointsJoueur = new HashMap<>();
         Plateau plateau;
 
-        ArrayList<ArrayList<Integer>> matrice = new ArrayList<>();
+        ArrayList<ArrayList<String>> matrice = new ArrayList<>();
         boolean modeLectureJoueurs = false;
         HashMap<Plateau, HashMap<Joueur, Integer>> retour = new HashMap<>();
-
 
         try {
             Path chemin = Paths.get(path + nom + ".save");
@@ -66,6 +71,9 @@ public class GestionSauvegardes {
                     modeLectureJoueurs = true;
                 }
                 else if (modeLectureJoueurs) {
+                    if(ligne.length()==1){
+                        idJoueurActuel = Integer.parseInt(ligne);
+                    }
                     String[] donnees = ligne.split(" : ");
                     Joueur joueur = new Joueur(Integer.parseInt(donnees[0]), donnees[1], donnees[2],Integer.parseInt(donnees[5]), Integer.parseInt(donnees[6]));
                     pointsJoueur.put(joueur, Integer.parseInt(donnees[4]));
@@ -75,9 +83,9 @@ public class GestionSauvegardes {
                     ligne = ligne.replace(" ", "");
                     ligne = ligne.replace("||", ",");
                     ligne = ligne.replace("|", "");
-                    ArrayList<Integer> ligneMatrice = new ArrayList<>();
+                    ArrayList<String> ligneMatrice = new ArrayList<>();
                     for (String valeur : ligne.split(",")) {
-                        ligneMatrice.add(Integer.parseInt(valeur));
+                        ligneMatrice.add(valeur);
                     }
                     matrice.add(ligneMatrice);
                 }
@@ -90,7 +98,7 @@ public class GestionSauvegardes {
                 for (int x = 0; x < width; x++) {
                     Emplacement emplacement = plateau.getEmplacement(x, y);
                     if (emplacement != null) {
-                        emplacement.setValeur(matrice.get(y).get(x));
+                        emplacement.setValeur(this.conversionCase.get(matrice.get(y).get(x)));
                     }
                 }
             }

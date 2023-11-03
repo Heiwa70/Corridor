@@ -1,9 +1,9 @@
 package application.controleur;
 
-import application.controleur.Plateau;
 import application.modele.Emplacement;
 import application.modele.GestionSauvegardes;
 import application.modele.Joueur;
+import application.modele.Val;
 
 import java.util.*;
 
@@ -28,7 +28,15 @@ public class Jeu {
             {taillePlateauWidth-1, (taillePlateauHeight)/2},
             {0, (taillePlateauHeight)/2},
         };
+
         initialisation();
+        this.scanner = new Scanner(System.in);
+    }
+
+    public Jeu(String nomSauvegarde){
+
+        gestionSauvegardes = new GestionSauvegardes();
+        chargement(nomSauvegarde);
         this.scanner = new Scanner(System.in);
     }
 
@@ -46,40 +54,40 @@ public class Jeu {
 
         List<Integer[]> possibilites = new ArrayList<>();
 
-        if(testCase(x,y,this.plateau.VALPION)){
+        if(testCase(x,y,Val.__PION__)){
 
             List<List<Integer>> vec = Arrays.asList(Arrays.asList(1,0),Arrays.asList(0,1),Arrays.asList(-1,0),Arrays.asList(0,-1));
             for (List<Integer> i : vec){
-                if(!testCase(x+i.get(0), y+i.get(1),this.plateau.VALCASEMURS)) {
-                    if (testCase(x + 2 * i.get(0), y + 2 * i.get(1), this.plateau.VALPION)) {
-                        if (!testCase(x + 3 * i.get(0), y + 3 * i.get(1), this.plateau.VALCASEMURS)) {
-                            if (testCase(x + 4 * i.get(0), y + 4 * i.get(1), this.plateau.VALCASEPION)) {
+                if(!testCase(x+i.get(0), y+i.get(1), Val.CASEMURS)) {
+                    if (testCase(x + 2 * i.get(0), y + 2 * i.get(1), Val.__PION__)) {
+                        if (!testCase(x + 3 * i.get(0), y + 3 * i.get(1), Val.CASEMURS)) {
+                            if (testCase(x + 4 * i.get(0), y + 4 * i.get(1), Val.CASEPION)) {
                                 //x+4*i.get(0) et y+4*i.get(1) possibilité
                                 ajoutPossibilite(possibilites,x + 4 * i.get(0), y + 4 * i.get(1));
                             }
                         } else {
                             if (i.get(0) == 0) {
-                                if (testCase(x - 1, y + 2 * i.get(1), this.plateau.VALCASEMURS)) {
-                                    if (testCase(x - 2, y + 2 * i.get(1), this.plateau.VALCASEPION)) {
+                                if (testCase(x - 1, y + 2 * i.get(1), Val.CASEMURS)) {
+                                    if (testCase(x - 2, y + 2 * i.get(1), Val.CASEPION)) {
                                         //x-2 et y+2*i.get(1) possibilité
                                         ajoutPossibilite(possibilites,x - 2, y + 2 * i.get(1));
                                     }
                                 }
-                                if (testCase(x + 1, y + 2 * i.get(1), this.plateau.VALCASEMURS)) {
-                                    if (testCase(x + 2, y + 2 * i.get(1), this.plateau.VALCASEPION)) {
+                                if (testCase(x + 1, y + 2 * i.get(1), Val.CASEMURS)) {
+                                    if (testCase(x + 2, y + 2 * i.get(1), Val.CASEPION)) {
                                         //x+2 et y+2*i.get(1) possibilité
                                         ajoutPossibilite(possibilites,x + 2, y + 2 * i.get(1));
                                     }
                                 }
                             } else {
-                                if (testCase(x + 2 * i.get(0), y - 1, this.plateau.VALCASEMURS)) {
-                                    if (testCase(x + 2 * i.get(0), y - 2, this.plateau.VALCASEPION)) {
+                                if (testCase(x + 2 * i.get(0), y - 1, Val.CASEMURS)) {
+                                    if (testCase(x + 2 * i.get(0), y - 2, Val.CASEPION)) {
                                         //x+2*i.get(0)  et y-2 possibilité
                                         ajoutPossibilite(possibilites,x + 2 * i.get(0), y - 2);
                                     }
                                 }
-                                if (testCase(x + 2 * i.get(0), y + 1, this.plateau.VALCASEMURS)) {
-                                    if (testCase(x + 2 * i.get(0), y + 2, this.plateau.VALCASEPION)) {
+                                if (testCase(x + 2 * i.get(0), y + 1, Val.CASEMURS)) {
+                                    if (testCase(x + 2 * i.get(0), y + 2, Val.CASEPION)) {
                                         //x+2*i.get(0) et y+2 possibilité
                                         ajoutPossibilite(possibilites,x + 2 * i.get(0), y + 2);
                                     }
@@ -107,7 +115,7 @@ public class Jeu {
         return 0<=x && x<this.plateau.getWidth() && 0<=y && y< this.plateau.getHeight();
     }
 
-    public boolean testCase(int x, int y, int type){
+    public boolean testCase(int x, int y, Val type){
         Emplacement laCase = this.plateau.getEmplacement(x,y);
         if(laCase!=null){
             return laCase.getValeur() == type;
@@ -147,10 +155,10 @@ public class Jeu {
             Integer[] newPosition = listeMouvementsPossibles.get(choix);
 
             System.out.println("\nLe joueur '"+"' déplace son pion de la case à : \n    X = "+joueurActuel.getX()+" ->  X = "+newPosition[0]+"\n    Y = "+joueurActuel.getX()+" ->   Y = "+newPosition[1]);
-            this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(1);
+            this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(Val.CASEPION);
             joueurActuel.setPion(this.plateau.getEmplacement(newPosition[0], newPosition[1]));
             this.idJoueurActuel = (this.idJoueurActuel+1)%this.listeJoueurs.size();
-
+            break;
         }
     }
 
@@ -160,12 +168,12 @@ public class Jeu {
 
     public void sauvegarde(String nomFichier){
 
-        gestionSauvegardes.enregistrement(nomFichier, this.plateau, this.pointsJoueur);
+        gestionSauvegardes.enregistrement(nomFichier, this.plateau, this.pointsJoueur, this.idJoueurActuel);
     }
 
-    public void chargement(String nomFichier) {
+    private void chargement(String nomFichier) {
 
-        HashMap<Plateau, HashMap<Joueur, Integer>> data = gestionSauvegardes.chargement(nomFichier);
+        HashMap<Plateau, HashMap<Joueur, Integer>> data = gestionSauvegardes.chargement(nomFichier, this.idJoueurActuel);
 
         for (Plateau plateauSave : data.keySet()) {
             this.plateau = plateauSave;
@@ -177,6 +185,4 @@ public class Jeu {
             this.listeJoueurs = listeTemporaire;
         }
     }
-
-
 }
