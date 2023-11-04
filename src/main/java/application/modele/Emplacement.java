@@ -5,7 +5,7 @@ public class Emplacement {
     private int y;
     private Val valeur;
 
-    public Emplacement(int x, int y, Val valeur){
+    public Emplacement(int x, int y, Val valeur) {
         setX(x);
         setY(y);
         setValeur(valeur);
@@ -35,7 +35,7 @@ public class Emplacement {
         this.valeur = valeur;
     }
 
-    public String toString(){
-        return ""+getValeur();
+    public String toString() {
+        return "" + getValeur();
     }
 }

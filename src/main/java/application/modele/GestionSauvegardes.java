@@ -27,6 +27,15 @@ public class GestionSauvegardes {
         this.conversionCase.put("__VIDE__", Val.__VIDE__);
     }
 
+    public boolean testSauvegardeExiste(String nomSauvegarde) {
+        File file = new File(path + "//" + nomSauvegarde + ".save");
+        if (file.exists()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean enregistrement(String nom, Plateau plateau, HashMap<Joueur, Integer> pointsJoueur, int idJoueurActuel) {
 
         StringBuilder text = new StringBuilder(plateau.toString(true));
@@ -42,7 +51,7 @@ public class GestionSauvegardes {
                 file.createNewFile();
             }
             FileWriter fw = new FileWriter(file.getAbsoluteFile(), false);
-            fw.write(text.toString()+"\n"+idJoueurActuel);
+            fw.write(text.toString() + "\n" + idJoueurActuel);
             fw.close();
 
         } catch (IOException e) {
@@ -70,14 +79,13 @@ public class GestionSauvegardes {
 
                 if (ligne.equals("")) {
                     modeLectureJoueurs = true;
-                }
-                else if (modeLectureJoueurs) {
-                    if(ligne.length()<=2){
+                } else if (modeLectureJoueurs) {
+                    if (ligne.length() <= 2) {
                         idJoueurActuel = Integer.parseInt(ligne);
                         break;
                     }
                     String[] donnees = ligne.split(" : ");
-                    Joueur joueur = new Joueur(Integer.parseInt(donnees[0]), donnees[1], donnees[2],Integer.parseInt(donnees[5]), Integer.parseInt(donnees[6]));
+                    Joueur joueur = new Joueur(Integer.parseInt(donnees[0]), donnees[1], donnees[2], Integer.parseInt(donnees[5]), Integer.parseInt(donnees[6]));
                     pointsJoueur.put(joueur, Integer.parseInt(donnees[4]));
                     coordsPions.add(new Integer[]{Integer.parseInt(donnees[3]), Integer.parseInt(donnees[4])});
                 } else {
@@ -105,7 +113,7 @@ public class GestionSauvegardes {
                 }
             }
 
-            for(Joueur joueur : pointsJoueur.keySet()){
+            for (Joueur joueur : pointsJoueur.keySet()) {
                 joueur.setPion(plateau.getEmplacement(coordsPions.get(joueur.getId())[0], coordsPions.get(joueur.getId())[1]));
             }
 

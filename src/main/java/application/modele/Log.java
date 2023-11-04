@@ -26,8 +26,9 @@ public class Log {
 
     /**
      * Enregistrement d'une ligne d'erreur.
+     *
      * @param nomClasse String, nom du fichier où sera enregistré la ligne d'erreur.
-     * @param message String, la description de la ligne d'erreur.
+     * @param message   String, la description de la ligne d'erreur.
      */
     public static void error(String nomClasse, String message) {
         send("error", nomClasse, message);
@@ -35,8 +36,9 @@ public class Log {
 
     /**
      * Enregistrement d'une ligne d'alerte.
+     *
      * @param nomClasse String, nom du fichier où sera enregistré la ligne d'alerte.
-     * @param message String, la description de la ligne d'alerte.
+     * @param message   String, la description de la ligne d'alerte.
      */
     public static void warn(String nomClasse, String message) {
         send("warn", nomClasse, message);
@@ -44,8 +46,9 @@ public class Log {
 
     /**
      * Enregistrement d'une ligne d'informations.
+     *
      * @param nomClasse String, nom du fichier où sera enregistré la ligne d'informations.
-     * @param message String, la description de la ligne d'informations.
+     * @param message   String, la description de la ligne d'informations.
      */
     public static void info(String nomClasse, String message) {
         send("info", nomClasse, message);
@@ -55,25 +58,26 @@ public class Log {
      * Enregistrement du message.
      * Chaque ligne sera dans le format suivant :
      * AAAA-MM-JJ HH:MM:SS:MS [type] = message
-     * @param type String, type du log.
+     *
+     * @param type      String, type du log.
      * @param nomClasse String, nom du fichier.
-     * @param message String, description du log.
+     * @param message   String, description du log.
      */
     private static void send(String type, String nomClasse, String message) {
 
         new File(chemin).mkdir();
-        String filePath = chemin+dateFormat.format(LocalDateTime.now());
+        String filePath = chemin + dateFormat.format(LocalDateTime.now());
         new File(filePath).mkdir();
 
-        File file = new File(filePath+"//"+nomClasse+".log");
+        File file = new File(filePath + "//" + nomClasse + ".log");
 
-        try{
+        try {
             if (!file.exists()) {
                 file.createNewFile();
             }
             // Ouverture, écriture et fermeture du fichier log.
             FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
-            fw.write(chronoFormat.format(LocalDateTime.now())+" ["+type+"] = "+message+"\n");
+            fw.write(chronoFormat.format(LocalDateTime.now()) + " [" + type + "] = " + message + "\n");
             fw.close();
 
         } catch (IOException e) {

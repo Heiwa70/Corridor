@@ -9,6 +9,7 @@ import java.util.*;
 
 public class Jeu {
 
+    private String nomPartie;
     private Plateau plateau;
     private Joueur[] listeJoueurs;
     private int idJoueurActuel;
@@ -17,29 +18,66 @@ public class Jeu {
     private Scanner scanner;
     private GestionSauvegardes gestionSauvegardes;
 
-    public Jeu(int taillePlateauWidth, int taillePlateauHeight, Joueur[] listeJoueur) {
+    public Jeu() {
         gestionSauvegardes = new GestionSauvegardes();
-        this.plateau = new Plateau(taillePlateauWidth, taillePlateauHeight);
-        this.listeJoueurs = listeJoueur;
-        this.pointsJoueur = new HashMap<>();
-        this.emplacementJoueur = new Integer[][]{
-                {(taillePlateauWidth) / 2, taillePlateauHeight - 1},
-                {(taillePlateauWidth) / 2, 0},
-                {taillePlateauWidth - 1, (taillePlateauHeight) / 2},
-                {0, (taillePlateauHeight) / 2},
-        };
-
-        initialisation();
         this.scanner = new Scanner(System.in);
+        initialisation();
+        start();
     }
 
     public Jeu(String nomSauvegarde) {
         gestionSauvegardes = new GestionSauvegardes();
-        chargement(nomSauvegarde);
         this.scanner = new Scanner(System.in);
+        if (!chargement(nomSauvegarde)) {
+            initialisation();
+        }
+        start();
     }
 
     private void initialisation() {
+        int nombreJoueur = 2;
+        int nombreMurs = 10;
+        int width = 9;
+        int height = 9;
+
+        System.out.print("Nom de la partie : ");
+        this.nomPartie = scanner.nextLine();
+
+        do {
+            System.out.print("\nNombre de joueurs entre 2-4 : ");
+            try {
+                nombreJoueur = Integer.parseInt(scanner.nextLine());
+            } catch (Exception e) {
+            }
+        } while (nombreJoueur > 4 || nombreJoueur < 2);
+
+        this.listeJoueurs = new Joueur[nombreJoueur];
+
+        int idJoueur = 0;
+
+        while (nombreJoueur > 0) {
+
+            System.out.print("\nNom du joueur : ");
+            String nom = scanner.nextLine();
+            System.out.print("Couleur du joueur : ");
+            String couleur = scanner.nextLine();
+
+            this.listeJoueurs[idJoueur] = new Joueur(idJoueur, nom, couleur, nombreMurs, 0);
+            nombreJoueur--;
+            idJoueur++;
+        }
+
+        System.out.println("\nCréation du jeu avec un plateau de " + width + " x " + height);
+        this.plateau = new Plateau(width, height);
+
+        this.pointsJoueur = new HashMap<>();
+        this.emplacementJoueur = new Integer[][]{
+                {width / 2, height - 1},
+                {width / 2, 0},
+                {width - 1, height / 2},
+                {0, height / 2},
+        };
+
         int position = 0;
         this.idJoueurActuel = 0;
         for (Joueur joueur : this.listeJoueurs) {
@@ -47,6 +85,10 @@ public class Jeu {
             this.pointsJoueur.put(joueur, 0);
             position++;
         }
+    }
+
+    public String getNomPartie() {
+        return nomPartie;
     }
 
     public List<int[]> listeMouvementsPion(int x, int y) {
@@ -84,9 +126,6 @@ public class Jeu {
                             }
                         }
 
-                    } else {
-                        //x+2*i.get(0), y+2*i.get(1)  possibilité
-                        ajoutPossibilite(possibilites,x + 2 * i.get(0), y + 2 * i.get(1));
                     }
                 } else {
                     ajoutPossibilite(possibilites, x + 2 * vecX, y + 2 * vecY);
@@ -102,7 +141,7 @@ public class Jeu {
         }
     }
 
-    private void consitionAjoutPossibilite(List<int[]> possibilites, int x, int y){
+    private void consitionAjoutPossibilite(List<int[]> possibilites, int x, int y) {
         if (testCase(x, y, Val.CASEPION)) {
             ajoutPossibilite(possibilites, x, y);
         }
@@ -157,6 +196,7 @@ public class Jeu {
             this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(Val.CASEPION);
             joueurActuel.setPion(this.plateau.getEmplacement(newPosition[0], newPosition[1]));
             this.idJoueurActuel = (this.idJoueurActuel + 1) % this.listeJoueurs.length;
+            sauvegarde();
         }
     }
 
@@ -164,20 +204,24 @@ public class Jeu {
         return false;
     }
 
-    public void sauvegarde(String nomFichier) {
-        gestionSauvegardes.enregistrement(nomFichier, this.plateau, this.pointsJoueur, this.idJoueurActuel);
+    public void sauvegarde() {
+        gestionSauvegardes.enregistrement(this.nomPartie, this.plateau, this.pointsJoueur, this.idJoueurActuel);
     }
 
-    private void chargement(String nomFichier) {
+    private boolean chargement(String nomFichier) {
 
-        Object[] data = gestionSauvegardes.chargement(nomFichier);
-        this.plateau = (Plateau) data[0];
-        this.pointsJoueur = (HashMap) data[1];
-        this.idJoueurActuel = (int) data[2];
-        Joueur[] listeTemporaire = new Joueur[this.pointsJoueur.keySet().size()];
-        for (Joueur joueurSave : this.pointsJoueur.keySet()) {
-            listeTemporaire[joueurSave.getId()] = joueurSave;
+        if (gestionSauvegardes.testSauvegardeExiste(nomFichier)) {
+            Object[] data = gestionSauvegardes.chargement(nomFichier);
+            this.plateau = (Plateau) data[0];
+            this.pointsJoueur = (HashMap) data[1];
+            this.idJoueurActuel = (int) data[2];
+            Joueur[] listeTemporaire = new Joueur[this.pointsJoueur.keySet().size()];
+            for (Joueur joueurSave : this.pointsJoueur.keySet()) {
+                listeTemporaire[joueurSave.getId()] = joueurSave;
+            }
+            this.listeJoueurs = listeTemporaire;
+            return true;
         }
-        this.listeJoueurs = listeTemporaire;
+        return false;
     }
 }

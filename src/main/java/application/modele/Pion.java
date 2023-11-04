@@ -15,10 +15,11 @@ public class Pion {
 
     /**
      * Constructeur du Pion qui initialise sa couleur et son emplacement.
-     * @param couleur String, la couleur du pion.
+     *
+     * @param couleur     String, la couleur du pion.
      * @param emplacement Emplacement, l'emplacement du pion sur le plateau.
      */
-    public Pion(String couleur, Emplacement emplacement){
+    public Pion(String couleur, Emplacement emplacement) {
         setCouleur(couleur);
         setEmplacement(emplacement);
     }
@@ -39,7 +40,7 @@ public class Pion {
         this.emplacement = emplacement;
     }
 
-    public String toString(){
+    public String toString() {
         return this.emplacement.toString();
     }
 }

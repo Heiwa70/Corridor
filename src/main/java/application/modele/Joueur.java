@@ -18,7 +18,7 @@ public class Joueur {
     private Pion pion;
     private int id;
 
-    public Joueur(int id, String nom, String couleur, int nombreMurs, int nombreMursPoses){
+    public Joueur(int id, String nom, String couleur, int nombreMurs, int nombreMursPoses) {
         setId(id);
         setNom(nom);
         setCouleur(couleur);
@@ -34,10 +34,10 @@ public class Joueur {
         return liste;
     }
 
-    public void setPion(Emplacement emplacement){
+    public void setPion(Emplacement emplacement) {
 
         emplacement.setValeur(Val.__PION__);
-        this.pion = new Pion(couleur,emplacement);
+        this.pion = new Pion(couleur, emplacement);
     }
 
     public String getNom() {
@@ -56,28 +56,28 @@ public class Joueur {
         this.couleur = couleur;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
-    public String getCoordsString(){
-        return getX()+" : "+getY();
+    public String getCoordsString() {
+        return getX() + " : " + getY();
     }
 
-    public int getX(){
+    public int getX() {
         return this.pion.getEmplacement().getX();
     }
 
-    public int getY(){
+    public int getY() {
         return this.pion.getEmplacement().getY();
     }
 
-    public String toString(){
-        return this.id+" : "+this.nom+" : "+this.couleur+" : "+getCoordsString()+" : "+this.listeMursNonPoses.size()+" : "+this.listeMursSurPlateau.size();
+    public String toString() {
+        return this.id + " : " + this.nom + " : " + this.couleur + " : " + getCoordsString() + " : " + this.listeMursNonPoses.size() + " : " + this.listeMursSurPlateau.size();
     }
 }
 
