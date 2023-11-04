@@ -52,14 +52,15 @@ public class GestionSauvegardes {
         return true;
     }
 
-    public HashMap<Plateau, HashMap<Joueur, Integer>> chargement(String nom, Integer idJoueurActuel) {
+    public Object[] chargement(String nom) {
 
         HashMap<Joueur, Integer> pointsJoueur = new HashMap<>();
         Plateau plateau;
 
+
         ArrayList<ArrayList<String>> matrice = new ArrayList<>();
         boolean modeLectureJoueurs = false;
-        HashMap<Plateau, HashMap<Joueur, Integer>> retour = new HashMap<>();
+        int idJoueurActuel = 0;
 
         try {
             Path chemin = Paths.get(path + nom + ".save");
@@ -72,7 +73,7 @@ public class GestionSauvegardes {
                 }
                 else if (modeLectureJoueurs) {
                     if(ligne.length()<=2){
-                        idJoueurActuel = idJoueurActuel.parseInt(ligne);
+                        idJoueurActuel = Integer.parseInt(ligne);
                         break;
                     }
                     String[] donnees = ligne.split(" : ");
@@ -108,11 +109,11 @@ public class GestionSauvegardes {
                 joueur.setPion(plateau.getEmplacement(coordsPions.get(joueur.getId())[0], coordsPions.get(joueur.getId())[1]));
             }
 
-            retour.put(plateau, pointsJoueur);
+            return new Object[]{plateau, pointsJoueur, idJoueurActuel};
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return retour;
+        return null;
     }
 }

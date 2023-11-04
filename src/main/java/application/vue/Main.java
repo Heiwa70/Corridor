@@ -25,7 +25,7 @@ public class Main {
 			}
 		} while (nombreJoueur>4 || nombreJoueur<2);
 
-        ArrayList<Joueur> listeJoueur = new ArrayList<>();
+        Joueur[] listeJoueur = new Joueur[nombreJoueur];
 
         int idJoueur = 0;
 
@@ -36,7 +36,7 @@ public class Main {
             System.out.print("Couleur du joueur : ");
 			String couleur = scanner.nextLine();
 
-            listeJoueur.add(new Joueur(idJoueur, nom, couleur, nombreMurs, 0));
+            listeJoueur[idJoueur] = new Joueur(idJoueur, nom, couleur, nombreMurs, 0);
             nombreJoueur--;
             idJoueur++;
         }

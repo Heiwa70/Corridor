@@ -3,44 +3,40 @@ package application.controleur;
 import application.modele.Emplacement;
 import application.modele.Val;
 
-import java.util.ArrayList;
-
 public class Plateau {
-   private ArrayList<ArrayList<Emplacement>> listeToutesLesCases;
+   private Emplacement[][] listeToutesLesCases;
 
     public Plateau(int width, int height){
-        this.listeToutesLesCases = new ArrayList<>();
+        this.listeToutesLesCases = new Emplacement[height*2-1][width*2-1];
         initialialisationPlateau(width, height);
     }
 
     private void initialialisationPlateau(int width, int height) {
 
         for (int y = 0; y < height*2-1; y++) {
-            ArrayList<Emplacement> ligne = new ArrayList<>();
             for (int x = 0; x < width*2-1; x++) {
-                ligne.add(new Emplacement(x, y,y%2==0? (x%2==0?Val.CASEPION:Val.__MURS__) : (x%2==0?Val.__MURS__:Val.__VIDE__)));
+                this.listeToutesLesCases[y][x] = new Emplacement(x, y,y%2==0? (x%2==0?Val.CASEPION:Val.__MURS__) : (x%2==0?Val.__MURS__:Val.__VIDE__));
             }
-            this.listeToutesLesCases.add(ligne);
         }
     }
 
     public Emplacement getEmplacementCasePion(int x, int y){
         if(0<=x && x<getWidth() && 0<=y && y<getHeight()){
-            return this.listeToutesLesCases.get(y*2).get(x*2);
+            return this.listeToutesLesCases[y*2][x*2];
         }
         return null;
     }
 
     public Emplacement getEmplacement(int x, int y){
         if(0<=x && x<getWidth()  && 0<=y && y<getHeight() ){
-            return this.listeToutesLesCases.get(y).get(x);
+            return this.listeToutesLesCases[y][x];
         }
         return null;
     }
 
     public String getTypeEmplacement(int x, int y){
         String resultat = "";
-        switch(this.listeToutesLesCases.get(y).get(x).getValeur()){
+        switch(getEmplacement(x,y).getValeur()){
             case CASEPION:
                 resultat = "case pion";
                 break;
@@ -64,11 +60,11 @@ public class Plateau {
     }
 
     public int getWidth() {
-        return this.listeToutesLesCases.get(0).size();
+        return this.listeToutesLesCases[0].length;
     }
 
     public int getHeight() {
-        return this.listeToutesLesCases.size();
+        return this.listeToutesLesCases.length;
     }
 
     public String toString(boolean vueValeur){
@@ -78,7 +74,7 @@ public class Plateau {
             int x = 0;
 
             plateauEnText.append("          ");
-            for(Emplacement emplacement : this.listeToutesLesCases.get(0)) {
+            for(Emplacement emplacement : this.listeToutesLesCases[0]) {
                 if (y == 0) {
                     plateauEnText.append("    "+((""+x).length()==1?x+" ":x)+"   ");
                 }
@@ -87,8 +83,7 @@ public class Plateau {
             plateauEnText.append("\n");
         }
 
-
-        for(ArrayList<Emplacement> ligne : this.listeToutesLesCases){
+        for(Emplacement[] ligne : this.listeToutesLesCases){
             if(!vueValeur) {
                 plateauEnText.append("    " + (("" + y).length() == 1 ? y + " " : y) + "    ");
             }
