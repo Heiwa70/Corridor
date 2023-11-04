@@ -15,8 +15,9 @@ public class Emplacement {
 
     /**
      * Constructeur de Emplacement initialise les coordonnées et sa valeur.
-     * @param x int, Position en x.
-     * @param y int, Position en y.
+     *
+     * @param x      int, Position en x.
+     * @param y      int, Position en y.
      * @param valeur Val, Valeur d'une énumération.
      */
     public Emplacement(int x, int y, Val valeur) {
@@ -55,12 +56,12 @@ public class Emplacement {
     public void setValeur(Val valeur) {
         Log.info(
                 "Emplacement",
-                "Valeur de l'emplacement X = "+getX()+", Y = "+getY()+" : "+getValeur()+" -> "+valeur+"."
+                "Valeur de l'emplacement X = " + getX() + ", Y = " + getY() + " : " + getValeur() + " -> " + valeur + "."
         );
         this.valeur = valeur;
     }
 
     public String toString() {
-        return "" + getValeur();
+        return getX() + " : " + getY() + " : " + getValeur();
     }
 }
