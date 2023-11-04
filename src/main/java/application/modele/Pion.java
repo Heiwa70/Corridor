@@ -20,6 +20,10 @@ public class Pion {
      * @param emplacement Emplacement, l'emplacement du pion sur le plateau.
      */
     public Pion(String couleur, Emplacement emplacement) {
+        Log.info(
+                "Pion",
+                "Création du pion '"+couleur+"' à l'emplacement = "+emplacement.getX() + " : " + emplacement.getY()+"."
+        );
         setCouleur(couleur);
         setEmplacement(emplacement);
     }

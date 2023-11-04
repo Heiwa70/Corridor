@@ -1,3 +1,8 @@
+/**
+ * Classe Jeu écrite par Clément, Maxence et Nicolas.
+ * FISA Informatique UTBM en PR70 2023.
+ */
+
 package application.controleur;
 
 import application.modele.Emplacement;
@@ -7,6 +12,9 @@ import application.modele.Val;
 
 import java.util.*;
 
+/**
+ * La classe Jeu permet de jouer sur le terminal le jeu du Quoridor.
+ */
 public class Jeu {
 
     private String nomPartie;
@@ -18,6 +26,9 @@ public class Jeu {
     private Scanner scanner;
     private GestionSauvegardes gestionSauvegardes;
 
+    /**
+     * Ce constructeur permet de créer directement une partie.
+     */
     public Jeu() {
         gestionSauvegardes = new GestionSauvegardes();
         this.scanner = new Scanner(System.in);
@@ -25,6 +36,9 @@ public class Jeu {
         start();
     }
 
+    /**
+     * Ce constructeur permet de charger une partie et d'en créer une si elle n'existe pas.
+     */
     public Jeu(String nomSauvegarde) {
         gestionSauvegardes = new GestionSauvegardes();
         this.scanner = new Scanner(System.in);
@@ -34,6 +48,9 @@ public class Jeu {
         start();
     }
 
+    /**
+     * Initialise le jeu en demandant à l'utilisateur de donner un nom et de créer des joueurs.
+     */
     private void initialisation() {
         int nombreJoueur = 2;
         int nombreMurs = 10;
@@ -44,7 +61,7 @@ public class Jeu {
         this.nomPartie = scanner.nextLine();
 
         do {
-            System.out.print("\nNombre de joueurs entre 2-4 : ");
+            System.out.print("\nNombre de joueurs entre 2-4 (defaut = 2): ");
             try {
                 nombreJoueur = Integer.parseInt(scanner.nextLine());
             } catch (Exception e) {
@@ -91,6 +108,13 @@ public class Jeu {
         return nomPartie;
     }
 
+    /**
+     * Récupère la liste des mouvements possible d'une case pion.
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public List<int[]> listeMouvementsPion(int x, int y) {
 
         List<int[]> possibilites = new ArrayList<>();
@@ -163,14 +187,20 @@ public class Jeu {
         return this.listeJoueurs[this.idJoueurActuel];
     }
 
+    /**
+     * Démarrage du jeu.
+     */
     public void start() {
 
         while (!finPartie()) {
 
+            // Informe l'utilisateur de l'état de la partie.
             System.out.println(this.plateau.toString(false));
             Joueur joueurActuel = getJoueurActuel();
             System.out.println("C'est à '" + joueurActuel.getNom() + "' de jouer.");
             System.out.println("Votre pion est situé à : " + joueurActuel.getCoordsString());
+
+            // Demande le prochain coup à l'utilisateur.
             List<int[]> listeMouvementsPossibles = listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY());
 
             System.out.println("\nVoici les coups possible par votre pion :");
@@ -190,12 +220,16 @@ public class Jeu {
                 }
             } while (choix < 0 || choix >= nbr);
 
+            // Converti son choix en action.
             int[] newPosition = listeMouvementsPossibles.get(choix);
-
             System.out.println("\nLe joueur '" + joueurActuel.getNom() + "' déplace son pion de la case à : \n    X = " + joueurActuel.getX() + " ->  X = " + newPosition[0] + "\n    Y = " + joueurActuel.getX() + " ->   Y = " + newPosition[1]);
+
+            // Change l'emplacement du pion et l'état de l'ancient emplacement.
             this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(Val.CASEPION);
             joueurActuel.setPion(this.plateau.getEmplacement(newPosition[0], newPosition[1]));
             this.idJoueurActuel = (this.idJoueurActuel + 1) % this.listeJoueurs.length;
+
+            // Enregistre l'état actuel de la partie.
             sauvegarde();
         }
     }
@@ -204,10 +238,16 @@ public class Jeu {
         return false;
     }
 
-    public void sauvegarde() {
+    private void sauvegarde() {
         gestionSauvegardes.enregistrement(this.nomPartie, this.plateau, this.pointsJoueur, this.idJoueurActuel);
     }
 
+    /**
+     * Charge une partie si elle existe.
+     *
+     * @param nomFichier
+     * @return
+     */
     private boolean chargement(String nomFichier) {
 
         if (gestionSauvegardes.testSauvegardeExiste(nomFichier)) {
