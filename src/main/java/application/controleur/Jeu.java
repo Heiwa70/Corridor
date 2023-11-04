@@ -83,6 +83,10 @@ public class Jeu {
                                 consitionAjoutPossibilite(possibilites, x + 2 * vecX, y + 2);
                             }
                         }
+
+                    } else {
+                        //x+2*i.get(0), y+2*i.get(1)  possibilité
+                        ajoutPossibilite(possibilites,x + 2 * i.get(0), y + 2 * i.get(1));
                     }
                 } else {
                     ajoutPossibilite(possibilites, x + 2 * vecX, y + 2 * vecY);
