@@ -286,10 +286,10 @@ public class Jeu {
             FileX.remove(0);
             int y_courant=FileY.get(0);
             FileY.remove(0);
-            i++;
-            if ((idjoueur==1 && y_courant==16) || (idjoueur==2 && y_courant==0)||(idjoueur==3 && y_courant==0)||(idjoueur==4 s&& y_courant==16)){
+            if ((idjoueur==1 && y_courant==16) || (idjoueur==2 && y_courant==0)||(idjoueur==3 && y_courant==0)||(idjoueur==4 && y_courant==16)){
                 return i;
             }
+            i++;
             for (int[]coup:listeMouvementsPion(x_courant,y_courant)){
                 if (!P.contains(x_courant+" "+y_courant)) {
                     FileX.add(coup[0]);
