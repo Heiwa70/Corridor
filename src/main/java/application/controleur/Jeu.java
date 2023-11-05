@@ -273,4 +273,33 @@ public class Jeu {
         }
         return false;
     }
+
+    public int dijkstra(int x,int y,int idjoueur){
+        int i=0;
+        ArrayList<String> P=new ArrayList<String>();
+        ArrayList<Integer> FileX=new ArrayList<Integer>();
+        ArrayList<Integer> FileY=new ArrayList<Integer>();
+        FileX.add(x);
+        FileY.add(y);
+        while (!(FileX.isEmpty())) {
+            int x_courant=FileX.get(0);
+            FileX.remove(0);
+            int y_courant=FileY.get(0);
+            FileY.remove(0);
+            i++;
+            if ((idjoueur==1 && y_courant==16) || (idjoueur==2 && y_courant==0)||(idjoueur==3 && y_courant==0)||(idjoueur==4 s&& y_courant==16)){
+                return i;
+            }
+            for (int[]coup:listeMouvementsPion(x_courant,y_courant)){
+                if (!P.contains(x_courant+" "+y_courant)) {
+                    FileX.add(coup[0]);
+                    FileY.add(coup[1]);
+                    P.add(x_courant+" "+y_courant);
+                }
+            }
+
+        }
+
+        return -1;
+    }
 }
