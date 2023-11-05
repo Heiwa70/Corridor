@@ -5,10 +5,7 @@
 
 package application.controleur;
 
-import application.modele.Emplacement;
-import application.modele.GestionSauvegardes;
-import application.modele.Joueur;
-import application.modele.Val;
+import application.modele.*;
 
 import java.util.*;
 
@@ -235,7 +232,17 @@ public class Jeu {
     }
 
     public boolean finPartie() {
+        for (Joueur j : listeJoueurs) {
+            if ((j.getId() == 1 && j.getY() == 16) ||
+                    (j.getId() == 2 && j.getY() == 0) ||
+                    (j.getId() == 3 && j.getX() == 0) ||
+                    (j.getId() == 4 && j.getX() == 16)) {
+                Log.info("FinDePartie", j.getNom() + " gagne, x:" + j.getX() + " y:" + j.getY());
+                return true;
+            }
+        }
         return false;
+
     }
 
     private void sauvegarde() {
