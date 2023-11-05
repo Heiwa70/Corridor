@@ -61,7 +61,10 @@ public class Emplacement {
         this.valeur = valeur;
     }
 
-    public String toString() {
+    public String toStringCoords() {
         return getX() + " : " + getY() + " : " + getValeur();
+    }
+    public String toString() {
+        return ""+getValeur();
     }
 }

@@ -22,7 +22,7 @@ public class Murs {
     public void setPosition(Emplacement case1, Emplacement case2) {
         Log.info("Murs",
                 "Affectation du murs '" + this.toString() + "', aux emplacements (" +
-                        case1.toString() + ", " + case2.toString() + ")."
+                        case1.toStringCoords() + ", " + case2.toStringCoords() + ")."
         );
         this.casesPrisent[0] = case1;
         case1.setValeur(Val.__MURS__);
