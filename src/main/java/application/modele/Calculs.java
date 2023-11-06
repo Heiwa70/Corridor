@@ -3,6 +3,8 @@ package application.modele;
 import application.controleur.Plateau;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Calculs {
@@ -86,16 +88,16 @@ public abstract class Calculs {
 
     public int dijkstra(int x, int y, int idjoueur) {
         int i = 0;
-        ArrayList<String> P = new ArrayList<String>();
-        ArrayList<Integer> FileX = new ArrayList<Integer>();
-        ArrayList<Integer> FileY = new ArrayList<Integer>();
+        int x_courant=0;
+        int y_courant = 0;
+        HashSet<String> P = new HashSet <String>();
+        LinkedList <Integer> FileX = new LinkedList <Integer>();
+        LinkedList<Integer> FileY = new LinkedList <Integer>();
         FileX.add(x);
         FileY.add(y);
         while (!(FileX.isEmpty())) {
-            int x_courant = FileX.get(FileX.size() - 1);
-            FileX.remove(FileX.size() - 1);
-            int y_courant = FileY.get(FileY.size() - 1);
-            FileY.remove(FileY.size() - 1);
+            x_courant = FileX.removeLast();
+            y_courant = FileY.removeLast();
             if ((idjoueur == 1 && y_courant == 16) || (idjoueur == 2 && y_courant == 0) || (idjoueur == 3 && x_courant == 0) || (idjoueur == 4 && x_courant == 16)) {
                 return i;
             }
@@ -111,7 +113,7 @@ public abstract class Calculs {
         return -1;
     }
 
-    private boolean exist_recursif(int x, int y, int idjoueur, ArrayList<String> noeuds_vus) {
+    private boolean exist_recursif(int x, int y, int idjoueur, HashSet<String> noeuds_vus) {
         if ((idjoueur == 1 && y == 16) || (idjoueur == 2 && y == 0) || (idjoueur == 3 && x == 0) || (idjoueur == 4 && x == 16)) {
             return true;
         }
@@ -127,6 +129,6 @@ public abstract class Calculs {
 
     public boolean exist_chemin(int x, int y, int idjoueur) {
         //parcours en profondeur
-        return exist_recursif(x, y, idjoueur, new ArrayList<String>());
+        return exist_recursif(x, y, idjoueur, new HashSet<String>());
     }
 }
