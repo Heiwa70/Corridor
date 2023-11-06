@@ -282,10 +282,10 @@ public class Jeu {
         FileX.add(x);
         FileY.add(y);
         while (!(FileX.isEmpty())) {
-            int x_courant=FileX.get(0);
-            FileX.remove(0);
-            int y_courant=FileY.get(0);
-            FileY.remove(0);
+            int x_courant=FileX.get(FileX.size()-1);
+            FileX.remove(FileX.size()-1);
+            int y_courant=FileY.get(FileY.size()-1);
+            FileY.remove(FileY.size()-1);
             if ((idjoueur==1 && y_courant==16) || (idjoueur==2 && y_courant==0)||(idjoueur==3 && y_courant==0)||(idjoueur==4 && y_courant==16)){
                 return i;
             }
