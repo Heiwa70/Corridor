@@ -286,7 +286,7 @@ public class Jeu {
             FileX.remove(FileX.size()-1);
             int y_courant=FileY.get(FileY.size()-1);
             FileY.remove(FileY.size()-1);
-            if ((idjoueur==1 && y_courant==16) || (idjoueur==2 && y_courant==0)||(idjoueur==3 && y_courant==0)||(idjoueur==4 && y_courant==16)){
+            if ((idjoueur==1 && y_courant==16) || (idjoueur==2 && y_courant==0)||(idjoueur==3 && x_courant==0)||(idjoueur==4 && x_courant==16)){
                 return i;
             }
             i++;
@@ -301,5 +301,22 @@ public class Jeu {
         }
 
         return -1;
+    }
+    private boolean exist_recursif (int x,int y,int idjoueur,ArrayList<String>noeuds_vus){
+        if ((idjoueur==1 && y==16) || (idjoueur==2 && y==0)||(idjoueur==3 && x==0)||(idjoueur==4 && x==16)){
+            return true;
+        }
+        noeuds_vus.add(x+" "+y);
+        boolean b = false;
+        for (int[] coup:listeMouvementsPion(x,y) ) {
+            if (noeuds_vus.contains(x+" "+y)){
+                b = b||exist_recursif(coup[0], coup[1], idjoueur, noeuds_vus);
+            }
+        }
+        return b;
+    }
+    public boolean exist_chemin(int x,int y,int idjoueur){
+        //parcours en profondeur
+        return exist_recursif(x,y,idjoueur,new ArrayList<String>());
     }
 }
