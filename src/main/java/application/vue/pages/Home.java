@@ -11,6 +11,7 @@ public class Home extends VBox {
     private Button newGame = createButton("Nouvelle partie");
     private Button loadGame = createButton("Partie sauvegardée");
     private Button exit = createButton("Quitter");
+    private Button back = createButton("Retour");
     private HomeController controller;
 
     public Home(double spacing) {
@@ -27,12 +28,14 @@ public class Home extends VBox {
         setButtonStyle(newGame);
         setButtonStyle(loadGame);
         setButtonStyle(exit);
+        setBackButtonStyle(back);
         getChildren().addAll(newGame, loadGame, exit);
 
         // Ajout des gestionnaires d'événements du contrôleur
         newGame.setOnAction(e -> controller.handleNewGameButtonClick());
         loadGame.setOnAction(e -> controller.handleLoadGameButtonClick());
         exit.setOnAction(e -> controller.handleExitButtonClick());
+
     }
 
     private Button createButton(String text) {
@@ -42,6 +45,11 @@ public class Home extends VBox {
     private void setButtonStyle(Button button) {
         button.setStyle("-fx-text-fill: BLACK; -fx-font-size: 20px; -fx-font-weight: bold; -fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 10px;");
         button.setCursor(Cursor.HAND);
+    }
+
+    private void setBackButtonStyle(Button button) {
+        //Créer un style pour les boutons mais bon je sais pas encore en faire un beau :/
+
     }
 }
 

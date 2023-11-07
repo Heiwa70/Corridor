@@ -23,18 +23,18 @@ public class HomeController {
 
     public void handleNewGameButtonClick() {
          // Evenement du bouton "Nouvelle partie"
-        NewGameController newGameController = new NewGameController();
+        NewGame newGame = new NewGame();
 
         // Chargez la vue "Nouvelle partie" dans la scène actuelle
         Scene scene = homeView.getScene();
-        scene.setRoot(newGameController);
+        scene.setRoot(newGame);
 
 
     }
 
     public void handleLoadGameButtonClick() {
         // Evenement du bouton "Partie sauvegardée"
-        LoadGameController loadGame = new LoadGameController();
+        LoadGame loadGame = new LoadGame();
 
         // Chargez la vue "Partie sauvegardée" dans la scène actuelle
         Scene scene = homeView.getScene();
@@ -50,5 +50,14 @@ public class HomeController {
             Platform.exit();
         }
 
+    }
+
+    public void handleBackButtonClick() {
+        // Evenement du bouton "Retour"
+        // Chargez la vue "Accueil" dans la scène actuelle
+
+        Home home = new Home(40);
+        Scene scene = homeView.getScene();
+        scene.setRoot(home);
     }
 }

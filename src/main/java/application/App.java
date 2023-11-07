@@ -4,6 +4,7 @@ import application.controleur.vue.HomeController;
 import application.vue.pages.Home;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -22,6 +23,7 @@ public class App extends Application {
         Scene scene = new Scene(homeView, height, width);
         stage.setScene(scene);
         stage.setTitle("Quoridor");
+        stage.getIcons().add(new Image("file:src/main/ressources/pictures/icon.png"));
         stage.show();
     }
 
