@@ -40,7 +40,7 @@ public class Plateau {
         for (int y = 0; y < height * 2 - 1; y++) {
             for (int x = 0; x < width * 2 - 1; x++) {
                 this.listeToutesLesCases[y][x] = new Emplacement(x, y,
-                        y % 2 == 0 ? (x % 2 == 0 ? Val.CASEPION : Val.__MURS__) : (x % 2 == 0 ? Val.__MURS__ : Val.__VIDE__)
+                        y % 2 == 0 ? (x % 2 == 0 ? Val.CASEPION : Val.CASEMURS) : (x % 2 == 0 ? Val.CASEMURS : Val.__VIDE__)
                 );
             }
         }

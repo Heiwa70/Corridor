@@ -7,9 +7,21 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Calculs {
+public class Calculs {
 
-    protected Plateau plateau;
+    private Plateau plateau;
+
+    public Calculs(Plateau plateau){
+        setPlateau(plateau);
+    }
+
+    public Plateau getPlateau() {
+        return plateau;
+    }
+
+    public void setPlateau(Plateau plateau) {
+        this.plateau = plateau;
+    }
 
     /**
      * Récupère la liste des mouvements possible d'une case pion.

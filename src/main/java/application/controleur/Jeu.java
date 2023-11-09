@@ -12,8 +12,10 @@ import java.util.*;
 /**
  * La classe Jeu permet de jouer sur le terminal le jeu du Quoridor.
  */
-public class Jeu extends Calculs {
+public class Jeu {
 
+    private Calculs calculs;
+    private Plateau plateau;
     private String nomPartie;
     private Joueur[] listeJoueurs;
     private int idJoueurActuel;
@@ -99,6 +101,7 @@ public class Jeu extends Calculs {
             this.pointsJoueur.put(joueur, 0);
             position++;
         }
+        this.calculs = new Calculs(this.plateau);
     }
 
     public String getNomPartie() {
@@ -123,7 +126,7 @@ public class Jeu extends Calculs {
             System.out.println("Votre pion est situé à : " + joueurActuel.getCoordsString());
 
             // Demande le prochain coup à l'utilisateur.
-            List<int[]> listeMouvementsPossibles = listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY());
+            List<int[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY());
 
             System.out.println("\nVoici les coups possible par votre pion :");
             int nbr = 0;
