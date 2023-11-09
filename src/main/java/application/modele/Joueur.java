@@ -124,5 +124,20 @@ public class Joueur {
                 this.listeMursNonPoses.size() + " : " +
                 this.listeMursSurPlateau.size();
     }
+    public  boolean testSetMur(){
+        return !listeMursNonPoses.isEmpty();
+    }
+    public boolean setMur(Emplacement casegauche,Emplacement casemilieu,Emplacement casedroite){
+        if (testSetMur()) {
+            Murs mur = listeMursNonPoses.get(0);
+            listeMursNonPoses.remove(0);
+            mur.setPosition(casegauche,casemilieu,casedroite);
+            listeMursSurPlateau.add(mur);
+            Log.info("Joueur","Le joueur "+this.nom+" a posé un mur en "+casegauche.toStringCoords()+" "+casedroite.toStringCoords()+" il lui reste "+this.listeMursNonPoses.size()+" mur(s)");
+            return true;
+        }
+        Log.warn("Joueur","Mur non posé car le joueur n'a plus de mur");
+        return false;
+    }
 }
 
