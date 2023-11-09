@@ -13,5 +13,6 @@ public enum Val {
     __PION__,
     CASEMURS,
     __MURS__,
-    __VIDE__;
+    __VIDE__,
+    _OCCUPE_;
 }

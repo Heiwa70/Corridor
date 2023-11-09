@@ -16,17 +16,20 @@ public class Murs {
      */
     public Murs() {
         Log.info("Murs", "Création du murs : " + this.toString() + ".");
-        this.casesPrisent = new Emplacement[2];
+        this.casesPrisent = new Emplacement[3];
     }
 
-    public void setPosition(Emplacement case1, Emplacement case2) {
+    public void setPosition(Emplacement casegauche, Emplacement casemilieu,Emplacement casedroite) {
         Log.info("Murs",
                 "Affectation du murs '" + this.toString() + "', aux emplacements (" +
-                        case1.toStringCoords() + ", " + case2.toStringCoords() + ")."
+                        casegauche.toStringCoords() + ", " + casedroite.toStringCoords() + ")."
         );
-        this.casesPrisent[0] = case1;
-        case1.setValeur(Val.__MURS__);
-        this.casesPrisent[2] = case2;
-        case2.setValeur(Val.__MURS__);
+        this.casesPrisent[0] = casegauche;
+        casegauche.setValeur(Val.__MURS__);
+        this.casesPrisent[1]=casemilieu;
+        casemilieu.setValeur(Val._OCCUPE_);
+        this.casesPrisent[2] = casedroite;
+        casedroite.setValeur(Val.__MURS__);
+
     }
 }
