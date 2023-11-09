@@ -56,8 +56,8 @@ public class PionTest {
 
     @Test
     public void testToString() {
-        String text = "0 : 0 : __VIDE__";
+        String text = "__VIDE__";
         assertEquals(this.pion.toString(), text);
-        assertNotEquals("1 : 0 : __VIDE__", this.pion.toString());
+        assertNotEquals("__VIDE__", this.pion.toString());
     }
 }
