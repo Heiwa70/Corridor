@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
 public class CalculsTest {
 
     private Calculs calculs;
@@ -43,27 +44,27 @@ public class CalculsTest {
         verifListPion2.add("12, 10");
 
         List<int[]> listeChoixPion1 = this.calculs.listeMouvementsPion(8, 4);
-        assertTrue(verifListPion1.size()==listeChoixPion1.size());
-        for(int[] coords : listeChoixPion1){
-            assertTrue(verifListPion1.contains(coords[0]+", "+coords[1]));
+        assertTrue(verifListPion1.size() == listeChoixPion1.size());
+        for (int[] coords : listeChoixPion1) {
+            assertTrue(verifListPion1.contains(coords[0] + ", " + coords[1]));
         }
 
         List<int[]> listeChoixPion2 = this.calculs.listeMouvementsPion(12, 8);
-        assertTrue(verifListPion2.size()==listeChoixPion2.size());
-        for(int[] coords : listeChoixPion2){
-            assertTrue(verifListPion2.contains(coords[0]+", "+coords[1]));
+        assertTrue(verifListPion2.size() == listeChoixPion2.size());
+        for (int[] coords : listeChoixPion2) {
+            assertTrue(verifListPion2.contains(coords[0] + ", " + coords[1]));
         }
     }
 
     @Test
     public void testEmplacementSurPlateau() {
-        assertTrue(this.calculs.testEmplacementSurPlateau(5,5));
-        assertFalse(this.calculs.testEmplacementSurPlateau(-1,-1));
-        assertFalse(this.calculs.testEmplacementSurPlateau(-1,0));
-        assertFalse(this.calculs.testEmplacementSurPlateau(0,-1));
-        assertFalse(this.calculs.testEmplacementSurPlateau(100,100));
-        assertFalse(this.calculs.testEmplacementSurPlateau(100,0));
-        assertFalse(this.calculs.testEmplacementSurPlateau(0,100));
+        assertTrue(this.calculs.testEmplacementSurPlateau(5, 5));
+        assertFalse(this.calculs.testEmplacementSurPlateau(-1, -1));
+        assertFalse(this.calculs.testEmplacementSurPlateau(-1, 0));
+        assertFalse(this.calculs.testEmplacementSurPlateau(0, -1));
+        assertFalse(this.calculs.testEmplacementSurPlateau(100, 100));
+        assertFalse(this.calculs.testEmplacementSurPlateau(100, 0));
+        assertFalse(this.calculs.testEmplacementSurPlateau(0, 100));
     }
 
     @Test
@@ -74,26 +75,34 @@ public class CalculsTest {
 
     @Test
     public void dijkstra() {
-        Log.info("Calculs test","Dijkstra 9x9x4");
-        for(int y=0; y<9; y++){
-            for(int x=0; x<9; x++){
-                for(int id=1; id<=4;id++){
-                    this.calculs.dijkstra(x, y, id);
-                }
-            }
-        }
-        Log.info("Calculs test","Fin Dijkstra 9x9x4");
-        assertTrue(this.calculs.dijkstra(8, 4, 2)==8);
-        assertTrue(this.calculs.dijkstra(12, 8, 2)==-1);
+
+        assertTrue(this.calculs.dijkstra(8, 4, 2) == 8);
+        assertTrue(this.calculs.dijkstra(12, 8, 2) == -1);
     }
 
     @Test
     public void exist_chemin() {
+        Log.info("Calculs test", "exist_chemin 9x9x4*10");
+        long somm = 0;
+        int nbr = 10;
+        for (int i = 0; i < nbr; i++) {
+            long tempsDebut = System.currentTimeMillis();
+            for (int y = 0; y < 9; y++) {
+                for (int x = 0; x < 9; x++) {
+                    for (int id = 1; id <= 4; id++) {
+                        this.calculs.exist_chemin(x, y, id);
+                    }
+                }
+            }
+            somm+=System.currentTimeMillis() - tempsDebut;
+        }
+        System.out.println(somm/nbr);
+        Log.info("Calculs test", "Fin exist_chemin 9x9x4*10");
         assertTrue(this.calculs.exist_chemin(8, 4, 2));
         assertFalse(this.calculs.exist_chemin(12, 8, 2));
     }
 
-    private void generation(String nomSauvegarde){
+    private void generation(String nomSauvegarde) {
         Object[] data = this.gestionSauvegardes.chargement(nomSauvegarde);
         this.plateau = (Plateau) data[0];
     }

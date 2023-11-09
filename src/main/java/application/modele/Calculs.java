@@ -10,6 +10,9 @@ import java.util.List;
 public class Calculs {
 
     private Plateau plateau;
+    private int width;
+    private int height;
+    private final int[] listeFin = {0, 0, 16, 0, 16};
 
     public Calculs(Plateau plateau) {
         setPlateau(plateau);
@@ -21,6 +24,8 @@ public class Calculs {
 
     public void setPlateau(Plateau plateau) {
         this.plateau = plateau;
+        this.width = this.plateau.getWidth();
+        this.height = this.plateau.getHeight();
     }
 
     /**
@@ -46,10 +51,12 @@ public class Calculs {
         List<int[]> possibilites = new ArrayList<>();
 
         int[][] vec = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        int vecX = 0;
+        int vecY = 0;
         for (int[] i : vec) {
 
-            int vecX = i[0];
-            int vecY = i[1];
+            vecX = i[0];
+            vecY = i[1];
 
             if (testCase(x + vecX, y + vecY, Val.__MURS__)) {
                 continue;
@@ -59,55 +66,66 @@ public class Calculs {
                     consitionAjoutPossibilite(possibilites, x + 4 * vecX, y + 4 * vecY);
                 } else {
                     if (vecX == 0) {
-                        if (!testCase(x - 1, y + 2 * vecY, Val.__MURS__)) {
-                            consitionAjoutPossibilite(possibilites, x - 2, y + 2 * vecY);
+                        y=y + 2 * vecY;
+                        if (!testCase(x - 1, y , Val.__MURS__)) {
+                            consitionAjoutPossibilite(possibilites, x - 2, y);
                         }
-                        if (!testCase(x + 1, y + 2 * vecY, Val.__MURS__)) {
-                            consitionAjoutPossibilite(possibilites, x + 2, y + 2 * vecY);
+                        if (!testCase(x + 1, y, Val.__MURS__)) {
+                            consitionAjoutPossibilite(possibilites, x + 2, y);
                         }
                     } else {
-                        if (!testCase(x + 2 * vecX, y - 1, Val.__MURS__)) {
-                            consitionAjoutPossibilite(possibilites, x + 2 * vecX, y - 2);
+                        x = x + 2 * vecX;
+                        if (!testCase(x, y - 1, Val.__MURS__)) {
+                            consitionAjoutPossibilite(possibilites, x, y - 2);
                         }
-                        if (!testCase(x + 2 * vecX, y + 1, Val.__MURS__)) {
-                            consitionAjoutPossibilite(possibilites, x + 2 * vecX, y + 2);
+                        if (!testCase(x, y + 1, Val.__MURS__)) {
+                            consitionAjoutPossibilite(possibilites, x, y + 2);
                         }
                     }
                 }
             } else {
-                ajoutPossibilite(possibilites, x + 2 * vecX, y + 2 * vecY);
+                y=y + 2 * vecY;
+                x = x + 2 * vecX;
+                if (testEmplacementSurPlateau(x, y)) {
+                    possibilites.add(new int[]{x, y});
+                }
             }
         }
 
         return possibilites;
     }
 
-    private void ajoutPossibilite(List<int[]> possibilites, int x, int y) {
-        if (testEmplacementSurPlateau(x, y)) {
+    private void consitionAjoutPossibilite(List<int[]> possibilites, int x, int y) {
+        if (testCase(x, y, Val.CASEPION)) {
             possibilites.add(new int[]{x, y});
         }
     }
 
-    private void consitionAjoutPossibilite(List<int[]> possibilites, int x, int y) {
-        if (testCase(x, y, Val.CASEPION)) {
-            ajoutPossibilite(possibilites, x, y);
-        }
-    }
-
     public boolean testEmplacementSurPlateau(int x, int y) {
-        return 0 <= x && x < this.plateau.getWidth() && 0 <= y && y < this.plateau.getHeight();
+        if(0 > x){
+            return false;
+        }else if(x >= this.width){
+            return false;
+        }else if(0 > y){
+            return false;
+        }else if(y >= this.height){
+            return false;
+        }
+        return true;
     }
 
     public boolean testCase(int x, int y, Val type) {
-        Emplacement laCase = this.plateau.getEmplacement(x, y);
-        if (laCase != null) {
-            return laCase.getValeur() == type;
+        if(testEmplacementSurPlateau(x,y)){
+            Emplacement laCase = this.plateau.getEmplacement(x, y);
+            if (laCase != null) {
+                return laCase.getValeur() == type;
+            }
         }
         return false;
     }
 
     public int dijkstra(int x, int y, int idjoueur) {
-        Log.info("Calculs", "Recherche distance chemin joueur : "+idjoueur+" , x = "+x+", y = "+y);
+        Log.info("Calculs", "Recherche distance chemin joueur : " + idjoueur + " , x = " + x + ", y = " + y);
         int x_courant = 0;
         int y_courant = 0;
         int pronfondeurCourant = 0;
@@ -124,7 +142,7 @@ public class Calculs {
             y_courant = FileY.removeFirst();
             pronfondeurCourant = FileProfondeur.removeFirst();
             if ((idjoueur == 1 && y_courant == 0) || (idjoueur == 2 && y_courant == 16) || (idjoueur == 3 && x_courant == 0) || (idjoueur == 4 && x_courant == 16)) {
-                Log.info("Calculs", "Nombre de coups : "+pronfondeurCourant);
+                Log.info("Calculs", "Nombre de coups : " + pronfondeurCourant);
                 return pronfondeurCourant;
             }
             boolean valide = false;
@@ -132,11 +150,11 @@ public class Calculs {
                 if (!P.contains(x_courant + " " + y_courant)) {
                     FileX.addLast(coup[0]);
                     FileY.addLast(coup[1]);
-                    FileProfondeur.addLast(pronfondeurCourant+1);
+                    FileProfondeur.addLast(pronfondeurCourant + 1);
                     valide = true;
                 }
             }
-            if(valide){
+            if (valide) {
                 P.add(x_courant + " " + y_courant);
             }
         }
@@ -144,12 +162,12 @@ public class Calculs {
         return -1;
     }
 
+
     private boolean exist_recursif(int x, int y, int idjoueur, HashSet<String> noeuds_vus) {
-        if ((idjoueur == 1 && y == 0) || (idjoueur == 2 && y == 16) || (idjoueur == 3 && x == 0) || (idjoueur == 4 && x == 16)) {
+        if ((idjoueur < 3 ? y == this.listeFin[idjoueur] : x == this.listeFin[idjoueur]) ){
             return true;
         }
         noeuds_vus.add(x + " " + y);
-        boolean b = false;
         for (int[] coup : listeMouvementsPion(x, y)) {
             if (!noeuds_vus.contains(coup[0] + " " + coup[1])) {
                 if (exist_recursif(coup[0], coup[1], idjoueur, noeuds_vus)) {
@@ -162,10 +180,11 @@ public class Calculs {
 
     public boolean exist_chemin(int x, int y, int idjoueur) {
         //parcours en profondeur
-        if(exist_recursif(x, y, idjoueur, new HashSet<String>())){
+        if (exist_recursif(x, y, idjoueur, new HashSet<String>())) {
             Log.info("Calculs", "Chemin qui existe.");
             return true;
-        };
+        }
+        ;
         Log.info("Calculs", "Chemin introuvable.");
         return false;
     }
