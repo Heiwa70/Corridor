@@ -125,6 +125,7 @@ public class Calculs {
     }
 
     private boolean exist_recursif(int x, int y, int idjoueur, HashSet<String> noeuds_vus) {
+        System.out.println(x+", "+y);
         if ((idjoueur == 1 && y == 16) || (idjoueur == 2 && y == 0) || (idjoueur == 3 && x == 0) || (idjoueur == 4 && x == 16)) {
             return true;
         }

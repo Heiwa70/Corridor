@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -73,10 +74,20 @@ public class CalculsTest {
 
     @Test
     public void dijkstra() {
+        int a,b;
+        a = this.calculs.dijkstra(8, 4, 1);
+        b = this.calculs.dijkstra(12, 8, 1);
+        int c;
     }
 
     @Test
     public void exist_chemin() {
+        HashSet<String> noeuds_vus = new HashSet<>();
+        HashSet<String> noeuds_vus2 = new HashSet<>();
+        boolean a,b;
+        a = this.calculs.exist_chemin(8, 4, 1);
+        b = this.calculs.exist_chemin(12, 8, 2);
+        int c;
     }
 
     private void generation(String nomSauvegarde){
