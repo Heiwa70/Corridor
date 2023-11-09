@@ -9,8 +9,8 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    private static final int height = 1280;
-    private static final int width = 960;
+    private static final int height = 640;
+    private static final int width = 480;
 
     @Override
     public void start(Stage stage) {

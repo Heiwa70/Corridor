@@ -44,5 +44,5 @@ public class CalculsTest {
     public void exist_chemin() {
     }
 
-    private void generation(String )
+  //  private void generation(String )
 }
