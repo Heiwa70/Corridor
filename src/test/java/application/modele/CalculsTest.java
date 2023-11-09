@@ -74,20 +74,23 @@ public class CalculsTest {
 
     @Test
     public void dijkstra() {
-        int a,b;
-        a = this.calculs.dijkstra(8, 4, 1);
-        b = this.calculs.dijkstra(12, 8, 1);
-        int c;
+        Log.info("Calculs test","Dijkstra 9x9x4");
+        for(int y=0; y<9; y++){
+            for(int x=0; x<9; x++){
+                for(int id=1; id<=4;id++){
+                    this.calculs.dijkstra(x, y, id);
+                }
+            }
+        }
+        Log.info("Calculs test","Fin Dijkstra 9x9x4");
+        assertTrue(this.calculs.dijkstra(8, 4, 2)==8);
+        assertTrue(this.calculs.dijkstra(12, 8, 2)==-1);
     }
 
     @Test
     public void exist_chemin() {
-        HashSet<String> noeuds_vus = new HashSet<>();
-        HashSet<String> noeuds_vus2 = new HashSet<>();
-        boolean a,b;
-        a = this.calculs.exist_chemin(8, 4, 1);
-        b = this.calculs.exist_chemin(12, 8, 2);
-        int c;
+        assertTrue(this.calculs.exist_chemin(8, 4, 2));
+        assertFalse(this.calculs.exist_chemin(12, 8, 2));
     }
 
     private void generation(String nomSauvegarde){
