@@ -152,7 +152,7 @@ public class Plateau {
 
                 // Convertion des valeurs en symboles.
                 if (!vueValeur) {
-                    valeur = valeur.equals("__PION__") ? "O" : valeur.equals("CASEPION") ? " " : valeur.equals("__MURS__") ? "=" : "X";
+                    valeur = valeur.equals("__PION__") ? "O" : valeur.equals("CASEPION") ? " " : valeur.equals("CASEMURS") ? "=" : "X";
                 }
                 plateauEnText.append("|   " + valeur + "   |");
             }

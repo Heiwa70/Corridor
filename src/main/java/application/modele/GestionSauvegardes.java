@@ -31,14 +31,25 @@ public class GestionSauvegardes {
      * une valeur de l'énumération Val.
      */
     public GestionSauvegardes() {
-        Log.info("GestionSauvegardes", "Instanciation du gestionnaire de sauvegarde.");
         this.path = "src//main//ressources//sauvegardes//";
+        init();
+    }
+
+    public GestionSauvegardes(String chemin) {
+        this.path = chemin;
+        init();
+    }
+
+    private void init() {
+        Log.info("GestionSauvegardes", "Instanciation du gestionnaire de sauvegarde.");
+
         this.conversionCase = new HashMap<>();
         this.conversionCase.put("CASEPION", Val.CASEPION);
         this.conversionCase.put("__PION__", Val.__PION__);
         this.conversionCase.put("CASEMURS", Val.CASEMURS);
         this.conversionCase.put("__MURS__", Val.__MURS__);
         this.conversionCase.put("__VIDE__", Val.__VIDE__);
+        this.conversionCase.put("_OCCUPE_", Val._OCCUPE_);
     }
 
     /**
@@ -183,7 +194,7 @@ public class GestionSauvegardes {
             }
             Log.info("GestionSauvegardes", "Affectation de l'emplacement du pion au joueur.");
             for (Joueur joueur : pointsJoueur.keySet()) {
-                joueur.setPion(plateau.getEmplacement(coordsPions.get(joueur.getId())[0], coordsPions.get(joueur.getId())[1]));
+                joueur.setPion(plateau.getEmplacement(coordsPions.get(joueur.getId()-1)[0], coordsPions.get(joueur.getId()-1)[1]));
             }
             Log.info("GestionSauvegardes", "Fin du chargement de la sauvegarde.");
             return new Object[]{plateau, pointsJoueur, idJoueurActuel};
