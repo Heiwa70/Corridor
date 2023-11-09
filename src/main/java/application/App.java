@@ -2,6 +2,7 @@ package application;
 
 import application.controleur.vue.HomeController;
 import application.vue.pages.Home;
+import application.vue.pages.NewGame;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -15,6 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         Home homeView = new Home(40);
+        NewGame newGame = new NewGame();
         HomeController controller = new HomeController();
         homeView.setController(controller);
         controller.setHomeView(homeView);
