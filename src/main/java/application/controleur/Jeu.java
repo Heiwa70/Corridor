@@ -69,7 +69,7 @@ public class Jeu {
 
         this.listeJoueurs = new Joueur[nombreJoueur];
 
-        int idJoueur = 0;
+        int idJoueur = 1;
 
         while (nombreJoueur > 0) {
 
