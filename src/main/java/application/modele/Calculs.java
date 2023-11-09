@@ -42,29 +42,28 @@ public class Calculs {
                 int vecX = i[0];
                 int vecY = i[1];
 
-                if (testCase(x + vecX, y + vecY, Val.CASEMURS)) {
+                if (testCase(x + vecX, y + vecY, Val.__MURS__)) {
                     continue;
                 }
                 if (testCase(x + 2 * vecX, y + 2 * vecY, Val.__PION__)) {
-                    if (!testCase(x + 3 * vecX, y + 3 * vecY, Val.CASEMURS)) {
+                    if (!testCase(x + 3 * vecX, y + 3 * vecY, Val.__MURS__)) {
                         consitionAjoutPossibilite(possibilites, x + 4 * vecX, y + 4 * vecY);
                     } else {
                         if (vecX == 0) {
-                            if (testCase(x - 1, y + 2 * vecY, Val.CASEMURS)) {
+                            if (testCase(x - 1, y + 2 * vecY, Val.__MURS__)) {
                                 consitionAjoutPossibilite(possibilites, x - 2, y + 2 * vecY);
                             }
-                            if (testCase(x + 1, y + 2 * vecY, Val.CASEMURS)) {
+                            if (testCase(x + 1, y + 2 * vecY, Val.__MURS__)) {
                                 consitionAjoutPossibilite(possibilites, x + 2, y + 2 * vecY);
                             }
                         } else {
-                            if (testCase(x + 2 * vecX, y - 1, Val.CASEMURS)) {
+                            if (testCase(x + 2 * vecX, y - 1, Val.__MURS__)) {
                                 consitionAjoutPossibilite(possibilites, x + 2 * vecX, y - 2);
                             }
-                            if (testCase(x + 2 * vecX, y + 1, Val.CASEMURS)) {
+                            if (testCase(x + 2 * vecX, y + 1, Val.__MURS__)) {
                                 consitionAjoutPossibilite(possibilites, x + 2 * vecX, y + 2);
                             }
                         }
-
                     }
                 } else {
                     ajoutPossibilite(possibilites, x + 2 * vecX, y + 2 * vecY);
