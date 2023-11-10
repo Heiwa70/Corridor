@@ -12,10 +12,23 @@ public class Calculs {
     private Plateau plateau;
     private int width;
     private int height;
-    private final int[] listeFin = {0, 0, 16, 0, 16};
+    private int[] listeFin;
+    private int[][][] listeVecteurs;
+    private int idJoueurActuel;
+    private StringBuilder coordinates;
 
     public Calculs(Plateau plateau) {
         setPlateau(plateau);
+        this.listeFin = new int[]{0, 0, 16, 0, 16};
+        this.listeVecteurs = new int[][][]{
+                {{0, -1}, {1, 0}, {-1, 0}, {0, 1}},
+                {{0, 1}, {-1, 0}, {1, 0}, {0, 1}},
+
+                {{1, 0}, {0, 1}, {0, -1}, {-1, 0}},
+                {{-1, 0}, {0, -1}, {0, 1}, {1, 0}}
+        };
+        this.idJoueurActuel = 1;
+        this.coordinates = new StringBuilder();
     }
 
     public Plateau getPlateau() {
@@ -35,28 +48,22 @@ public class Calculs {
      * @param y
      * @return
      */
-    public List<int[]> listeMouvementsPion(int x, int y, boolean mode) {
-        if (mode) {
-            if (testCase(x, y, Val.__PION__)) {
-                return listeMouvementsPion(x, y);
-            }
-        } else {
-            return listeMouvementsPion(x, y);
-        }
-        return null;
+    public List<int[]> listeMouvementsPion(int x, int y, int idJoueur) {
+        this.idJoueurActuel = idJoueur;
+        return listeMouvementsPion(x, y);
     }
 
     public List<int[]> listeMouvementsPion(int x, int y) {
 
         List<int[]> possibilites = new ArrayList<>();
+        boolean b;
+        int xx, yy;
 
-        int[][] vec = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-        int vecX = 0;
-        int vecY = 0;
+        int[][] vec = this.listeVecteurs[this.idJoueurActuel - 1];
         for (int[] i : vec) {
 
-            vecX = i[0];
-            vecY = i[1];
+            int vecX = i[0];
+            int vecY = i[1];
 
             if (testCase(x + vecX, y + vecY, Val.__MURS__)) {
                 continue;
@@ -66,29 +73,26 @@ public class Calculs {
                     consitionAjoutPossibilite(possibilites, x + 4 * vecX, y + 4 * vecY);
                 } else {
                     if (vecX == 0) {
-                        y=y + 2 * vecY;
-                        if (!testCase(x - 1, y , Val.__MURS__)) {
-                            consitionAjoutPossibilite(possibilites, x - 2, y);
+                        if (!testCase(x - 1, y + 2 * vecY, Val.__MURS__)) {
+                            consitionAjoutPossibilite(possibilites, x - 2, y + 2 * vecY);
                         }
-                        if (!testCase(x + 1, y, Val.__MURS__)) {
-                            consitionAjoutPossibilite(possibilites, x + 2, y);
+                        if (!testCase(x + 1, y + 2 * vecY, Val.__MURS__)) {
+                            consitionAjoutPossibilite(possibilites, x + 2, y + 2 * vecY);
                         }
                     } else {
-                        x = x + 2 * vecX;
-                        if (!testCase(x, y - 1, Val.__MURS__)) {
-                            consitionAjoutPossibilite(possibilites, x, y - 2);
+                        if (!testCase(x + 2 * vecX, y - 1, Val.__MURS__)) {
+                            consitionAjoutPossibilite(possibilites, x + 2 * vecX, y - 2);
                         }
-                        if (!testCase(x, y + 1, Val.__MURS__)) {
-                            consitionAjoutPossibilite(possibilites, x, y + 2);
+                        if (!testCase(x + 2 * vecX, y + 1, Val.__MURS__)) {
+                            consitionAjoutPossibilite(possibilites, x + 2 * vecX, y + 2);
                         }
                     }
                 }
             } else {
-                y=y + 2 * vecY;
-                x = x + 2 * vecX;
-                if (testEmplacementSurPlateau(x, y)) {
-                    possibilites.add(new int[]{x, y});
-                }
+                xx = x + 2 * vecX;
+                yy = y + 2 * vecY;
+                b = testEmplacementSurPlateau(xx, yy) ? (testCase(xx, yy, Val.CASEPION) ? possibilites.add(new int[]{xx, yy}) : false) : false;
+
             }
         }
 
@@ -102,20 +106,20 @@ public class Calculs {
     }
 
     public boolean testEmplacementSurPlateau(int x, int y) {
-        if(0 > x){
+        if (0 > x) {
             return false;
-        }else if(x >= this.width){
+        } else if (x >= this.width) {
             return false;
-        }else if(0 > y){
+        } else if (0 > y) {
             return false;
-        }else if(y >= this.height){
+        } else if (y >= this.height) {
             return false;
         }
         return true;
     }
 
     public boolean testCase(int x, int y, Val type) {
-        if(testEmplacementSurPlateau(x,y)){
+        if (testEmplacementSurPlateau(x, y)) {
             Emplacement laCase = this.plateau.getEmplacement(x, y);
             if (laCase != null) {
                 return laCase.getValeur() == type;
@@ -163,29 +167,42 @@ public class Calculs {
     }
 
 
-    private boolean exist_recursif(int x, int y, int idjoueur, HashSet<String> noeuds_vus) {
-        if ((idjoueur < 3 ? y == this.listeFin[idjoueur] : x == this.listeFin[idjoueur]) ){
+    private boolean exist_recursif(int x, int y, HashSet<String> noeuds_vus) {
+        if ((this.idJoueurActuel < 3 ? y == this.listeFin[this.idJoueurActuel] : x == this.listeFin[this.idJoueurActuel])) {
             return true;
         }
-        noeuds_vus.add(x + " " + y);
+
+        this.coordinates.setLength(0);
+        this.coordinates.append(x).append(" ").append(y);
+
+        noeuds_vus.add(this.coordinates.toString());
+
         for (int[] coup : listeMouvementsPion(x, y)) {
-            if (!noeuds_vus.contains(coup[0] + " " + coup[1])) {
-                if (exist_recursif(coup[0], coup[1], idjoueur, noeuds_vus)) {
+            this.coordinates.setLength(0); // Réinitialiser le StringBuilder
+            this.coordinates.append(coup[0]).append(" ").append(coup[1]);
+
+            if (!noeuds_vus.contains(this.coordinates.toString())) {
+                if (exist_recursif(coup[0], coup[1], noeuds_vus)) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 
-    public boolean exist_chemin(int x, int y, int idjoueur) {
+
+    public boolean exist_chemin(int x, int y, int idJoueur) {
         //parcours en profondeur
-        if (exist_recursif(x, y, idjoueur, new HashSet<String>())) {
-            Log.info("Calculs", "Chemin qui existe.");
+        this.idJoueurActuel = idJoueur;
+        if (exist_recursif(x, y, new HashSet<String>())) {
+//            Log.info("Calculs", "Chemin qui existe.");
             return true;
         }
-        ;
-        Log.info("Calculs", "Chemin introuvable.");
+
+//        Log.info("Calculs", "Chemin introuvable.");
         return false;
     }
+
+
 }

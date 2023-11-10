@@ -83,10 +83,10 @@ public class CalculsTest {
     @Test
     public void exist_chemin() {
         Log.info("Calculs test", "exist_chemin 9x9x4*10");
-        long somm = 0;
-        int nbr = 10;
+        double somm = 0;
+        int nbr = 100;
         for (int i = 0; i < nbr; i++) {
-            long tempsDebut = System.currentTimeMillis();
+            long tempsDebut = System.nanoTime();
             for (int y = 0; y < 9; y++) {
                 for (int x = 0; x < 9; x++) {
                     for (int id = 1; id <= 4; id++) {
@@ -94,10 +94,9 @@ public class CalculsTest {
                     }
                 }
             }
-            somm+=System.currentTimeMillis() - tempsDebut;
+            somm+=System.nanoTime() - tempsDebut;
         }
-        System.out.println(somm/nbr);
-        Log.info("Calculs test", "Fin exist_chemin 9x9x4*10");
+        Log.info("Calculs test", "Fin exist_chemin 9x9x4*10 : "+somm/(nbr*1000)+"us");
         assertTrue(this.calculs.exist_chemin(8, 4, 2));
         assertFalse(this.calculs.exist_chemin(12, 8, 2));
     }
