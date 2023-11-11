@@ -24,6 +24,8 @@ public class NewGame extends Parent {
         // VBox
         VBox vBox = new VBox();
         vBox.getChildren().addAll(labelGame, nameGame);
+        vBox.setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-padding: 10px;");
+        vBox.setAlignment(Pos.CENTER);
 
         // StackPane
         StackPane stackPane = new StackPane();
@@ -40,21 +42,20 @@ public class NewGame extends Parent {
         button.setPadding(new Insets(5, 5, 5, 5));
         stackPane.getChildren().add(button);
 
-        // Add CheckBox to StackPane
-        CheckBox checkBox = new CheckBox("I'm a CheckBox");
-        checkBox.setOpacity(1);
-        checkBox.setStyle("-fx-background-color: olive");
-        checkBox.setPadding(new Insets(5, 5, 5, 5));
-        stackPane.getChildren().add(checkBox);
+        stackPane.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-padding: 10px;");
 
         // VBox root
         VBox root = new VBox(vBox, stackPane);
+        VBox.setMargin(stackPane, new Insets(50, 0, 0, 0)); // Ajustez cela selon vos besoins
+        root.setStyle("-fx-border-color: green; -fx-border-width: 2px; -fx-padding: 10px;");
+
         getChildren().add(root);
 
         // Set preferred size for nameGame
-        nameGame.setPrefWidth(200);
-    }
+        nameGame.setMaxWidth(200);
 
+        root.setPrefWidth(400);
+    }
     public void initializeComponents() {
         this.nameGame = new TextField();
         this.labelGame = new Label("Nom de la partie : ");
