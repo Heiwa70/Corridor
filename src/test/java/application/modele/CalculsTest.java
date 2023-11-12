@@ -31,7 +31,7 @@ public class CalculsTest {
         this.calculs = null;
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void listeMouvementsPion() {
 
         List<String> verifListPion1 = new ArrayList<>();
