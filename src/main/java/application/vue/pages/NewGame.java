@@ -37,7 +37,9 @@ public class NewGame extends Parent {
         // VBox root
         VBox root = new VBox(vBox, stackPane);
         VBox.setMargin(stackPane, new Insets(50, 0, 0, 0));
-      //  root.setStyle("-fx-border-color: green; -fx-border-width: 2px; -fx-padding: 10px;");
+
+        // Charger le fichier CSS
+       // getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         getChildren().add(root);
 
@@ -58,33 +60,22 @@ public class NewGame extends Parent {
         HBox playersRow = createPlayersRow();
         playersRow.setAlignment(Pos.CENTER);
 
-        // Ajouter des marges à playersRow
+        // Ajouter des marges
         VBox.setMargin(playersRow, new Insets(30, 30, 30, 30)); // Ajustez les marges selon vos besoins
+        VBox.setMargin(nameGame, new Insets(20, 0, 0, 0));
+        VBox.setMargin(labelGame, new Insets(20, 0, 0, 0));
 
-        // Label and TextField
         vBox.getChildren().addAll(labelGame, nameGame, playersRow);
-       // vBox.setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-padding: 10px;");
 
         return vBox;
     }
-
 
     private StackPane createStackPane() {
         StackPane stackPane = new StackPane();
 
         // Add Button to StackPane
         Button button = new Button("Créer la partie");
-
-        // Styles normaux
-        button.setStyle(
-                "-fx-background-color: #4CAF50; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-font-size: 16px; " +
-                        "-fx-font-family: 'Arial'; " +
-                        "-fx-border-radius: 5px; " +
-                        "-fx-padding: 10px 20px;" +
-                        "-fx-font-weight: bold;"
-        );
+        button.getStyleClass().add("createButton");
 
         // Effet au survol avec transition
         button.setOnMouseEntered((MouseEvent e) -> {
@@ -92,16 +83,6 @@ public class NewGame extends Parent {
             scaleTransition.setToX(1.1);
             scaleTransition.setToY(1.1);
             scaleTransition.play();
-            button.setStyle(
-                    "-fx-background-color: #29bf65; " +
-                            "-fx-cursor: hand; " +
-                            "-fx-text-fill: white; " +
-                            "-fx-font-size: 16px; " +
-                            "-fx-font-family: 'Arial'; " +
-                            "-fx-border-radius: 5px; " +
-                            "-fx-padding: 10px 20px;" +
-                            "-fx-font-weight: bold;"
-            );
         });
 
         // Retour à la normale après le survol avec transition
@@ -110,42 +91,16 @@ public class NewGame extends Parent {
             scaleTransition.setToX(1);
             scaleTransition.setToY(1);
             scaleTransition.play();
-            button.setStyle(
-                    "-fx-background-color: #4CAF50; " +
-                            "-fx-text-fill: white; " +
-                            "-fx-font-size: 16px; " +
-                            "-fx-font-family: 'Arial'; " +
-                            "-fx-border-radius: 5px; " +
-                            "-fx-padding: 10px 20px;" +
-                            "-fx-font-weight: bold;"
-            );
         });
 
         // Effet au clic
-        button.setOnMousePressed(e -> button.setStyle(
-                "-fx-background-color: #45a049;" +
-                        "-fx-text-fill: white; " +
-                        "-fx-font-size: 16px; " +
-                        "-fx-font-family: 'Arial'; " +
-                        "-fx-border-radius: 5px; " +
-                        "-fx-padding: 10px 20px;" +
-                        "-fx-font-weight: bold;"
-        ));
+        button.setOnMousePressed(e -> button.getStyleClass().add("createButtonPressed"));
 
         // Retour à la normale après le clic
-        button.setOnMouseReleased(e -> button.setStyle(
-                "-fx-background-color: #4CAF50; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-font-size: 16px; " +
-                        "-fx-font-family: 'Arial'; " +
-                        "-fx-border-radius: 5px; " +
-                        "-fx-padding: 10px 20px;" +
-                        "-fx-font-weight: bold;"
-        ));
+        button.setOnMouseReleased(e -> button.getStyleClass().remove("createButtonPressed"));
 
         stackPane.getChildren().add(button);
 
-       // stackPane.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-padding: 10px;");
         return stackPane;
     }
 
@@ -158,33 +113,8 @@ public class NewGame extends Parent {
             ComboBox<String> typeComboBox = createComboBox("Type", "Joueur1", "Joueur2", "Joueur3", "Joueur4", "IA");
             ComboBox<String> colorComboBox = createComboBox("Couleur", "Rouge", "Bleu", "Vert", "Jaune", "Violet");
 
-            typeComboBox.setMinWidth(80);
-            typeComboBox.setMaxWidth(80);
-
-            colorComboBox.setMinWidth(80);
-            colorComboBox.setMaxWidth(80);
-
-            typeComboBox.setStyle(
-                    "-fx-background-color: #f1ede9; " +
-                            "-fx-text-fill: black; " +
-                            "-fx-font-size: 16px; " +
-                            "-fx-font-family: 'Arial';" +
-                            "-fx-border-radius: 5px; " +
-                            "-fx-padding: 5px 5px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-cursor: hand;"
-            );
-
-            colorComboBox.setStyle(
-                    "-fx-background-color: #f1ede9; " +
-                            "-fx-text-fill: black; " +
-                            "-fx-font-size: 16px; " +
-                            "-fx-font-family: 'Arial';" +
-                            "-fx-border-radius: 5px; " +
-                            "-fx-padding: 5px 5px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-cursor: hand;"
-            );
+            typeComboBox.getStyleClass().add("comboBox");
+            colorComboBox.getStyleClass().add("comboBox");
 
             // Marge en haut des listes déroulantes
             VBox.setMargin(typeComboBox, new Insets(10, 0, 0, 0));
@@ -198,6 +128,7 @@ public class NewGame extends Parent {
 
         return hbox;
     }
+
     private ComboBox<String> createComboBox(String label, String... options) {
         Label comboBoxLabel = new Label(label);
         ComboBox<String> comboBox = new ComboBox<>();
@@ -218,44 +149,23 @@ public class NewGame extends Parent {
         square.setMinSize(80, 80);
         square.setMaxSize(80, 80);
 
-        // Styles pour rendre invisible la partie dépassant des bords
-        square.setStyle(
-                "-fx-background-color: transparent; " +
-                        "-fx-background-clip: padding-box; " +
-                        "-fx-background-insets: 20px, 20px, 20px, 20px; " + // Ajustez la taille des marges
-                        "-fx-border-radius: 10px; " +
-                        "-fx-border-width: 2px; " +
-                        "-fx-border-color: #333333; " +
-                        "-fx-cursor: hand;"
-        );
-
         // Ajouter l'étiquette "+" au centre
         Label plusLabel = new Label("+");
-        plusLabel.setStyle("-fx-text-fill: black; -fx-font-size: 24px; -fx-font-weight: bold;");
+        plusLabel.getStyleClass().add("plusLabel");
 
+        square.getStyleClass().add("square");
         square.getChildren().add(plusLabel);
         StackPane.setAlignment(plusLabel, Pos.CENTER);
 
         return square;
     }
 
-
     private void applyGameStyle() {
         // Style pour le TextField
-        nameGame.setStyle(
-                "-fx-background-color: #f1ede9; " +
-                        "-fx-text-fill: black; " +
-                        "-fx-font-size: 20px; " +
-                        "-fx-font-family: 'Arial';"
-        );
+        nameGame.getStyleClass().add("nameGame");
 
         // Style pour le Label
-        labelGame.setStyle(
-                "-fx-text-fill: black; " +
-                        "-fx-font-size: 24px; " +
-                        "-fx-font-weight: bold; " +
-                        "-fx-font-family: 'Arial';"
-        );
+        labelGame.getStyleClass().add("labelGame");
     }
 
     public void setController(NewGameController controller) {

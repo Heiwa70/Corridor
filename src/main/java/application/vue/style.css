@@ -1,0 +1,59 @@
+/* styles.css */
+
+.nameGame {
+    -fx-background-color: #f1ede9;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+    -fx-font-family: 'Arial';
+    -fx-max-width: 400;
+}
+
+.labelGame {
+    -fx-text-fill: black;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Arial';
+}
+
+.vBox {
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+    -fx-padding: 10px;
+}
+
+.createButton {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Arial';
+    -fx-border-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-font-weight: bold;
+}
+
+.comboBox {
+    -fx-background-color: #f1ede9;
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Arial';
+    -fx-border-radius: 5px;
+    -fx-padding: 5px 5px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.square {
+    -fx-background-color: transparent;
+    -fx-background-clip: padding-box;
+    -fx-background-insets: 20px, 20px, 20px, 20px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 2px;
+    -fx-border-color: #333333;
+    -fx-cursor: hand;
+}
+
+.plusLabel {
+    -fx-text-fill: black;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}

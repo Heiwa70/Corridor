@@ -23,6 +23,7 @@ public class App extends Application {
         controller.configure();
 
         Scene scene = new Scene(homeView, height, width);
+        scene.getStylesheets().add("file:src/main/java/application/vue/style.css");
         stage.setScene(scene);
         stage.setTitle("Quoridor");
         stage.getIcons().add(new Image("file:src/main/ressources/pictures/icon.png"));
