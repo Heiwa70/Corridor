@@ -5,9 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -16,11 +14,12 @@ public class CalculsTest {
     private Calculs calculs;
     private GestionSauvegardes gestionSauvegardes;
     private Plateau plateau;
+    private Set<Joueur> liste_joueur;
 
     @Before
     public void setUp() throws Exception {
         this.gestionSauvegardes = new GestionSauvegardes("src//test//java//ressources//sauvegardes//");
-        generation("test");
+        generation("vierge");
         this.calculs = new Calculs(this.plateau);
     }
 
@@ -31,7 +30,7 @@ public class CalculsTest {
         this.calculs = null;
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void listeMouvementsPion() {
 
         List<String> verifListPion1 = new ArrayList<>();
@@ -104,5 +103,22 @@ public class CalculsTest {
     private void generation(String nomSauvegarde) {
         Object[] data = this.gestionSauvegardes.chargement(nomSauvegarde);
         this.plateau = (Plateau) data[0];
+        Set<Joueur> a = ((HashMap<Joueur, Integer>) data[1]).keySet();
+        this.liste_joueur=a;
+        System.out.println(a.toArray()[0]);
     }
+    @Test
+    public void liste_coup_mur(){
+        //this.calculs.liste_coup_mur()
+        Joueur j1= (Joueur) this.liste_joueur.toArray()[0];
+        Joueur j2= (Joueur) this.liste_joueur.toArray()[1];
+        ArrayList<Joueur> l=new ArrayList<Joueur>();
+        l.add(j1);
+        l.add(j2);
+        Joueur[] l1= l.toArray(new Joueur[0]);
+        ArrayList<String> coup=calculs.liste_coup_mur(j1.getX(),j1.getY(), l1);
+        System.out.println(coup.size());
+
+    }
+
 }

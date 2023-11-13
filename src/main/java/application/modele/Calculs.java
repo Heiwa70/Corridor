@@ -202,10 +202,11 @@ public class Calculs {
     }
 
     public ArrayList<String> liste_coup_mur (int x,int y ,Joueur[] listeJoueurs){
+        Log.info("Calculs", "Debut generation mur");
         ArrayList<String> possibilite= new ArrayList<>();
         if (listeJoueurs[idJoueurActuel].testSetMur()){
             for (int i=1;i<plateau.getHeight()-1;i=i+2){
-                for(int j=0;j< plateau.getWidth()-2;i=i++){
+                for(int j=0;j< plateau.getWidth()-2;j++){
                     //mur vertical
                     if (plateau.getEmplacement(i,j).getValeur()==Val.CASEMURS
                         &&plateau.getEmplacement(i,j+1).getValeur()==Val.__VIDE__
@@ -213,14 +214,15 @@ public class Calculs {
                             plateau.getEmplacement(i,j).setValeur(Val.__MURS__);
                             plateau.getEmplacement(i,j+1).setValeur(Val._OCCUPE_);
                             plateau.getEmplacement(i,j+2).setValeur(Val.__MURS__);
+                            boolean b=true;
                             for (Joueur joueur :listeJoueurs){
-                                boolean b=true;
                                 if (!exist_chemin(joueur.getX(),joueur.getY(),joueur.getId())){
                                     b=false;
                                 }
-                                if (b){
-                                    possibilite.add(i+";"+j+";"+i+";"+(j+1)+";"+i+";"+(j+2));
-                                }
+
+                            }
+                            if (b){
+                                possibilite.add(i+";"+j+";"+i+";"+(j+1)+";"+i+";"+(j+2));
                             }
                         plateau.getEmplacement(i,j).setValeur(Val.CASEMURS);
                         plateau.getEmplacement(i,j+1).setValeur(Val.__VIDE__);
@@ -233,14 +235,14 @@ public class Calculs {
                         plateau.getEmplacement(j,i).setValeur(Val.__MURS__);
                         plateau.getEmplacement(j+1,i).setValeur(Val._OCCUPE_);
                         plateau.getEmplacement(j+2,i).setValeur(Val.__MURS__);
+                        boolean b=true;
                         for (Joueur joueur :listeJoueurs){
-                            boolean b=true;
                             if (!exist_chemin(joueur.getX(),joueur.getY(),joueur.getId())){
                                 b=false;
                             }
-                            if (b){
-                                possibilite.add(j+";"+i+";"+(j+1)+";"+i+";"+(j+2)+";"+i);
-                            }
+                        }
+                        if (b){
+                            possibilite.add(j+";"+i+";"+(j+1)+";"+i+";"+(j+2)+";"+i);
                         }
                         plateau.getEmplacement(j,i).setValeur(Val.CASEMURS);
                         plateau.getEmplacement(j+1,i).setValeur(Val.__VIDE__);
@@ -250,6 +252,7 @@ public class Calculs {
                 }
             }
         }
+        Log.info("Calculs", "Fin generation mur");
         return possibilite;
     }
 
