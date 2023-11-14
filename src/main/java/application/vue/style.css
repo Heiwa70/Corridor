@@ -29,6 +29,7 @@
     -fx-border-radius: 5px;
     -fx-padding: 10px 20px;
     -fx-font-weight: bold;
+    -fx-cursor: hand;
 }
 
 .comboBox {
@@ -40,6 +41,8 @@
     -fx-padding: 5px 5px;
     -fx-font-weight: bold;
     -fx-cursor: hand;
+    -fx-pref-width: 130;
+    -fx-min-width:130;
 }
 
 .square {
