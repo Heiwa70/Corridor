@@ -99,6 +99,12 @@ public class NewGame extends Parent {
         // Retour à la normale après le clic
         button.setOnMouseReleased(e -> button.getStyleClass().remove("createButtonPressed"));
 
+        button.setOnAction(e -> {
+            // Code pour naviguer vers la page du jeu (Game)
+            Game gamePage = new Game();  // Assurez-vous que cette classe existe
+            getScene().setRoot(gamePage);
+        });
+
         stackPane.getChildren().add(button);
 
         return stackPane;
@@ -171,4 +177,5 @@ public class NewGame extends Parent {
     public void setController(NewGameController controller) {
         this.controller = controller;
     }
+
 }
