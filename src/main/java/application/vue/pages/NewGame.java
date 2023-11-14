@@ -1,6 +1,7 @@
 package application.vue.pages;
 
 import application.controleur.vue.NewGameController;
+import application.modele.Joueur;
 import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,11 +18,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+
 public class NewGame extends Parent {
 
     private NewGameController controller;
     private TextField nameGame;
     private Label labelGame;
+    private ArrayList<Joueur> joueurs = new ArrayList<>();
 
     public NewGame() {
         initializeComponents();
@@ -39,7 +43,7 @@ public class NewGame extends Parent {
         VBox.setMargin(stackPane, new Insets(50, 0, 0, 0));
 
         // Charger le fichier CSS
-       // getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        // getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         getChildren().add(root);
 
@@ -112,12 +116,48 @@ public class NewGame extends Parent {
 
     private HBox createPlayersRow() {
         HBox hbox = new HBox(10); // Espacement entre les carrés
-        hbox.setAlignment(Pos.CENTER);
+
+        //Listes globales
+
+        ObservableList<String> TypeJoueurs = FXCollections.observableArrayList("Joueur1", "Joueur2", "Joueur3", "Joueur4", "IA");
+        ObservableList<String> Couleurs = FXCollections.observableArrayList("Rouge", "Bleu", "Vert", "Jaune", "Violet");
+
 
         for (int i = 0; i < 4; i++) {
+
             StackPane square = createSquare();
-            ComboBox<String> typeComboBox = createComboBox("Type", "Joueur1", "Joueur2", "Joueur3", "Joueur4", "IA");
-            ComboBox<String> colorComboBox = createComboBox("Couleur", "Rouge", "Bleu", "Vert", "Jaune", "Violet");
+            // ComboBox<String> typeComboBox = createComboBox("Type", "Joueur1", "Joueur2", "Joueur3", "Joueur4", "IA");
+            //ComboBox<String> colorComboBox = createComboBox("Couleur", "Rouge", "Bleu", "Vert", "Jaune", "Violet");
+
+            // Ajouter les listes globales aux listes déroulantes
+
+            ComboBox<String> typeComboBox = new ComboBox<>(TypeJoueurs);
+            ComboBox<String> colorComboBox = new ComboBox<>(Couleurs);
+
+            // Ajout des écouteurs
+
+
+            typeComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    ObservableList TypeTemp = FXCollections.observableArrayList(newValue);
+                    ComboBox<String> Temp = new ComboBox<String>(TypeTemp);
+
+                    typeComboBox.setItems(TypeTemp);
+                }
+            });
+
+            colorComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    ObservableList ColorTemp = FXCollections.observableArrayList(newValue);
+                    ComboBox<String> Temp = new ComboBox<String>(ColorTemp);
+
+                    colorComboBox.setItems(ColorTemp);
+                }
+            });
+
+
+
+
 
             typeComboBox.getStyleClass().add("comboBox");
             colorComboBox.getStyleClass().add("comboBox");
@@ -126,8 +166,16 @@ public class NewGame extends Parent {
             VBox.setMargin(typeComboBox, new Insets(10, 0, 0, 0));
             VBox.setMargin(colorComboBox, new Insets(10, 0, 0, 0));
 
+
             VBox squareContainer = new VBox(square, typeComboBox, colorComboBox);
-            squareContainer.setAlignment(Pos.BOTTOM_LEFT);
+
+            //ajoute une bordure rouge autour des carrés directement dans le code
+            squareContainer.setStyle("-fx-border-color: red;");
+
+            //centrer horizontalement tout les elements à l'interieur de squareContainer
+            squareContainer.setAlignment(Pos.CENTER);
+
+            //squareContainer.setAlignment(Pos.BOTTOM_LEFT);
 
             hbox.getChildren().add(squareContainer);
         }
@@ -135,18 +183,6 @@ public class NewGame extends Parent {
         return hbox;
     }
 
-    private ComboBox<String> createComboBox(String label, String... options) {
-        Label comboBoxLabel = new Label(label);
-        ComboBox<String> comboBox = new ComboBox<>();
-
-        ObservableList<String> comboBoxOptions = FXCollections.observableArrayList(options);
-        comboBox.setItems(comboBoxOptions);
-
-        VBox comboBoxContainer = new VBox(comboBoxLabel, comboBox);
-        comboBoxContainer.setAlignment(Pos.BOTTOM_LEFT);
-
-        return comboBox;
-    }
 
     private StackPane createSquare() {
         StackPane square = new StackPane();
@@ -161,6 +197,8 @@ public class NewGame extends Parent {
 
         square.getStyleClass().add("square");
         square.getChildren().add(plusLabel);
+
+
         StackPane.setAlignment(plusLabel, Pos.CENTER);
 
         return square;
