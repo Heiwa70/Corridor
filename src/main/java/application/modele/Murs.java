@@ -11,6 +11,10 @@ package application.modele;
 public class Murs {
     private Emplacement[] casesPrisent;
 
+    public Emplacement[] getCasesPrisent() {
+        return casesPrisent;
+    }
+
     /**
      * Constructeur de la classe Murs.
      */
@@ -32,4 +36,15 @@ public class Murs {
         casedroite.setValeur(Val.__MURS__);
 
     }
+    public void undosetPosition(Emplacement casegauche, Emplacement casemilieu,Emplacement casedroite) {
+        Log.info("Murs",
+                "retire le mur " + this.toString() + "', aux emplacements (" +
+                        casegauche.toStringCoords() + ", " + casedroite.toStringCoords() + ")."
+        );
+        casegauche.setValeur(Val.CASEMURS);
+        casemilieu.setValeur(Val.__VIDE__);
+        casedroite.setValeur(Val.CASEMURS);
+
+    }
+
 }

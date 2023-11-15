@@ -5,6 +5,8 @@
 
 package application.modele;
 
+import application.controleur.Plateau;
+
 import java.util.ArrayList;
 
 /**
@@ -127,17 +129,24 @@ public class Joueur {
     public  boolean testSetMur(){
         return !listeMursNonPoses.isEmpty();
     }
-    public boolean setMur(Emplacement casegauche,Emplacement casemilieu,Emplacement casedroite){
+    public Murs setMur(Emplacement casegauche,Emplacement casemilieu,Emplacement casedroite){
         if (testSetMur()) {
             Murs mur = listeMursNonPoses.get(0);
             listeMursNonPoses.remove(0);
             mur.setPosition(casegauche,casemilieu,casedroite);
             listeMursSurPlateau.add(mur);
             Log.info("Joueur","Le joueur "+this.nom+" a posé un mur en "+casegauche.toStringCoords()+" "+casedroite.toStringCoords()+" il lui reste "+this.listeMursNonPoses.size()+" mur(s)");
-            return true;
+            return mur;
         }
         Log.warn("Joueur","Mur non posé car le joueur n'a plus de mur");
-        return false;
+        return new Murs();
+    }
+    public boolean undoSetMur(Murs mur, Plateau plateau){
+        listeMursSurPlateau.remove(mur);
+        listeMursNonPoses.add(new Murs());
+        mur.undosetPosition(plateau.getEmplacement(mur.getCasesPrisent()[0].getX(),mur.getCasesPrisent()[0].getY()),plateau.getEmplacement(mur.getCasesPrisent()[1].getX(),mur.getCasesPrisent()[1].getY()),plateau.getEmplacement(mur.getCasesPrisent()[2].getX(),mur.getCasesPrisent()[2].getY()));
+        Log.info("Joueur","Le joueur "+this.nom+" a retiré un mur ");
+        return true;
     }
 }
 
