@@ -27,11 +27,8 @@ public class LoadGame  extends Parent {
     private int width;
     private int height;
     public LoadGame() {
-
         this.width = 1280/2;
         this.height = 960/2;
-
-
         listeSauvegardes();
     }
 
@@ -69,6 +66,7 @@ public class LoadGame  extends Parent {
             buttonHaut.setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                     System.out.println("Retour menu.");
+
                 }
             });
 
