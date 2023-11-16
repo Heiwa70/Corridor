@@ -298,11 +298,11 @@ public class Calculs {
 
     public int min_max(int profondeur, Joueur[] listeJoueur, int idJoueur) {
         Log.info("Calculs","0X "+listeJoueur[0].getX()+" 0Y "+listeJoueur[0].getY()+" 1X "+listeJoueur[1].getX()+" 1Y "+listeJoueur[1].getY());
-        if ((idJoueur == 1 && listeJoueur[idJoueur - 1].getY() == 16)) {
+        if ((idJoueur == 1 && listeJoueur[idJoueur - 1].getY() == 0)) {
             Log.info("Calculs","p:"+profondeur+" max");
             return Integer.MAX_VALUE;
         }
-        if (idJoueur == 2 && listeJoueur[idJoueur - 1].getY() == 0) {
+        if (idJoueur == 2 && listeJoueur[idJoueur - 1].getY() == 16) {
             Log.info("Calculs","p:"+profondeur+" min");
             System.out.println("y"+listeJoueur[idJoueur-1].getY());
             return Integer.MIN_VALUE;
