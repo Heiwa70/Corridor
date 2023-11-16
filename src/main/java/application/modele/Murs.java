@@ -19,15 +19,15 @@ public class Murs {
      * Constructeur de la classe Murs.
      */
     public Murs() {
-        Log.info("Murs", "Création du murs : " + this.toString() + ".");
+        //Log.info("Murs", "Création du murs : " + this.toString() + ".");
         this.casesPrisent = new Emplacement[3];
     }
 
     public void setPosition(Emplacement casegauche, Emplacement casemilieu,Emplacement casedroite) {
-        Log.info("Murs",
-                "Affectation du murs '" + this.toString() + "', aux emplacements (" +
-                        casegauche.toStringCoords() + ", " + casedroite.toStringCoords() + ")."
-        );
+//        Log.info("Murs",
+//                "Affectation du murs '" + this.toString() + "', aux emplacements (" +
+//                        casegauche.toStringCoords() + ", " + casedroite.toStringCoords() + ")."
+//        );
         this.casesPrisent[0] = casegauche;
         casegauche.setValeur(Val.__MURS__);
         this.casesPrisent[1]=casemilieu;
@@ -37,10 +37,10 @@ public class Murs {
 
     }
     public void undosetPosition(Emplacement casegauche, Emplacement casemilieu,Emplacement casedroite) {
-        Log.info("Murs",
-                "retire le mur " + this.toString() + "', aux emplacements (" +
-                        casegauche.toStringCoords() + ", " + casedroite.toStringCoords() + ")."
-        );
+//        Log.info("Murs",
+//                "retire le mur " + this.toString() + "', aux emplacements (" +
+//                        casegauche.toStringCoords() + ", " + casedroite.toStringCoords() + ")."
+//        );
         casegauche.setValeur(Val.CASEMURS);
         casemilieu.setValeur(Val.__VIDE__);
         casedroite.setValeur(Val.CASEMURS);
