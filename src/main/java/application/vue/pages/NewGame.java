@@ -25,7 +25,9 @@ public class NewGame extends Parent {
     private NewGameController controller;
     private TextField nameGame;
     private Label labelGame;
-    private ArrayList<Joueur> joueurs = new ArrayList<>();
+    private ArrayList<Joueur> listJoueurs = new ArrayList<>();
+    private ArrayList<String> joueurs = new ArrayList<>();
+    private ArrayList<String> couleurs = new ArrayList<>();
 
     public NewGame() {
         initializeComponents();
@@ -105,8 +107,15 @@ public class NewGame extends Parent {
 
         button.setOnAction(e -> {
             // Code pour naviguer vers la page du jeu (Game)
-            Game gamePage = new Game();  // Assurez-vous que cette classe existe
-            getScene().setRoot(gamePage);
+            for(int i = 0; i < joueurs.size(); i++){
+                listJoueurs.add(new Joueur(i,joueurs.get(i),couleurs.get(i),10,0));
+            }
+
+            for (Joueur joueurs : listJoueurs) {
+                System.out.println(joueurs.toString());
+            }
+            //Game gamePage = new Game();
+            //getScene().setRoot(gamePage);
         });
 
         stackPane.getChildren().add(button);
@@ -117,7 +126,6 @@ public class NewGame extends Parent {
     private HBox createPlayersRow() {
         HBox hbox = new HBox(10); // Espacement entre les carrés
 
-        //Listes globales
 
         ObservableList<String> TypeJoueurs = FXCollections.observableArrayList("Joueur1", "Joueur2", "Joueur3", "Joueur4", "IA");
         ObservableList<String> Couleurs = FXCollections.observableArrayList("Rouge", "Bleu", "Vert", "Jaune", "Violet");
@@ -142,6 +150,8 @@ public class NewGame extends Parent {
                     ObservableList TypeTemp = FXCollections.observableArrayList(newValue);
                     ComboBox<String> Temp = new ComboBox<String>(TypeTemp);
 
+                    this.joueurs.add(newValue); // Ajout du type de joueur dans la liste globale
+
                     typeComboBox.setItems(TypeTemp);
                 }
             });
@@ -150,6 +160,8 @@ public class NewGame extends Parent {
                 if (newValue != null) {
                     ObservableList ColorTemp = FXCollections.observableArrayList(newValue);
                     ComboBox<String> Temp = new ComboBox<String>(ColorTemp);
+
+                    this.couleurs.add(newValue); // Ajout de la couleur dans la liste globale
 
                     colorComboBox.setItems(ColorTemp);
                 }

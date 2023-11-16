@@ -122,7 +122,7 @@ public class Joueur {
         return this.id + " : " +
                 this.nom + " : " +
                 this.couleur + " : " +
-                getCoordsString() + " : " +
+                //getCoordsString() + " : " +
                 this.listeMursNonPoses.size() + " : " +
                 this.listeMursSurPlateau.size();
     }
@@ -148,5 +148,6 @@ public class Joueur {
         Log.info("Joueur","Le joueur "+this.nom+" a retiré un mur ");
         return true;
     }
+
 }
 
