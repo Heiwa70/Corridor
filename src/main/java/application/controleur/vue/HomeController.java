@@ -34,7 +34,7 @@ public class HomeController {
 
     public void handleLoadGameButtonClick() {
         // Evenement du bouton "Partie sauvegardée"
-        Game loadGame = new Game();
+        LoadGame loadGame = new LoadGame();
 
         // Chargez la vue "Partie sauvegardée" dans la scène actuelle
         Scene scene = homeView.getScene();

@@ -54,10 +54,10 @@ public class Emplacement {
     }
 
     public void setValeur(Val valeur) {
-//        Log.info(
-//                "Emplacement",
-//                "Valeur de l'emplacement X = " + getX() + ", Y = " + getY() + " : " + getValeur() + " -> " + valeur + "."
-//        );
+        Log.info(
+                "Emplacement",
+                "Valeur de l'emplacement X = " + getX() + ", Y = " + getY() + " : " + getValeur() + " -> " + valeur + "."
+        );
         this.valeur = valeur;
     }
 
