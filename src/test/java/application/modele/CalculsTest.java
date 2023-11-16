@@ -120,5 +120,15 @@ public class CalculsTest {
         System.out.println(coup.size());
 
     }
+    @Test
+    public void use_min_max(){
+        Joueur j1= (Joueur) this.liste_joueur.toArray()[0];
+        Joueur j2= (Joueur) this.liste_joueur.toArray()[1];
+        ArrayList<Joueur> l=new ArrayList<Joueur>();
+        l.add(j1);
+        l.add(j2);
+        Joueur[] l1= l.toArray(new Joueur[0]);
+        calculs.use_min_max(l1,1);
+    }
 
 }
