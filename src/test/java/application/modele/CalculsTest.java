@@ -81,7 +81,7 @@ public class CalculsTest {
 
     @Test
     public void exist_chemin() {
-        Log.info("Calculs test", "exist_chemin 9x9x4*10");
+        Log.info("Calculs test", "exist_chemin 9x9x4x10");
         double somm = 0;
         int nbr = 100;
         for (int i = 0; i < nbr; i++) {
