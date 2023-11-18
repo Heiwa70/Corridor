@@ -126,7 +126,7 @@ public class Calculssanstest {
         l.add(j1);
         l.add(j2);
         Joueur[] l1= l.toArray(new Joueur[0]);
-        calculs.use_min_max(l1, 1,4);
+        calculs.use_min_max(l1, 1,7);
 
     }
 
