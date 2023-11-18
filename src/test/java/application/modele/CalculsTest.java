@@ -14,7 +14,8 @@ public class CalculsTest {
     private Calculs calculs;
     private GestionSauvegardes gestionSauvegardes;
     private Plateau plateau;
-    private Set<Joueur> liste_joueur;
+    private HashMap<Integer, Joueur> liste_joueur = new HashMap<>();
+    private HashMap<Joueur, Integer> pointJoueur;
 
     @Before
     public void setUp() throws Exception {
@@ -103,15 +104,16 @@ public class CalculsTest {
     private void generation(String nomSauvegarde) {
         Object[] data = this.gestionSauvegardes.chargement(nomSauvegarde);
         this.plateau = (Plateau) data[0];
-        Set<Joueur> a = ((HashMap<Joueur, Integer>) data[1]).keySet();
-        this.liste_joueur=a;
-        System.out.println(a.toArray()[0]);
+        this.pointJoueur = (HashMap<Joueur, Integer>) data[1];
+        for(Joueur joueur : this.pointJoueur.keySet()){
+            this.liste_joueur.put(joueur.getId(), joueur);
+        }
     }
     @Test
     public void liste_coup_mur(){
         //this.calculs.liste_coup_mur()
-        Joueur j1= (Joueur) this.liste_joueur.toArray()[0];
-        Joueur j2= (Joueur) this.liste_joueur.toArray()[1];
+        Joueur j1= this.liste_joueur.get(1);
+        Joueur j2=  this.liste_joueur.get(2);
         ArrayList<Joueur> l=new ArrayList<Joueur>();
         l.add(j1);
         l.add(j2);
@@ -122,13 +124,13 @@ public class CalculsTest {
     }
     @Test
     public void use_min_max(){
-        Joueur j1= (Joueur) this.liste_joueur.toArray()[0];
-        Joueur j2= (Joueur) this.liste_joueur.toArray()[1];
+        Joueur j1= this.liste_joueur.get(1);
+        Joueur j2=  this.liste_joueur.get(2);
         ArrayList<Joueur> l=new ArrayList<Joueur>();
         l.add(j1);
         l.add(j2);
         Joueur[] l1= l.toArray(new Joueur[0]);
-        calculs.use_min_max(l1,1,5);
+        calculs.use_min_max(l1,1, 5);
     }
 
 }

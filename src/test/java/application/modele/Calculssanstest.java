@@ -130,6 +130,10 @@ public class Calculssanstest {
         calculs.use_min_max(l1, 2,7);
 
     }
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+
+    }
     public static void use_filtre_mur(){
         Joueur j1= (Joueur) liste_joueur.toArray()[0];
         Joueur j2= (Joueur) liste_joueur.toArray()[1];

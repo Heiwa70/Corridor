@@ -364,9 +364,11 @@ public class Calculs {
         }
     }
 
-    public void use_min_max(Joueur[] listeJoueur, int idJoueur,int n) {
-        Log.info("Calculs", "début min_max");
-        int profondeur = n;
+    public void use_min_max(Joueur[] listeJoueur, int idJoueur, int profondeur) {
+
+//        int profondeur = 1;
+        Log.info("Calculs", "début min_max profondeur : "+profondeur);
+        int[] meilleurCoupInt = null;
         Object meilleurCoup = null;
         if (idJoueur == 1) {
             int valeurMax = Integer.MIN_VALUE;
