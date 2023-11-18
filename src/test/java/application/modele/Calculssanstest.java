@@ -25,8 +25,8 @@ public class Calculssanstest {
         gestionSauvegardes = new GestionSauvegardes("src//test//java//ressources//sauvegardes//");
         generation("test3");
         calculs = new Calculs(plateau);
-        //use_min_max();
-        use_filtre_mur();
+        use_min_max();
+        //use_filtre_mur();
     }
 
     
@@ -127,7 +127,7 @@ public class Calculssanstest {
         l.add(j1);
         l.add(j2);
         Joueur[] l1= l.toArray(new Joueur[0]);
-        calculs.use_min_max(l1, 1,10);
+        calculs.use_min_max(l1, 2,7);
 
     }
     public static void use_filtre_mur(){

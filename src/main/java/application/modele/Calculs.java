@@ -281,16 +281,15 @@ public class Calculs {
         for (int i =0;i<n;i++){
             String[] c = L.get(i).split(";");
             Murs mur = listejoueur[idJoueur - 1].setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
-            int a=this.dijkstra(listejoueur[1].getX(),listejoueur[1].getY(),2)-this.dijkstra(listejoueur[0].getX(),listejoueur[0].getY(),1);
-           if (distance<a){
-                distance=a;
+            int a=this.dijkstra(listejoueur[idJoueur-1].getX(),listejoueur[idJoueur-1].getY(),inverse_id(idJoueur));
+            int b=this.dijkstra(listejoueur[inverse_id(idJoueur)-1].getX(),listejoueur[inverse_id(idJoueur)-1].getY(),idJoueur);
+           if (distance<a-b){
+                distance=a-b;
                 indice=i;
 
             }
             listejoueur[idJoueur - 1].undoSetMur(mur, plateau);
-            System.out.println("distance: "+distance);
         }
-        System.out.println("distancemax: "+distance);
 
         res.add(L.get(indice));
         return res;
