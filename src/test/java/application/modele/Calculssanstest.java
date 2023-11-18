@@ -40,35 +40,17 @@ public class Calculssanstest {
         }
     }
     public void liste_coup_mur(){
-        Joueur j1= this.liste_joueur.get(1);
-        Joueur j2=  this.liste_joueur.get(2);
-        ArrayList<Joueur> l=new ArrayList<Joueur>();
-        l.add(j1);
-        l.add(j2);
-        Joueur[] l1= l.toArray(new Joueur[0]);
-        ArrayList<String> coup=calculs.liste_coup_mur(j1.getX(),j1.getY(), l1);
+        ArrayList<String> coup=calculs.liste_coup_mur(this.liste_joueur.get(1).getX(),this.liste_joueur.get(1).getY(), this.liste_joueur);
         System.out.println(coup.size());
 
     }
     public void use_min_max(){
-        Joueur j1= this.liste_joueur.get(1);
-        Joueur j2=  this.liste_joueur.get(2);
-        ArrayList<Joueur> l=new ArrayList<Joueur>();
-        l.add(j1);
-        l.add(j2);
-        Joueur[] l1= l.toArray(new Joueur[0]);
-        calculs.use_min_max(l1, 1,4);
+        calculs.use_min_max(this.liste_joueur, 1,4);
 
     }
 
     public void use_filtre_mur(){
-        Joueur j1= this.liste_joueur.get(1);
-        Joueur j2=  this.liste_joueur.get(2);
-        ArrayList<Joueur> l=new ArrayList<Joueur>();
-        l.add(j1);
-        l.add(j2);
-        Joueur[] l1= l.toArray(new Joueur[0]);
-        ArrayList<String> r=calculs.filtreliste_coup_mur(calculs.liste_coup_mur(j1.getX(),j1.getY(),l1),l1,1);
+        ArrayList<String> r=calculs.filtreliste_coup_mur(calculs.liste_coup_mur(this.liste_joueur.get(1).getX(),this.liste_joueur.get(1).getY(),this.liste_joueur),this.liste_joueur,1);
         System.out.println(r);
     }
 }

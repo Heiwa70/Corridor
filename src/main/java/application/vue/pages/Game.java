@@ -247,12 +247,14 @@ public class Game extends Parent {
             this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:"+joueurActuel.getCouleur());
 
             // Demande le prochain coup à l'utilisateur.
-            List<int[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY());
-
+            List<int[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY(), joueurActuel.getId());
+            //ArrayList<String> a = this.calculs.liste_coup_mur(joueurActuel.getX(), joueurActuel.getY(), this.liste_joueur);
 
             System.out.println("\nVoici les coups possible par votre pion :");
             for (int[] position : listeMouvementsPossibles) {
                 changeCouleurBouton(this.matriceBouton.get(position[1]).get(position[0]), "#AAFFAA");
+                if(this.idJoueurActuel==1)
+                    System.out.println(position[0]+" , "+position[1]);
                 this.matriceBouton.get(position[1]).get(position[0]).setOnAction(event -> {
                     // Utilisation de Platform.runLater pour les modifications d'interface utilisateur
                     Platform.runLater(() -> {
