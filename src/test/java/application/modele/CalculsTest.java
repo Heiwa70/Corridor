@@ -20,7 +20,7 @@ public class CalculsTest {
     @Before
     public void setUp() throws Exception {
         this.gestionSauvegardes = new GestionSauvegardes("src//test//java//ressources//sauvegardes//");
-        generation("vierge");
+        generation("test3");
         this.calculs = new Calculs(this.plateau);
     }
 

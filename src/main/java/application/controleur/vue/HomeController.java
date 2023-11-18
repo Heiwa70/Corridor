@@ -39,6 +39,7 @@ public class HomeController {
 
         // Chargez la vue "Partie sauvegardée" dans la scène actuelle
         Scene scene = homeView.getScene();
+        scene.setRoot(loadGame);
     }
 
     public void handleExitButtonClick() {

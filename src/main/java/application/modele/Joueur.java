@@ -126,6 +126,15 @@ public class Joueur {
                 this.listeMursNonPoses.size() + " : " +
                 this.listeMursSurPlateau.size();
     }
+
+    public String toStringAvecCoords() {
+        return this.id + " : " +
+                this.nom + " : " +
+                this.couleur + " : " +
+                getCoordsString() + " : " +
+                this.listeMursNonPoses.size() + " : " +
+                this.listeMursSurPlateau.size();
+    }
     public  boolean testSetMur(){
         return !listeMursNonPoses.isEmpty();
     }
@@ -147,6 +156,10 @@ public class Joueur {
         mur.undosetPosition(plateau.getEmplacement(mur.getCasesPrisent()[0].getX(),mur.getCasesPrisent()[0].getY()),plateau.getEmplacement(mur.getCasesPrisent()[1].getX(),mur.getCasesPrisent()[1].getY()),plateau.getEmplacement(mur.getCasesPrisent()[2].getX(),mur.getCasesPrisent()[2].getY()));
         Log.info("Joueur","Le joueur "+this.nom+" a retiré un mur ");
         return true;
+    }
+
+    public int getNbrMurs(){
+        return this.listeMursNonPoses.size();
     }
 
 }
