@@ -23,9 +23,10 @@ public class Calculssanstest {
 
     public static void main(String[] args) {
         gestionSauvegardes = new GestionSauvegardes("src//test//java//ressources//sauvegardes//");
-        generation("vierge");
+        generation("test3");
         calculs = new Calculs(plateau);
-        use_min_max();
+        //use_min_max();
+        use_filtre_mur();
     }
 
     
@@ -126,8 +127,17 @@ public class Calculssanstest {
         l.add(j1);
         l.add(j2);
         Joueur[] l1= l.toArray(new Joueur[0]);
-        calculs.use_min_max(l1, 1,7);
+        calculs.use_min_max(l1, 1,10);
 
     }
-
+    public static void use_filtre_mur(){
+        Joueur j1= (Joueur) liste_joueur.toArray()[0];
+        Joueur j2= (Joueur) liste_joueur.toArray()[1];
+        ArrayList<Joueur> l=new ArrayList<Joueur>();
+        l.add(j1);
+        l.add(j2);
+        Joueur[] l1= l.toArray(new Joueur[0]);
+        ArrayList<String> r=calculs.filtreliste_coup_mur(calculs.liste_coup_mur(j1.getX(),j1.getY(),l1),l1,1);
+        System.out.println(r);
+    }
 }
