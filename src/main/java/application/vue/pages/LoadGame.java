@@ -10,6 +10,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
@@ -22,6 +24,9 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class LoadGame extends Parent {
@@ -113,6 +118,8 @@ public class LoadGame extends Parent {
                 vBox.setLayoutY(y);
                 vBox.setStyle("-fx-pref-width: " + pasCol + "; -fx-pref-height: " + pasLigne + "; -fx-background-color: " + couleur + "; -fx-border-width:1; -fx-border-color:#000000");
                 Button button = new Button("Selectionner");
+                Button delete = new Button("X");
+                delete.setStyle("-fx-cursor: HAND;-fx-color-label-visible: white;-fx-pref-width: " + pasCol/4 + "; -fx-pref-height: " + pasLigne/4 + "; -fx-background-color: #ff0000; -fx-border-width:1; -fx-border-color:#000000");
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent event) {
                         nomMenuBas.setText("Nom de la sauvegarde chargé : " + nomFichier);
@@ -125,12 +132,50 @@ public class LoadGame extends Parent {
                         });
                     }
                 });
+                delete.setOnAction(event -> {
+                    // Créer une boîte de dialogue de confirmation
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation de suppression");
+                    alert.setHeaderText("Supprimer la partie");
+                    alert.setContentText("Voulez-vous vraiment supprimer la partie " + nomFichier + "?");
+
+                    // Ajouter les boutons OK et Annuler
+                    alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+                    // Récupérer le résultat de la boîte de dialogue
+                    alert.showAndWait().ifPresent(result -> {
+                        if (result == ButtonType.OK) {
+                            // Logique pour supprimer la sauvegarde
+                            System.out.println("Suppression de la partie " + nomFichier);
+
+                            // Chemin du fichier à supprimer
+                            String cheminFichier = "src/main/ressources/sauvegardes/" + nomFichier + ".save";
+                            Path path = Paths.get(cheminFichier);
+
+                            try {
+                                // Supprimer le fichier
+                                Files.deleteIfExists(path);
+                                System.out.println("Fichier supprimé avec succès");
+
+                                // Actualiser la vue en reconstruisant la liste des sauvegardes
+                                getChildren().clear();  // Supprimer tous les éléments actuels
+                                listeSauvegardes();     // Re-construire la liste des sauvegardes MERCI MAX
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                System.err.println("Erreur lors de la suppression du fichier");
+                            }
+                        }
+                    });
+                });
+
+
+
                 button.setStyle(
                         "-fx-pref-width: " + pasCol + "; -fx-pref-height: " + pasLigne/4 +
                                 "; -fx-background-color: " + couleur +
                                 "; -fx-border-width:1; -fx-border-color:#000000"
                 );
-                vBox.getChildren().addAll(new Region(), button);
+                vBox.getChildren().addAll(new Region(), button, delete);
                 VBox.setVgrow(vBox.getChildren().get(0), Priority.ALWAYS);
                 VBox.setMargin(button, new Insets(pasLigne *3/ 4-2, 0, 0, 0));
                 getChildren().add(vBox);
@@ -141,6 +186,9 @@ public class LoadGame extends Parent {
                     y += pasLigne * 3 / 2;
                 }
             }
+
+
+
             getChildren().add(menuHaut);
             getChildren().add(menuBas);
         }
