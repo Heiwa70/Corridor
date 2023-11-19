@@ -44,8 +44,23 @@ public class Calculssanstest {
         System.out.println(coup.size());
 
     }
+    public static <K, V> Map<V, K> invertMap(Map<K, V> originalMap) {
+        Map<V, K> invertedMap = new HashMap<>();
+        for (Map.Entry<K, V> entry : originalMap.entrySet()) {
+            invertedMap.put(entry.getValue(), entry.getKey());
+        }
+        return invertedMap;
+    }
     public void use_min_max(){
-        calculs.use_min_max(this.liste_joueur, 1,4);
+        calculs.use_min_max(this.liste_joueur, 1,5);
+        calculs.use_min_max(this.liste_joueur, 2,3);
+        calculs.use_min_max(this.liste_joueur, 1,5);
+        calculs.use_min_max(this.liste_joueur, 2,3);
+        calculs.use_min_max(this.liste_joueur, 1,5);
+        calculs.use_min_max(this.liste_joueur, 2,5);
+
+
+        gestionSauvegardes.enregistrement("Partie_bot",plateau, (HashMap<Joueur, Integer>) invertMap(liste_joueur),2);
 
     }
 

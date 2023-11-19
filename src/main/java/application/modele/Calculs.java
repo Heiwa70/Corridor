@@ -57,12 +57,12 @@ public class Calculs {
         int xx, yy;
 
         int[][] vec = this.listeVecteurs[this.idJoueurActuel - 1];
-        System.out.println(this.idJoueurActuel);
+        //System.out.println(this.idJoueurActuel);
         for (int[] i : vec) {
 
             int vecX = i[0];
             int vecY = i[1];
-            System.out.println(i[0]+", "+i[1]);
+            //System.out.println(i[0]+", "+i[1]);
 
             if (testCase(x + vecX, y + vecY, Val.__MURS__)) {
                 continue;
@@ -195,11 +195,11 @@ public class Calculs {
         //parcours en profondeur
         this.idJoueurActuel = idJoueur;
         if (exist_recursif(x, y, new HashSet<String>())) {
-//            Log.info("Calculs", "Chemin qui existe.");
+//            //Log.info("Calculs", "Chemin qui existe.");
             return true;
         }
 
-//        Log.info("Calculs", "Chemin introuvable.");
+//        //Log.info("Calculs", "Chemin introuvable.");
         return false;
     }
 
@@ -303,17 +303,17 @@ public class Calculs {
 
     public int min_max(int profondeur, HashMap<Integer, Joueur> listeJoueur, int idJoueur) {
         if ((listeJoueur.get(idJoueur).getId() == 1 && listeJoueur.get(idJoueur).getY() == 0)) {
-            Log.info("Calculs","p:"+profondeur+" max");
+            //Log.info("Calculs","p:"+profondeur+" max");
             return Integer.MAX_VALUE;
         }
         if (listeJoueur.get(idJoueur).getId() == 2 && listeJoueur.get(idJoueur).getY() == 16) {
-            Log.info("Calculs","p:"+profondeur+" min, joueur id:");
-            System.out.println("min : "+listeJoueur.get(idJoueur).getId()+" y: "+listeJoueur.get(idJoueur).getY()+" id joueur : "+idJoueur);
+            //Log.info("Calculs","p:"+profondeur+" min, joueur id:");
+            //System.out.println("min : "+listeJoueur.get(idJoueur).getId()+" y: "+listeJoueur.get(idJoueur).getY()+" id joueur : "+idJoueur);
             return Integer.MIN_VALUE;
         }
         if (profondeur == 0) {
             int r=euristique(listeJoueur,idJoueur);
-            Log.info("Calculs","p:"+profondeur+" valeur "+r);
+            //Log.info("Calculs","p:"+profondeur+" valeur "+r);
             return r;
         }
         if (listeJoueur.get(idJoueur).getId() == 1) {
@@ -324,9 +324,9 @@ public class Calculs {
             int y = listeJoueur.get(idJoueur).getY();
             for (int[] coup_pion : coupspion) {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
-                Log.info("Calculs","relance min_max avec le coup : p"+coup_pion[0]+" "+coup_pion[1]+ " profondeur "+profondeur);
+                //Log.info("Calculs","relance min_max avec le coup : p"+coup_pion[0]+" "+coup_pion[1]+ " profondeur "+profondeur);
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
-                Log.info("Calculs","reçu min_max du coup : p"+coup_pion[0]+" "+coup_pion[1]+ " profondeur "+profondeur + " valeur "+valeur);
+                //Log.info("Calculs","reçu min_max du coup : p"+coup_pion[0]+" "+coup_pion[1]+ " profondeur "+profondeur + " valeur "+valeur);
                 valeurMax = Math.max(valeurMax, valeur);
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
@@ -336,9 +336,9 @@ public class Calculs {
             for (String coup : coups) {
                 String[] c = coup.split(";");
                 Murs mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
-                Log.info("Calculs","relance min_max avec le coup : m"+c[0]+" "+c[1]+" "+c[2]+" profondeur "+profondeur);
+                //Log.info("Calculs","relance min_max avec le coup : m"+c[0]+" "+c[1]+" "+c[2]+" profondeur "+profondeur);
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
-                Log.info("Calculs","reçu min_max du coup : m"+c[0]+" "+c[1]+" "+c[2]+" profondeur "+profondeur+" valeur "+valeur);
+                //Log.info("Calculs","reçu min_max du coup : m"+c[0]+" "+c[1]+" "+c[2]+" profondeur "+profondeur+" valeur "+valeur);
                 valeurMax = Math.max(valeurMax, valeur);
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
                 listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
@@ -386,12 +386,12 @@ public class Calculs {
             for (int[] coup_pion : coupspion) {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
-                Log.info("Calculs","valeur:"+valeur);
+                //Log.info("Calculs","valeur:"+valeur);
                 if (valeur >= valeurMax) {
                     valeurMax = valeur;
                     meilleurCoup = coup_pion;
                 }
-                Log.info("Calculs","(p)valeurmax "+valeurMax+", coup "+meilleurCoup);
+                //Log.info("Calculs","(p)valeurmax "+valeurMax+", coup "+meilleurCoup);
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
             }
@@ -405,7 +405,7 @@ public class Calculs {
                     valeurMax = valeur;
                     meilleurCoup = coup;
                 }
-                Log.info("Calculs","(m)valeurmax "+valeur+", coup "+meilleurCoup);
+                //Log.info("Calculs","(m)valeurmax "+valeur+", coup "+meilleurCoup);
                 listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
             }
             if (meilleurCoup instanceof String) {
@@ -429,7 +429,7 @@ public class Calculs {
                 if (valeur < valeurMin) {
                     valeurMin = valeur;
                     meilleurCoup = coup_pion;
-                    Log.info("Calculs","(p)valeur "+valeur+", coup "+meilleurCoup);
+                    //Log.info("Calculs","(p)valeur "+valeur+", coup "+meilleurCoup);
                 }
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
@@ -443,7 +443,7 @@ public class Calculs {
                 if (valeur < valeurMin) {
                     valeurMin = valeur;
                     meilleurCoup = coup;
-                    Log.info("Calculs","(m)valeur "+valeur+", coup "+meilleurCoup);
+                    //Log.info("Calculs","(m)valeur "+valeur+", coup "+meilleurCoup);
                 }
                 listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
             }
