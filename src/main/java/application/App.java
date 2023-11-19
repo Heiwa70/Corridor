@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
-//pour test
 
     private static final int height = 1280/2;
     private static final int width = 960/2;
@@ -17,14 +16,13 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         Home homeView = new Home(40);
-        //NewGame newGame = new NewGame();
+        NewGame newGame = new NewGame();
         HomeController controller = new HomeController();
         homeView.setController(controller);
         controller.setHomeView(homeView);
-
+        controller.configure();
 
         Scene scene = new Scene(homeView, height, width);
-        controller.SetScene(scene);
         scene.getStylesheets().add("file:src/main/java/application/vue/style.css");
         stage.setScene(scene);
         stage.setTitle("Quoridor");

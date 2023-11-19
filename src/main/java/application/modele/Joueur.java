@@ -71,6 +71,11 @@ public class Joueur {
                 getCoordsString() + "', à '" + emplacement.getX() + " : " + emplacement.getY() + "'."
         );
     }
+    public void unsetPion(Emplacement emplacement) {
+
+        emplacement.setValeur(Val.CASEPION);
+
+    }
 
     public String getNom() {
         return nom;
