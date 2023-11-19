@@ -210,7 +210,21 @@ public class Game extends Parent {
                                             yy = finalY + 2;
                                         }
                                     }
-                                    if (emplacementMurs2 != null) {
+
+                                    int centreX = 0;
+                                    int centreY = 0;
+
+                                    if (finalX - xx != 0) {
+                                        centreX = finalX - xx > 1 ? finalX - 1 : finalX + 1;
+                                    } else {
+                                        centreX = finalX;
+                                    }
+                                    if (finalY - yy != 0) {
+                                        centreY = finalY - yy > 1 ? finalY - 1 : finalY + 1;
+                                    } else {
+                                        centreY= finalY;
+                                    }
+                                    if (emplacementMurs2 != null && this.plateau.getEmplacement(centreX, centreY).getValeur()!=Val._OCCUPE_) {
 
                                         if (emplacementMurs1.getValeur() == Val.CASEMURS && emplacementMurs2.getValeur() == Val.CASEMURS) {
                                             emplacementMurs1.setValeur(Val.__MURS__);
@@ -227,16 +241,8 @@ public class Game extends Parent {
                                                 changeCouleurBouton(this.matriceBouton.get(yy).get(xx), "#FF9900");
                                                 this.coordsMurs2[0] = xx;
                                                 this.coordsMurs2[1] = yy;
-                                                if (finalX - xx != 0) {
-                                                    this.coordsCentre[0] = finalX - xx > 1 ? finalX - 1 : finalX + 1;
-                                                } else {
-                                                    this.coordsCentre[0] = finalX;
-                                                }
-                                                if (finalY - yy != 0) {
-                                                    this.coordsCentre[1] = finalY - yy > 1 ? finalY - 1 : finalY + 1;
-                                                } else {
-                                                    this.coordsCentre[1] = finalY;
-                                                }
+                                                this.coordsCentre[0] = centreX;
+                                                this.coordsCentre[1] = centreY;
 
                                             } else {
                                                 changeCouleurBouton(buttonNext, "#AAAAAA");
@@ -433,7 +439,7 @@ public class Game extends Parent {
             val = true;
             for (int i = 0; i < this.matriceBouton.size(); i++) {
                 for (int j = 0; j < this.matriceBouton.get(0).size(); j++) {
-                    if (this.plateau.getEmplacement(j, i).getValeur() == Val.CASEPION) {
+                    if (this.plateau.getEmplacement(j, i).getValeur() == Val.CASEMURS) {
                         changeCouleurBouton(this.matriceBouton.get(i).get(j), "#FFFFFF");
                         this.matriceBouton.get(i).get(j).setOnAction(null);
                         this.matriceBouton.get(i).get(j).setOnMouseExited(null);
