@@ -49,9 +49,6 @@ public class Home extends VBox {
 
         this.controller.setHomeView(this);
 
-
-
-
         // Ajout des gestionnaires d'événements du contrôleur
         newGame.setOnAction(e -> this.controller.handleNewGameButtonClick(this.scene)); // il est null au deuxieme appel
         loadGame.setOnAction(e -> this.controller.handleLoadGameButtonClick());
@@ -73,13 +70,3 @@ public class Home extends VBox {
 
     }
 }
-
-
-
-// Affichage d'une fenêtre de confirmation avant de quitter le jeu.
-    //private void confirmExit() {
-        //ButtonType result = new Alert(Alert.AlertType.CONFIRMATION, "Voulez-vous vraiment quitter le jeu ?").showAndWait().orElse(ButtonType.CANCEL);
-        //if (result == ButtonType.OK) {
-        //    Platform.exit();
-      //  }
-    //}

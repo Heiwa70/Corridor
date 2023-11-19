@@ -36,7 +36,7 @@ public class NewGame extends Parent {
     public NewGame(Scene scene) {
         this.scene = scene;
         initializeComponents();
-        setController(new NewGameController( scene));
+        setController(new NewGameController(scene));
 
         VBox vBox = createVBox();
         vBox.setAlignment(Pos.CENTER);

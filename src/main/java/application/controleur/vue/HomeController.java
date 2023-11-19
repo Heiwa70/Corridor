@@ -7,7 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 public class HomeController {
-//pour test
+    //pour test
     private Home homeView; // Référence à la vue
     private Scene scene;
 
@@ -38,14 +38,9 @@ public class HomeController {
 
     }
 
-    public void PrintTest(Scene SceneText){
-        System.out.println("test");
-
-    }
-
     public void handleLoadGameButtonClick() {
         // Evenement du bouton "Partie sauvegardée"
-        LoadGame loadGame = new LoadGame();
+        Game loadGame = new Game();
 
         // Chargez la vue "Partie sauvegardée" dans la scène actuelle
         Scene scene = homeView.getScene();
@@ -61,15 +56,6 @@ public class HomeController {
             Platform.exit();
         }
 
-    }
-
-    public void handleBackButtonClick() {
-        // Evenement du bouton "Retour"
-        // Chargez la vue "Accueil" dans la scène actuelle
-
-        Home home = new Home(40);
-        Scene scene = homeView.getScene();
-        scene.setRoot(home);
     }
 
     public void SetScene(Scene scene){
