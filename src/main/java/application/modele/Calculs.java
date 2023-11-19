@@ -57,12 +57,10 @@ public class Calculs {
         int xx, yy;
 
         int[][] vec = this.listeVecteurs[this.idJoueurActuel - 1];
-        System.out.println(this.idJoueurActuel);
         for (int[] i : vec) {
 
             int vecX = i[0];
             int vecY = i[1];
-            System.out.println(i[0]+", "+i[1]);
 
             if (testCase(x + vecX, y + vecY, Val.__MURS__)) {
                 continue;
