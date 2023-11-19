@@ -19,7 +19,7 @@ public class Murs {
      * Constructeur de la classe Murs.
      */
     public Murs() {
-        Log.info("Murs", "Création du murs : " + this.toString() + ".");
+        //Log.info("Murs", "Création du murs : " + this.toString() + ".");
         this.casesPrisent = new Emplacement[3];
     }
 

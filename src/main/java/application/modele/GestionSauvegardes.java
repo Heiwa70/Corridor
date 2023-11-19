@@ -86,6 +86,8 @@ public class GestionSauvegardes {
         StringBuilder text = new StringBuilder(plateau.toString(true));
 
         Log.info("GestionSauvegardes", "Conversion des données de chaque joueur en String.");
+
+
         for (Joueur joueur : pointsJoueur.keySet()) {
             text.append("\n").append(joueur.toStringAvecCoords()).append(" : ").append(pointsJoueur.get(joueur));
         }
@@ -138,7 +140,7 @@ public class GestionSauvegardes {
             Log.info("GestionSauvegardes", "Lecture de la sauvegarde.");
             Path chemin = Paths.get(path + nom + ".save");
             List<String> text = Files.readAllLines(chemin);
-            ArrayList<Integer[]> coordsPions = new ArrayList<>();
+            HashMap<Joueur, Integer[]> coordsPionsEtJoueur = new HashMap<>();
 
             // Décomposition du text en ligne et analyse de chaque lignes.
             Log.info("GestionSauvegardes", "Lecture du plateau.");
@@ -159,10 +161,11 @@ public class GestionSauvegardes {
 
                     // Création du joueur correspondant.
                     Joueur joueur = new Joueur(Integer.parseInt(donnees[0]), donnees[1], donnees[2], Integer.parseInt(donnees[5]), Integer.parseInt(donnees[6]));
+
                     // Affectation de ses points.
                     pointsJoueur.put(joueur, Integer.parseInt(donnees[4]));
                     // Garde en mémoire les coordonnées de son pion pour lui affecter un emplacement.
-                    coordsPions.add(new Integer[]{Integer.parseInt(donnees[3]), Integer.parseInt(donnees[4])});
+                    coordsPionsEtJoueur.put(joueur,new Integer[]{Integer.parseInt(donnees[3]), Integer.parseInt(donnees[4])});
                 } else {
 
                     // Suppression des données superflux du plateau.
@@ -193,8 +196,9 @@ public class GestionSauvegardes {
                 }
             }
             Log.info("GestionSauvegardes", "Affectation de l'emplacement du pion au joueur.");
-            for (Joueur joueur : pointsJoueur.keySet()) {
-                joueur.setPion(plateau.getEmplacement(coordsPions.get(joueur.getId()-1)[0], coordsPions.get(joueur.getId()-1)[1]));
+            for (Joueur joueur : coordsPionsEtJoueur.keySet()) {
+                Integer[] coordsPions = coordsPionsEtJoueur.get(joueur);
+                joueur.setPion(plateau.getEmplacement(coordsPions[0], coordsPions[1]));
             }
             Log.info("GestionSauvegardes", "Fin du chargement de la sauvegarde.");
             return new Object[]{plateau, pointsJoueur, idJoueurActuel};

@@ -384,11 +384,11 @@ public class Game extends Parent {
         this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:" + joueurActuel.getCouleur());
 
         if(Objects.equals(joueurActuel.getNom(), "IA")){
-            changeCouleurBouton(this.matriceBouton.get(joueurActuel.getY()).get(joueurActuel.getX()), "#AAFFAA");
-            calculs.use_min_max(liste_joueur,joueurActuel.getId(),4);
+            calculs.use_min_max(liste_joueur,joueurActuel.getId(),3);
             changeCouleurBouton(this.matriceBouton.get(joueurActuel.getY()).get(joueurActuel.getX()), joueurActuel.getCouleur());
 
             if(!finPartie()) {
+                sauvegarde();
                 startGame();
             }
         }
@@ -417,6 +417,7 @@ public class Game extends Parent {
                             this.matriceBouton.get(post[1]).get(post[0]).setOnAction(null);
                         }
                         if (!finPartie()) {
+                            sauvegarde();
                             startGame();
                         }
                     });
@@ -426,7 +427,7 @@ public class Game extends Parent {
     }
 
     public boolean finPartie() {
-        sauvegarde();
+
         Joueur joueur = this.liste_joueur.get(this.idJoueurActuel);
         boolean val = false;
         if (this.listeLigneWin[this.idJoueurActuel - 1][0] == 0 ?

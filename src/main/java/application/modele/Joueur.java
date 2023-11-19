@@ -149,7 +149,7 @@ public class Joueur {
             listeMursNonPoses.remove(0);
             mur.setPosition(casegauche,casemilieu,casedroite);
             listeMursSurPlateau.add(mur);
-            Log.info("Joueur","Le joueur "+this.nom+" a posé un mur en "+casegauche.toStringCoords()+" "+casedroite.toStringCoords()+" il lui reste "+this.listeMursNonPoses.size()+" mur(s)");
+            //Log.info("Joueur","Le joueur "+this.nom+" a posé un mur en "+casegauche.toStringCoords()+" "+casedroite.toStringCoords()+" il lui reste "+this.listeMursNonPoses.size()+" mur(s)");
             return mur;
         }
         Log.warn("Joueur","Mur non posé car le joueur n'a plus de mur");
@@ -159,7 +159,7 @@ public class Joueur {
         listeMursSurPlateau.remove(mur);
         listeMursNonPoses.add(new Murs());
         mur.undosetPosition(plateau.getEmplacement(mur.getCasesPrisent()[0].getX(),mur.getCasesPrisent()[0].getY()),plateau.getEmplacement(mur.getCasesPrisent()[1].getX(),mur.getCasesPrisent()[1].getY()),plateau.getEmplacement(mur.getCasesPrisent()[2].getX(),mur.getCasesPrisent()[2].getY()));
-        Log.info("Joueur","Le joueur "+this.nom+" a retiré un mur ");
+        //Log.info("Joueur","Le joueur "+this.nom+" a retiré un mur ");
         return true;
     }
 
