@@ -48,7 +48,7 @@ public class Game extends Parent {
         this.listeLigne = new ArrayList<>();
         this.matriceBouton = new ArrayList<>();
         GestionSauvegardes gestionSauvegardes = new GestionSauvegardes();
-        this.nomPartie = "test";
+        this.nomPartie = "vierge";
         Object[] listeData = gestionSauvegardes.chargement(this.nomPartie);
         this.plateau = (Plateau) listeData[0];
         this.pointsJoueur = (HashMap<Joueur, Integer>) listeData[1];
@@ -177,52 +177,64 @@ public class Game extends Parent {
                         int finalY = y;
                         buttonNext.setOnMouseEntered(event -> {
                             Platform.runLater(() -> {
-                                System.out.println(this.plateau.getEmplacement(finalX, finalY).getValeur());
+                                Joueur joueurActuel = this.liste_joueur.get(this.idJoueurActuel);
+                                if (joueurActuel.getNbrMurs() > 0) {
 
-                                Emplacement emplacementMurs1 = this.plateau.getEmplacement(finalX, finalY);
-                                Emplacement emplacementMurs2 = null;
-                                int xx = finalX;
-                                int yy = finalY;
-                                if (finalY % 2 == 1) {
-                                    emplacementMurs2 = this.plateau.getEmplacement(finalX + 2, finalY);
-                                    if (emplacementMurs2 == null) {
-                                        emplacementMurs2 = this.plateau.getEmplacement(finalX - 2, finalY);
-                                        xx = finalX - 2;
-                                    } else {
-                                        xx = finalX + 2;
-                                    }
-                                } else if (finalX % 2 == 1) {
-                                    emplacementMurs2 = this.plateau.getEmplacement(finalX, finalY + 2);
-                                    if (emplacementMurs2 == null) {
-                                        emplacementMurs2 = this.plateau.getEmplacement(finalX, finalY - 2);
-                                        yy = finalY - 2;
-                                    } else {
-                                        yy = finalY + 2;
-                                    }
-                                }
-                                if (emplacementMurs2 != null) {
-
-                                    if (emplacementMurs1.getValeur() == Val.CASEMURS && emplacementMurs2.getValeur() == Val.CASEMURS) {
-                                        emplacementMurs1.setValeur(Val.__MURS__);
-                                        emplacementMurs2.setValeur(Val.__MURS__);
-
-                                        for (Joueur joueur : this.liste_joueur.values()) {
-                                            if (!this.calculs.exist_chemin(joueur.getX(), joueur.getY(), joueur.getId())) {
-                                                this.val = false;
-                                            }
-                                        }
-                                        if (this.val) {
-                                            changeCouleurBouton(buttonNext, "#FF9900");
-                                            changeCouleurBouton(this.matriceBouton.get(yy).get(xx), "#FF9900");
-                                            this.coordsMurs2[0] = xx;
-                                            this.coordsMurs2[1] = yy;
-                                            this.coordsCentre[0] = finalX - xx > 1 ? finalX - 1 : finalX + 1;
-                                            this.coordsCentre[1] = finalY - yy > 1 ? finalY - 1 : finalY + 1;
-
-
+                                    Emplacement emplacementMurs1 = this.plateau.getEmplacement(finalX, finalY);
+                                    Emplacement emplacementMurs2 = null;
+                                    int xx = finalX;
+                                    int yy = finalY;
+                                    if (finalY % 2 == 1) {
+                                        emplacementMurs2 = this.plateau.getEmplacement(finalX + 2, finalY);
+                                        if (emplacementMurs2 == null) {
+                                            emplacementMurs2 = this.plateau.getEmplacement(finalX - 2, finalY);
+                                            xx = finalX - 2;
                                         } else {
-                                            changeCouleurBouton(buttonNext, "#AAAAAA");
-                                            changeCouleurBouton(this.matriceBouton.get(yy).get(xx), "#AAAAAA");
+                                            xx = finalX + 2;
+                                        }
+                                    } else if (finalX % 2 == 1) {
+                                        emplacementMurs2 = this.plateau.getEmplacement(finalX, finalY + 2);
+                                        if (emplacementMurs2 == null) {
+                                            emplacementMurs2 = this.plateau.getEmplacement(finalX, finalY - 2);
+                                            yy = finalY - 2;
+                                        } else {
+                                            yy = finalY + 2;
+                                        }
+                                    }
+                                    if (emplacementMurs2 != null) {
+
+                                        if (emplacementMurs1.getValeur() == Val.CASEMURS && emplacementMurs2.getValeur() == Val.CASEMURS) {
+                                            emplacementMurs1.setValeur(Val.__MURS__);
+                                            emplacementMurs2.setValeur(Val.__MURS__);
+
+                                            this.val = true;
+                                            for (Joueur joueur : this.liste_joueur.values()) {
+                                                if (!this.calculs.exist_chemin(joueur.getX(), joueur.getY(), joueur.getId())) {
+                                                    this.val = false;
+                                                }
+                                            }
+                                            if (this.val) {
+                                                changeCouleurBouton(buttonNext, "#FF9900");
+                                                changeCouleurBouton(this.matriceBouton.get(yy).get(xx), "#FF9900");
+                                                this.coordsMurs2[0] = xx;
+                                                this.coordsMurs2[1] = yy;
+                                                if (finalX - xx != 0) {
+                                                    this.coordsCentre[0] = finalX - xx > 1 ? finalX - 1 : finalX + 1;
+                                                } else {
+                                                    this.coordsCentre[0] = finalX;
+                                                }
+                                                if (finalY - yy != 0) {
+                                                    this.coordsCentre[1] = finalY - yy > 1 ? finalY - 1 : finalY + 1;
+                                                } else {
+                                                    this.coordsCentre[1] = finalY;
+                                                }
+
+                                            } else {
+                                                changeCouleurBouton(buttonNext, "#AAAAAA");
+                                                changeCouleurBouton(this.matriceBouton.get(yy).get(xx), "#AAAAAA");
+                                                emplacementMurs1.setValeur(Val.CASEMURS);
+                                                emplacementMurs2.setValeur(Val.CASEMURS);
+                                            }
                                         }
                                     }
                                 }
@@ -235,8 +247,8 @@ public class Game extends Parent {
 
                                 emplacementMurs1.setValeur(Val.CASEMURS);
                                 changeCouleurBouton(buttonNext, "#AAAAAA");
-                                if (this.coordsMurs2[0] != 0 && this.coordsMurs2[1] != 0 ) {
-                                    this.plateau.getEmplacement(this.coordsMurs2[0],this.coordsMurs2[1]).setValeur(Val.CASEMURS);
+                                if (this.coordsMurs2[0] != 0 && this.coordsMurs2[1] != 0) {
+                                    this.plateau.getEmplacement(this.coordsMurs2[0], this.coordsMurs2[1]).setValeur(Val.CASEMURS);
                                     changeCouleurBouton(this.matriceBouton.get(this.coordsMurs2[1]).get(this.coordsMurs2[0]), "#AAAAAA");
                                 }
                                 this.coordsMurs2[0] = 0;
@@ -257,6 +269,24 @@ public class Game extends Parent {
                                     changeCouleurBouton(this.matriceBouton.get(this.coordsMurs2[1]).get(this.coordsMurs2[0]), "#FF0000");
                                     buttonNext.setOnMouseExited(null);
                                     this.matriceBouton.get(this.coordsMurs2[1]).get(this.coordsMurs2[0]).setOnMouseExited(null);
+                                    Joueur joueurActuel = this.liste_joueur.get(this.idJoueurActuel);
+                                    String text = "C'est à '" + joueurActuel.getNom() + "' de jouer.\n" +
+                                            "Votre pion est situé à : " + joueurActuel.getCoordsString() + ".\n" +
+                                            "Nombre de murs qu'il vous reste : " + joueurActuel.getNbrMurs();
+                                    this.donneesJoueur.setText(text);
+                                    writeText(joueurActuel.getNom() + ", Murs en " + finalX + ", " + finalY);
+                                    for (int i = 0; i < this.matriceBouton.size(); i++) {
+                                        for (int j = 0; j < this.matriceBouton.get(0).size(); j++) {
+                                            if (this.plateau.getEmplacement(j, i).getValeur() == Val.CASEPION) {
+                                                changeCouleurBouton(this.matriceBouton.get(i).get(j), "#FFFFFF");
+                                                this.matriceBouton.get(i).get(j).setOnAction(null);
+                                            }
+                                        }
+                                    }
+
+                                    if (!finPartie()) {
+                                        startGame();
+                                    }
                                 }
                                 this.coordsMurs2[0] = 0;
                                 this.coordsMurs2[1] = 0;
@@ -343,17 +373,11 @@ public class Game extends Parent {
 
         this.calculs.exist_chemin(joueurActuel.getX(), joueurActuel.getX(), this.idJoueurActuel);
 
-        System.out.println("\nVoici les coups possible par votre pion :");
         for (int[] position : listeMouvementsPossibles) {
             changeCouleurBouton(this.matriceBouton.get(position[1]).get(position[0]), "#AAFFAA");
             this.matriceBouton.get(position[1]).get(position[0]).setOnAction(event -> {
                 Platform.runLater(() -> {
-                    writeText("\nLe joueur '" + joueurActuel.getNom() +
-                            "' pion : \n    X = " + joueurActuel.getX() +
-                            " ->  X = " + position[0] + "\n    Y = " +
-                            joueurActuel.getX() + " ->   Y = " + position[1]
-                    );
-
+                    writeText(joueurActuel.getNom() + ", pion : " + position[0] + ", " + position[1]);
                     this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(Val.CASEPION);
 
                     changeCouleurBouton(this.matriceBouton.get(joueurActuel.getY()).get(joueurActuel.getX()), "#FFFFFF");
