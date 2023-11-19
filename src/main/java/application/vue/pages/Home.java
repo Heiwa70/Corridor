@@ -2,6 +2,7 @@ package application.vue.pages;
 
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import application.controleur.vue.HomeController;
@@ -13,14 +14,25 @@ public class Home extends VBox {
     private Button exit = createButton("Quitter");
     private Button back = createButton("Retour");
     private HomeController controller;
+    private Scene scene;
 
-    public Home(double spacing) {
+    public Home(double spacing ){
         super(spacing);
         initializeComponents();
     }
+    public void setCustomScene(Scene scene) {
+        this.scene = scene;
+        System.out.println("setCustomScene : "+scene);
+    }
 
     public void setController(HomeController controller) {
-        this.controller = controller;
+
+        if (controller != null) {
+            this.controller = controller;
+        }
+
+        // Passez la référence à la scène au contrôleur
+        this.controller.SetScene(this.getScene());
     }
 
     private void initializeComponents() {
@@ -30,11 +42,19 @@ public class Home extends VBox {
         setButtonStyle(exit);
         setBackButtonStyle(back);
         getChildren().addAll(newGame, loadGame, exit);
+        if(this.controller == null){
+            setController(new HomeController());
+        }
+
+        this.controller.setHomeView(this);
+
+
+
 
         // Ajout des gestionnaires d'événements du contrôleur
-        newGame.setOnAction(e -> controller.handleNewGameButtonClick());
-        loadGame.setOnAction(e -> controller.handleLoadGameButtonClick());
-        exit.setOnAction(e -> controller.handleExitButtonClick());
+        newGame.setOnAction(e -> this.controller.handleNewGameButtonClick(this.scene)); // il est null au deuxieme appel
+        loadGame.setOnAction(e -> this.controller.handleLoadGameButtonClick());
+        exit.setOnAction(e -> this.controller.handleExitButtonClick());
 
     }
 

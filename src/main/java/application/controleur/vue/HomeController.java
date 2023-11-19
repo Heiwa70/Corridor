@@ -9,6 +9,7 @@ import javafx.scene.control.ButtonType;
 public class HomeController {
 
     private Home homeView; // Référence à la vue
+    private Scene scene;
 
     public HomeController() {
     }
@@ -17,18 +18,28 @@ public class HomeController {
         this.homeView = homeView;
     }
 
-    public void configure() {
-        homeView.setController(this);
+
+
+    public void handleNewGameButtonClick(Scene sceneTest) {
+
+        // Evenement du bouton "Nouvelle partie"
+        if (homeView != null && homeView.getScene() == null) {
+            NewGame newGame = new NewGame(sceneTest);
+            sceneTest.setRoot(newGame);
+        } else if (homeView != null) {
+            NewGame newGame = new NewGame(homeView.getScene());
+            Scene scene = homeView.getScene();
+            scene.setRoot(newGame);
+        }
+        else {
+            System.out.println("homeView is null");
+        }
+
+
     }
 
-    public void handleNewGameButtonClick() {
-         // Evenement du bouton "Nouvelle partie"
-        NewGame newGame = new NewGame();
-
-        // Chargez la vue "Nouvelle partie" dans la scène actuelle
-        Scene scene = homeView.getScene();
-        scene.setRoot(newGame);
-
+    public void PrintTest(Scene SceneText){
+        System.out.println("test");
 
     }
 
@@ -59,5 +70,10 @@ public class HomeController {
         Home home = new Home(40);
         Scene scene = homeView.getScene();
         scene.setRoot(home);
+    }
+
+    public void SetScene(Scene scene){
+        //homeView.setCustomScene(scene);
+        this.scene = scene;
     }
 }
