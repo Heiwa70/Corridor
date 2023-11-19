@@ -10,12 +10,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * La classe Log est utilisé comme classe statique.
  * Elle permet d'écrire les évènements du programme dans plusieurs fichier.
  */
 public class Log {
+
+    public static HashMap<String, FileWriter> listeEcriture = new HashMap<>();
 
     // Chemin des fichiers logs.
     public static String chemin = "src//main//ressources//Logs//";
@@ -63,25 +68,61 @@ public class Log {
      * @param nomClasse String, nom du fichier.
      * @param message   String, description du log.
      */
-    private static void send(String type, String nomClasse, String message) {
+    private static <TimerTask> void send(String type, String nomClasse, String message) {
 
-        new File(chemin).mkdir();
-        String filePath = chemin + dateFormat.format(LocalDateTime.now());
-        new File(filePath).mkdir();
 
-        File file = new File(filePath + "//" + nomClasse + ".log");
+        String pathWritter = chemin + dateFormat.format(LocalDateTime.now()) + "//" + nomClasse + ".log";
+
 
         try {
-            if (!file.exists()) {
-                file.createNewFile();
+
+            if(!listeEcriture.containsKey(pathWritter)){
+                if(listeEcriture.size()>0){
+                    for(String key : listeEcriture.keySet())
+                    close(key);
+                }
+                new File(chemin).mkdir();
+                String filePath = chemin + dateFormat.format(LocalDateTime.now());
+                new File(filePath).mkdir();
+
+                File file = new File(filePath + "//" + nomClasse + ".log");
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                // Ouverture, écriture et fermeture du fichier log.
+                FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+                listeEcriture.put(pathWritter, fw);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            // Suspend l'exécution pendant 1 seconde
+                            Thread.sleep(1000);
+                            close(pathWritter);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                // Démarrage du thread
+                thread.start();
             }
-            // Ouverture, écriture et fermeture du fichier log.
-            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
-            fw.write(chronoFormat.format(LocalDateTime.now()) + " [" + type + "] = " + message + "\n");
-            fw.close();
+
+            listeEcriture.get(pathWritter).write(chronoFormat.format(LocalDateTime.now()) + " [" + type + "] = " + message + "\n");
+
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void close(String key){
+        try {
+            listeEcriture.get(key).close();
+            listeEcriture.remove(key);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
