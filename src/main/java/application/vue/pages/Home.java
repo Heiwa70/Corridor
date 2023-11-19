@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import application.controleur.vue.HomeController;
 
 public class Home extends VBox {
+//pour test
 
     private Button newGame = createButton("Nouvelle partie");
     private Button loadGame = createButton("(game)Partie sauvegardée");

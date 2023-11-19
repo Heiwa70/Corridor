@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
+//pour test
 
     private static final int height = 1280/2;
     private static final int width = 960/2;

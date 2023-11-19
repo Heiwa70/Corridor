@@ -7,7 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 public class HomeController {
-
+//pour test
     private Home homeView; // Référence à la vue
     private Scene scene;
 
