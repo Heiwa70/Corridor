@@ -2,14 +2,20 @@ package application.vue.pages;
 
 
 import application.controleur.Plateau;
+import application.controleur.vue.GameController;
+import application.controleur.vue.LoadGameController;
 import application.modele.*;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,18 +44,19 @@ public class Game extends Parent {
     private int[] coordsMurs2 = {0, 0};
     private int[] coordsCentre = {0, 0};
 
-    public Game() {
+    private GameController controller;
 
-        this.width = 1280 / 2;
-        this.height = 960 / 2;
+    public Game(Scene scene, String nomGame, Object[] listeData) {
+
+        this.width = (int)scene.getWidth();
+        this.height = (int)scene.getHeight();
         this.gestionSauvegardes = new GestionSauvegardes();
+        this.controller = (new GameController(scene));
 
         this.listeText = new ArrayList<>();
         this.listeLigne = new ArrayList<>();
         this.matriceBouton = new ArrayList<>();
-        GestionSauvegardes gestionSauvegardes = new GestionSauvegardes();
-        this.nomPartie = "vierge";
-        Object[] listeData = gestionSauvegardes.chargement(this.nomPartie);
+        this.nomPartie = nomGame;
         this.plateau = (Plateau) listeData[0];
         this.pointsJoueur = (HashMap<Joueur, Integer>) listeData[1];
         this.idJoueurActuel = (int) listeData[2];
@@ -61,7 +68,9 @@ public class Game extends Parent {
         showPlateau();
         showActions();
         showDonneesJoueur();
+        Button backButton = createBackButton();
 
+        getChildren().add(backButton);
         startGame();
     }
 
@@ -71,14 +80,14 @@ public class Game extends Parent {
         boiteDonneesJoueur.getChildren().add(this.donneesJoueur);
         boiteDonneesJoueur.setAlignment(Pos.CENTER);
         boiteDonneesJoueur.setLayoutX(0);
-        boiteDonneesJoueur.setLayoutY(this.height - 100);
-        boiteDonneesJoueur.setStyle("-fx-pref-width: " + this.width * 2 / 3 + "; -fx-pref-height: " + 100 + "; -fx-border-width:1; -fx-border-color:#000000");
+        boiteDonneesJoueur.setLayoutY(this.height - 80);
+        boiteDonneesJoueur.setStyle("-fx-pref-width: " + this.width * 2 / 3 + "; -fx-pref-height: " + 80 + "; -fx-border-width:1; -fx-border-color:#000000");
 
         this.couleur = new Button();
         this.couleur.setLayoutX(0);
-        this.couleur.setLayoutY(0);
+        this.couleur.setLayoutY(this.height - 80);
         this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000");
-        boiteDonneesJoueur.getChildren().add(this.couleur);
+        getChildren().add(this.couleur);
         getChildren().add(boiteDonneesJoueur);
     }
 
@@ -142,16 +151,16 @@ public class Game extends Parent {
 
     private void showPlateau() {
 
-        int sizeW = 30;
-        int sizeH = 30;
+        int sizeW = (this.width*2/3)/14;
+        int sizeH = sizeW;
         int width = sizeW;
         int height = sizeH;
-        int positionX = 0;
+        int positionX = 30;
         int positionY = 0;
         String couleur = "#ffffff";
         for (int y = 0; y < this.plateau.getHeight(); y++) {
             height = sizeH;
-            positionX = 0;
+            positionX = 30;
             ArrayList<Button> ligneButton = new ArrayList<>();
             for (int x = 0; x < this.plateau.getWidth(); x++) {
                 Emplacement emplacement = this.plateau.getEmplacement(x, y);
@@ -160,7 +169,6 @@ public class Game extends Parent {
                 int w = width;
                 int h = height;
                 Button buttonNext = new Button();
-
 
                 switch (valeur) {
                     case "CASEPION":
@@ -397,11 +405,10 @@ public class Game extends Parent {
                 });
             });
         }
-
     }
 
     public boolean finPartie() {
-
+        sauvegarde();
         Joueur joueur = this.liste_joueur.get(this.idJoueurActuel);
         boolean val = false;
         if (this.listeLigneWin[this.idJoueurActuel - 1][0] == 0 ?
@@ -412,6 +419,16 @@ public class Game extends Parent {
             this.pointsJoueur.put(joueur, this.pointsJoueur.get(joueur) + 1);
 
             val = true;
+            for (int i = 0; i < this.matriceBouton.size(); i++) {
+                for (int j = 0; j < this.matriceBouton.get(0).size(); j++) {
+                    if (this.plateau.getEmplacement(j, i).getValeur() == Val.CASEPION) {
+                        changeCouleurBouton(this.matriceBouton.get(i).get(j), "#FFFFFF");
+                        this.matriceBouton.get(i).get(j).setOnAction(null);
+                        this.matriceBouton.get(i).get(j).setOnMouseExited(null);
+                        this.matriceBouton.get(i).get(j).setOnMouseEntered(null);
+                    }
+                }
+            }
         }
 
         this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
@@ -423,5 +440,29 @@ public class Game extends Parent {
 
     private void sauvegarde() {
         gestionSauvegardes.enregistrement(this.nomPartie, this.plateau, this.pointsJoueur, this.idJoueurActuel);
+    }
+
+    public Button createBackButton() {
+        Button backButton = new Button();
+        backButton.setFont(Font.font("Arial", 14));
+
+        // Créer une flèche pointant vers la gauche avec un Polygon
+        Polygon arrow = new Polygon(10, 0, 0, 5, 10, 10);
+        arrow.setStyle("-fx-fill: #000000;"); // Couleur de la flèche
+
+        // Créer une HBox pour contenir la flèche et aligner au centre
+        HBox hbox = new HBox(arrow);
+        hbox.setAlignment(Pos.CENTER);
+
+        // Ajouter la HBox (avec la flèche centrée) comme contenu graphique du bouton
+        backButton.setGraphic(hbox);
+
+        backButton.setOnAction(e -> {
+            //code un retour à la premiere page (home)
+            controller.goToHome();
+        });
+        backButton.setStyle("-fx-cursor: hand");
+
+        return backButton;
     }
 }

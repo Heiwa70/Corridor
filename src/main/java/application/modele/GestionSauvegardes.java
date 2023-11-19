@@ -87,7 +87,7 @@ public class GestionSauvegardes {
 
         Log.info("GestionSauvegardes", "Conversion des données de chaque joueur en String.");
         for (Joueur joueur : pointsJoueur.keySet()) {
-            text.append("\n").append(joueur.toString()).append(" : ").append(pointsJoueur.get(joueur));
+            text.append("\n").append(joueur.toStringAvecCoords()).append(" : ").append(pointsJoueur.get(joueur));
         }
 
         Log.info("GestionSauvegardes", "Initialisation du fichier de sauvegarde.");

@@ -1,5 +1,6 @@
 package application.vue.pages;
 
+import application.controleur.Plateau;
 import application.controleur.vue.NewGameController;
 import application.modele.Joueur;
 import javafx.animation.ScaleTransition;
@@ -236,14 +237,30 @@ public class NewGame extends Parent {
                         for (int i = 0; i < joueurs.size(); i++) {
                             String couleur = couleurs.get(i);
                             String couleurCode = getColorCode(couleur);
-                            listJoueurs.add(new Joueur(i, joueurs.get(i), couleurCode, 10, 0));
+                            listJoueurs.add(new Joueur(i+1, joueurs.get(i), couleurCode, 10, 0));
                         }
 
-                        for (Joueur joueur : listJoueurs) {
-                            System.out.println(joueur.toString());
-                        }
                         this.nomDeLaPartie = title;
-                        System.out.println("Nom de la partie : " + this.nomDeLaPartie);
+                        HashMap<Joueur, Integer> pointsJoueur = new HashMap<>();
+
+                        Plateau plateau = new Plateau(9, 9);
+
+                        Integer[][] emplacementJoueur = new Integer[][]{
+                                {4, 8},
+                                {4, 0},
+                                {8, 4},
+                                {0, 4},
+                        };
+
+                        int position = 0;
+                        int idJoueurActuel = 1;
+                        for (Joueur joueur : listJoueurs) {
+                            joueur.setPion(plateau.getEmplacementCasePion(emplacementJoueur[position][0], emplacementJoueur[position][1]));
+                            pointsJoueur.put(joueur, 0);
+                            position++;
+                        }
+                        Object[] data = new Object[]{plateau, pointsJoueur, idJoueurActuel};
+                        controller.goToGame(this.nomDeLaPartie, data);
 
                     } else {
                         throw new IllegalArgumentException("Le nombre de joueurs et de couleurs doit être identique.");

@@ -16,6 +16,6 @@
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   __PION__   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 
-1 :  :  : 8 : 16 : 10 : 0 : 0
-2 :  :  : 6 : 0 : 10 : 0 : 0
+1 : "A" : #faabbe : 8 : 16 : 10 : 0 : 0
+2 : "B" : #985211 : 6 : 0 : 10 : 0 : 0
 1

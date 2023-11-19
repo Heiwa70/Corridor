@@ -56,7 +56,7 @@ public class Calculs {
         boolean b;
         int xx, yy;
 
-        int[][] vec = this.listeVecteurs[this.idJoueurActuel - 1];
+        int[][] vec = this.listeVecteurs[this.idJoueurActuel-1];
         for (int[] i : vec) {
 
             int vecX = i[0];
