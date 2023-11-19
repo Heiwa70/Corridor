@@ -412,6 +412,7 @@ public class Calculs {
                 Log.info("Calculs", "le meilleur coup est mur : " + c[0] + " " + c[1] + " et " + c[4] + " " + c[5]);
             } else {
                 int[] tab = (int[]) meilleurCoup;
+                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(Objects.requireNonNull(tab)[0], tab[1]));
                 Log.info("Calculs", "le meilleur coup est pion : " + tab[0] + " " + tab[1]);
             }
@@ -451,6 +452,7 @@ public class Calculs {
                 Log.info("Calculs", "le meilleur coup est mur : " + c[0] + " " + c[1] + " et " + c[4] + " " + c[5]);
             } else {
                 int[] tab = (int[]) meilleurCoup;
+                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(tab[0], tab[1]));
                 Log.info("Calculs", "le meilleur coup est pion : " + tab[0] + " " + tab[1]);
             }
