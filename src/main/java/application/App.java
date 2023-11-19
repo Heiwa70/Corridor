@@ -16,11 +16,9 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         Home homeView = new Home(40);
-        NewGame newGame = new NewGame();
         HomeController controller = new HomeController();
         homeView.setController(controller);
         controller.setHomeView(homeView);
-        controller.configure();
 
         Scene scene = new Scene(homeView, height, width);
         scene.getStylesheets().add("file:src/main/java/application/vue/style.css");

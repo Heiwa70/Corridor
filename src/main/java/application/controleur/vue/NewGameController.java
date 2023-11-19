@@ -1,12 +1,31 @@
 package application.controleur.vue;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
+import application.vue.pages.Home;
+import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 
 public class NewGameController extends VBox {
 
-    public NewGameController() {
+    private Scene scene;
 
+    public NewGameController(Scene scene) {
+        this.scene = scene;
+        initializeNewGameView();
     }
+
+    private void initializeNewGameView() {
+        // Ajoutez ici le code pour initialiser la vue NewGame
+    }
+    public void setCustomScene(Scene scene) {
+        this.scene = scene;
+    }
+
+    public void goToHome() {
+        Home home = new Home(40);
+        System.out.println("New game scene =  : "+this.scene);
+        Scene scene = this.scene;
+        scene.setRoot(home);
+    }
+
+
 }

@@ -116,7 +116,6 @@ public class LoadGame  extends Parent {
                             public void handle(ActionEvent event) {
                                 GestionSauvegardes gestionSauvegardes = new GestionSauvegardes();
                                 Object[] listeDonnees = gestionSauvegardes.chargement(nomFichier);
-                                NewGame newGame = new NewGame();
 
                             }
                         });
