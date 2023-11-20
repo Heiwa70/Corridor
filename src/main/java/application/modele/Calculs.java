@@ -264,6 +264,7 @@ public class Calculs {
         }
         for (int i =0;i<4;i++){
             int nombreAleatoire = random.nextInt(n);
+            result.add(L.get(nombreAleatoire));
         }
         return result;
     }
@@ -322,6 +323,7 @@ public class Calculs {
             int y = listeJoueur.get(idJoueur).getY();
             for (int[] coup_pion : coupspion) {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
                 //Log.info("Calculs","relance min_max avec le coup : p"+coup_pion[0]+" "+coup_pion[1]+ " profondeur "+profondeur);
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
                 //Log.info("Calculs","reçu min_max du coup : p"+coup_pion[0]+" "+coup_pion[1]+ " profondeur "+profondeur + " valeur "+valeur);
@@ -338,7 +340,6 @@ public class Calculs {
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
                 //Log.info("Calculs","reçu min_max du coup : m"+c[0]+" "+c[1]+" "+c[2]+" profondeur "+profondeur+" valeur "+valeur);
                 valeurMax = Math.max(valeurMax, valeur);
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
                 listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
 
 
@@ -352,6 +353,7 @@ public class Calculs {
             int y = listeJoueur.get(idJoueur).getY();
             for (int[] coup_pion : coupspion) {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 1);
                 valeurMin = Math.min(valeurMin, valeur);
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
@@ -383,6 +385,7 @@ public class Calculs {
             int y = listeJoueur.get(idJoueur).getY();
             for (int[] coup_pion : coupspion) {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
                 //Log.info("Calculs","valeur:"+valeur);
                 if (valeur >= valeurMax) {
@@ -424,6 +427,7 @@ public class Calculs {
             int y = listeJoueur.get(idJoueur).getY();
             for (int[] coup_pion : coupspion) {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 1);
                 if (valeur < valeurMin) {
                     valeurMin = valeur;
