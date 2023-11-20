@@ -384,13 +384,19 @@ public class Game extends Parent {
         this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:" + joueurActuel.getCouleur());
 
         if (Objects.equals(joueurActuel.getNom(), "IA")) {
-            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 3);
+            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 6);
 
             this.matriceBouton.clear();
             showPlateau();
+<<<<<<< HEAD
             if (!finPartie()) {
                 sauvegarde();
                 startGame();
+=======
+                if (!finPartie()) {
+                    sauvegarde();
+                    startGame();
+>>>>>>> f551e70ee930eee36ad9c219bd89d21a697d7618
 
             }
         } else {

@@ -52,12 +52,8 @@ public class Calculssanstest {
         return invertedMap;
     }
     public void use_min_max(){
-        calculs.use_min_max(this.liste_joueur, 1,5);
-        calculs.use_min_max(this.liste_joueur, 2,3);
-        calculs.use_min_max(this.liste_joueur, 1,5);
-        calculs.use_min_max(this.liste_joueur, 2,3);
-        calculs.use_min_max(this.liste_joueur, 1,5);
-        calculs.use_min_max(this.liste_joueur, 2,5);
+        calculs.use_min_max(this.liste_joueur, 1,6);
+
 
 
         gestionSauvegardes.enregistrement("Partie_bot",plateau, (HashMap<Joueur, Integer>) invertMap(liste_joueur),2);
