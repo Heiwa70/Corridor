@@ -383,15 +383,28 @@ public class Game extends Parent {
         this.donneesJoueur.setText(text);
         this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:" + joueurActuel.getCouleur());
 
-        if(Objects.equals(joueurActuel.getNom(), "IA")){
-            calculs.use_min_max(liste_joueur,joueurActuel.getId(),3);
-            changeCouleurBouton(this.matriceBouton.get(joueurActuel.getY()).get(joueurActuel.getX()), joueurActuel.getCouleur());
+        if (Objects.equals(joueurActuel.getNom(), "IA")) {
+            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 3);
 
-            if(!finPartie()) {
-                sauvegarde();
-                startGame();
+                for (int i = 0; i < this.matriceBouton.size(); i++) {
+                    for (int j = 0; j < this.matriceBouton.get(0).size(); j++) {
+                        if (this.plateau.getEmplacement(j, i).getValeur() == Val.CASEMURS) {
+                            changeCouleurBouton(this.matriceBouton.get(i).get(j), "#FFFFFF");
+                            this.matriceBouton.get(i).get(j).setOnAction(null);
+                            this.matriceBouton.get(i).get(j).setOnMouseExited(null);
+                            this.matriceBouton.get(i).get(j).setOnMouseEntered(null);
+                        }
+                    }
+                }
+                showPlateau();
+                if (!finPartie()) {
+                    sauvegarde();
+                    startGame();
+
             }
         }
+
+
         else {
             // Demande le prochain coup à l'utilisateur.
             List<int[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY(), joueurActuel.getId());
