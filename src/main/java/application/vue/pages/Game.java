@@ -384,19 +384,10 @@ public class Game extends Parent {
         this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:" + joueurActuel.getCouleur());
 
         if (Objects.equals(joueurActuel.getNom(), "IA")) {
-            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 3);
+            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 6);
 
-                for (int i = 0; i < this.matriceBouton.size(); i++) {
-                    for (int j = 0; j < this.matriceBouton.get(0).size(); j++) {
-                        if (this.plateau.getEmplacement(j, i).getValeur() == Val.CASEMURS) {
-                            changeCouleurBouton(this.matriceBouton.get(i).get(j), "#FFFFFF");
-                            this.matriceBouton.get(i).get(j).setOnAction(null);
-                            this.matriceBouton.get(i).get(j).setOnMouseExited(null);
-                            this.matriceBouton.get(i).get(j).setOnMouseEntered(null);
-                        }
-                    }
-                }
-                showPlateau();
+            this.matriceBouton.clear();
+            showPlateau();
                 if (!finPartie()) {
                     sauvegarde();
                     startGame();
