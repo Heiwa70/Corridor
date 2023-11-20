@@ -388,107 +388,101 @@ public class Game extends Parent {
 
             this.matriceBouton.clear();
             showPlateau();
-<<<<<<< HEAD
-            if (!finPartie()) {
-                sauvegarde();
-                startGame();
-=======
                 if (!finPartie()) {
                     sauvegarde();
-                    startGame();
->>>>>>> f551e70ee930eee36ad9c219bd89d21a697d7618
+                    startGame();}
 
-            }
-        } else {
-            // Demande le prochain coup à l'utilisateur.
-            List<int[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY(), joueurActuel.getId());
+            } else {
+                // Demande le prochain coup à l'utilisateur.
+                List<int[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY(), joueurActuel.getId());
 
-            this.calculs.exist_chemin(joueurActuel.getX(), joueurActuel.getX(), this.idJoueurActuel);
+                this.calculs.exist_chemin(joueurActuel.getX(), joueurActuel.getX(), this.idJoueurActuel);
 
-            for (int[] position : listeMouvementsPossibles) {
-                changeCouleurBouton(this.matriceBouton.get(position[1]).get(position[0]), "#AAFFAA");
-                this.matriceBouton.get(position[1]).get(position[0]).setOnAction(event -> {
-                    Platform.runLater(() -> {
-                        writeText(joueurActuel.getNom() + ", pion : " + position[0] + ", " + position[1]);
-                        this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(Val.CASEPION);
+                for (int[] position : listeMouvementsPossibles) {
+                    changeCouleurBouton(this.matriceBouton.get(position[1]).get(position[0]), "#AAFFAA");
+                    this.matriceBouton.get(position[1]).get(position[0]).setOnAction(event -> {
+                        Platform.runLater(() -> {
+                            writeText(joueurActuel.getNom() + ", pion : " + position[0] + ", " + position[1]);
+                            this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(Val.CASEPION);
 
-                        changeCouleurBouton(this.matriceBouton.get(joueurActuel.getY()).get(joueurActuel.getX()), "#FFFFFF");
-                        joueurActuel.setPion(this.plateau.getEmplacement(position[0], position[1]));
+                            changeCouleurBouton(this.matriceBouton.get(joueurActuel.getY()).get(joueurActuel.getX()), "#FFFFFF");
+                            joueurActuel.setPion(this.plateau.getEmplacement(position[0], position[1]));
 
-                        for (int[] post : listeMouvementsPossibles) {
-                            if (post[0] == position[0] && post[1] == position[1]) {
-                                changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), joueurActuel.getCouleur());
-                            } else {
-                                changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), "#FFFFFF");
+                            for (int[] post : listeMouvementsPossibles) {
+                                if (post[0] == position[0] && post[1] == position[1]) {
+                                    changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), joueurActuel.getCouleur());
+                                } else {
+                                    changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), "#FFFFFF");
+                                }
+                                this.matriceBouton.get(post[1]).get(post[0]).setOnAction(null);
                             }
-                            this.matriceBouton.get(post[1]).get(post[0]).setOnAction(null);
-                        }
-                        if (!finPartie()) {
-                            sauvegarde();
-                            startGame();
-                        }
+                            if (!finPartie()) {
+                                sauvegarde();
+                                startGame();
+                            }
+                        });
                     });
-                });
-            }
-        }
-    }
-
-    public boolean finPartie() {
-
-        Joueur joueur = this.liste_joueur.get(this.idJoueurActuel);
-        boolean val = false;
-        if (this.listeLigneWin[this.idJoueurActuel - 1][0] == 0 ?
-                joueur.getX() == this.listeLigneWin[this.idJoueurActuel - 1][1] : joueur.getY() == this.listeLigneWin[this.idJoueurActuel - 1][1]
-        ) {
-            Log.info("FinDePartie", joueur.getNom() + " gagne, x:" + joueur.getX() + " y:" + joueur.getY());
-            System.out.println(joueur.getNom() + " gagne, x:" + joueur.getX() + " y:" + joueur.getY());
-            this.pointsJoueur.put(joueur, this.pointsJoueur.get(joueur) + 1);
-
-            val = true;
-            for (int i = 0; i < this.matriceBouton.size(); i++) {
-                for (int j = 0; j < this.matriceBouton.get(0).size(); j++) {
-                    if (this.plateau.getEmplacement(j, i).getValeur() == Val.CASEMURS) {
-                        changeCouleurBouton(this.matriceBouton.get(i).get(j), "#FFFFFF");
-                        this.matriceBouton.get(i).get(j).setOnAction(null);
-                        this.matriceBouton.get(i).get(j).setOnMouseExited(null);
-                        this.matriceBouton.get(i).get(j).setOnMouseEntered(null);
-                    }
                 }
             }
         }
 
-        this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
-        if (this.idJoueurActuel < 1) {
-            this.idJoueurActuel = 1;
+        public boolean finPartie () {
+
+            Joueur joueur = this.liste_joueur.get(this.idJoueurActuel);
+            boolean val = false;
+            if (this.listeLigneWin[this.idJoueurActuel - 1][0] == 0 ?
+                    joueur.getX() == this.listeLigneWin[this.idJoueurActuel - 1][1] : joueur.getY() == this.listeLigneWin[this.idJoueurActuel - 1][1]
+            ) {
+                Log.info("FinDePartie", joueur.getNom() + " gagne, x:" + joueur.getX() + " y:" + joueur.getY());
+                System.out.println(joueur.getNom() + " gagne, x:" + joueur.getX() + " y:" + joueur.getY());
+                this.pointsJoueur.put(joueur, this.pointsJoueur.get(joueur) + 1);
+
+                val = true;
+                for (int i = 0; i < this.matriceBouton.size(); i++) {
+                    for (int j = 0; j < this.matriceBouton.get(0).size(); j++) {
+                        if (this.plateau.getEmplacement(j, i).getValeur() == Val.CASEMURS) {
+                            changeCouleurBouton(this.matriceBouton.get(i).get(j), "#FFFFFF");
+                            this.matriceBouton.get(i).get(j).setOnAction(null);
+                            this.matriceBouton.get(i).get(j).setOnMouseExited(null);
+                            this.matriceBouton.get(i).get(j).setOnMouseEntered(null);
+                        }
+                    }
+                }
+            }
+
+            this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
+            if (this.idJoueurActuel < 1) {
+                this.idJoueurActuel = 1;
+            }
+            return val;
         }
-        return val;
+
+        private void sauvegarde () {
+            gestionSauvegardes.enregistrement(this.nomPartie, this.plateau, this.pointsJoueur, this.idJoueurActuel);
+        }
+
+        public Button createBackButton () {
+            Button backButton = new Button();
+            backButton.setFont(Font.font("Arial", 14));
+
+            // Créer une flèche pointant vers la gauche avec un Polygon
+            Polygon arrow = new Polygon(10, 0, 0, 5, 10, 10);
+            arrow.setStyle("-fx-fill: #000000;"); // Couleur de la flèche
+
+            // Créer une HBox pour contenir la flèche et aligner au centre
+            HBox hbox = new HBox(arrow);
+            hbox.setAlignment(Pos.CENTER);
+
+            // Ajouter la HBox (avec la flèche centrée) comme contenu graphique du bouton
+            backButton.setGraphic(hbox);
+
+            backButton.setOnAction(e -> {
+                //code un retour à la premiere page (home)
+                controller.goToHome();
+            });
+            backButton.setStyle("-fx-cursor: hand");
+
+            return backButton;
+        }
     }
 
-    private void sauvegarde() {
-        gestionSauvegardes.enregistrement(this.nomPartie, this.plateau, this.pointsJoueur, this.idJoueurActuel);
-    }
-
-    public Button createBackButton() {
-        Button backButton = new Button();
-        backButton.setFont(Font.font("Arial", 14));
-
-        // Créer une flèche pointant vers la gauche avec un Polygon
-        Polygon arrow = new Polygon(10, 0, 0, 5, 10, 10);
-        arrow.setStyle("-fx-fill: #000000;"); // Couleur de la flèche
-
-        // Créer une HBox pour contenir la flèche et aligner au centre
-        HBox hbox = new HBox(arrow);
-        hbox.setAlignment(Pos.CENTER);
-
-        // Ajouter la HBox (avec la flèche centrée) comme contenu graphique du bouton
-        backButton.setGraphic(hbox);
-
-        backButton.setOnAction(e -> {
-            //code un retour à la premiere page (home)
-            controller.goToHome();
-        });
-        backButton.setStyle("-fx-cursor: hand");
-
-        return backButton;
-    }
-}
