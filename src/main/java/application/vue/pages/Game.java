@@ -424,7 +424,7 @@ public class Game extends Parent {
                     });
                 }
             }
-        }
+        }}
 
         public boolean finPartie () {
 
