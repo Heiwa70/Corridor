@@ -4,7 +4,7 @@
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   __MURS__   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   _OCCUPE_   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
-|   CASEPION   ||   CASEMURS   ||   CASEPION   ||   __MURS__   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   __PION__   ||   CASEMURS   ||   __PION__   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
+|   CASEPION   ||   CASEMURS   ||   CASEPION   ||   __MURS__   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   __PION__   ||   CASEMURS   ||   __PION__   |
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
@@ -16,6 +16,6 @@
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 
-2 : Joueur2 : #0000FF : 10 : 6 : 9 : 1 : 6
-1 : Joueur1 : #FF0000 : 12 : 6 : 10 : 0 : 6
+1 : Joueur1 : #FF0000 : 16 : 6 : 10 : 0 : 6
+2 : Joueur2 : #0000FF : 14 : 6 : 9 : 1 : 6
 2
