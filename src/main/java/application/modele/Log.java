@@ -68,12 +68,10 @@ public class Log {
      * @param nomClasse String, nom du fichier.
      * @param message   String, description du log.
      */
-    private static <TimerTask> void send(String type, String nomClasse, String message) {
+    private static void send(String type, String nomClasse, String message) {
 
 
         String pathWritter = chemin + dateFormat.format(LocalDateTime.now()) + "//" + nomClasse + ".log";
-
-
         try {
 
             if(!listeEcriture.containsKey(pathWritter)){
@@ -92,25 +90,8 @@ public class Log {
                 // Ouverture, écriture et fermeture du fichier log.
                 FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
                 listeEcriture.put(pathWritter, fw);
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            // Suspend l'exécution pendant 1 seconde
-                            Thread.sleep(1000);
-                            close(pathWritter);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-                // Démarrage du thread
-                thread.start();
             }
-
             listeEcriture.get(pathWritter).write(chronoFormat.format(LocalDateTime.now()) + " [" + type + "] = " + message + "\n");
-
 
         } catch (IOException e) {
             e.printStackTrace();

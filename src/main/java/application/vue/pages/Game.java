@@ -49,8 +49,8 @@ public class Game extends Parent {
 
     public Game(Scene scene, String nomGame, Object[] listeData) {
 
-        this.width = (int)scene.getWidth();
-        this.height = (int)scene.getHeight();
+        this.width = (int) scene.getWidth();
+        this.height = (int) scene.getHeight();
         this.gestionSauvegardes = new GestionSauvegardes();
         this.controller = (new GameController(scene));
 
@@ -152,7 +152,7 @@ public class Game extends Parent {
 
     private void showPlateau() {
 
-        int sizeW = (this.width*2/3)/14;
+        int sizeW = (this.width * 2 / 3) / 14;
         int sizeH = sizeW;
         int width = sizeW;
         int height = sizeH;
@@ -222,9 +222,9 @@ public class Game extends Parent {
                                     if (finalY - yy != 0) {
                                         centreY = finalY - yy > 1 ? finalY - 1 : finalY + 1;
                                     } else {
-                                        centreY= finalY;
+                                        centreY = finalY;
                                     }
-                                    if (emplacementMurs2 != null && this.plateau.getEmplacement(centreX, centreY).getValeur()!=Val._OCCUPE_) {
+                                    if (emplacementMurs2 != null && this.plateau.getEmplacement(centreX, centreY).getValeur() != Val._OCCUPE_) {
 
                                         if (emplacementMurs1.getValeur() == Val.CASEMURS && emplacementMurs2.getValeur() == Val.CASEMURS) {
                                             emplacementMurs1.setValeur(Val.__MURS__);
@@ -343,7 +343,7 @@ public class Game extends Parent {
                 ligneButton.add(buttonNext);
                 positionX += w;
 
-                getChildren().addAll(buttonNext);
+                getChildren().add(buttonNext);
             }
             this.matriceBouton.add(ligneButton);
             positionY += y % 2 == 1 ? height / 2 : height;
@@ -386,26 +386,14 @@ public class Game extends Parent {
         if (Objects.equals(joueurActuel.getNom(), "IA")) {
             calculs.use_min_max(liste_joueur, joueurActuel.getId(), 3);
 
-                for (int i = 0; i < this.matriceBouton.size(); i++) {
-                    for (int j = 0; j < this.matriceBouton.get(0).size(); j++) {
-                        if (this.plateau.getEmplacement(j, i).getValeur() == Val.CASEMURS) {
-                            changeCouleurBouton(this.matriceBouton.get(i).get(j), "#FFFFFF");
-                            this.matriceBouton.get(i).get(j).setOnAction(null);
-                            this.matriceBouton.get(i).get(j).setOnMouseExited(null);
-                            this.matriceBouton.get(i).get(j).setOnMouseEntered(null);
-                        }
-                    }
-                }
-                showPlateau();
-                if (!finPartie()) {
-                    sauvegarde();
-                    startGame();
+            this.matriceBouton.clear();
+            showPlateau();
+            if (!finPartie()) {
+                sauvegarde();
+                startGame();
 
             }
-        }
-
-
-        else {
+        } else {
             // Demande le prochain coup à l'utilisateur.
             List<int[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY(), joueurActuel.getId());
 

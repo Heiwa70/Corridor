@@ -66,7 +66,7 @@ public class Calculs {
                 continue;
             }
             else if (testCase(x + 2 * vecX, y + 2 * vecY, Val.__PION__)) {
-                if (!testCase(x + 3 * vecX, y + 3 * vecY, Val.__MURS__)) {
+                if (!testCase(x + 3 * vecX, y + 3 * vecY, Val.__MURS__) && testEmplacementSurPlateau(x + 3 * vecX, y + 3 * vecY)) {
                     consitionAjoutPossibilite(possibilites, x + 4 * vecX, y + 4 * vecY);
                 } else {
                     if (vecX == 0) {
