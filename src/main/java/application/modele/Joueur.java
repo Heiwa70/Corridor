@@ -67,9 +67,9 @@ public class Joueur {
         } else {
             this.pion = new Pion(couleur, emplacement);
         }
-        Log.info("Joueur", "Changement de l'emplacement du pion, de '" +
-                getCoordsString() + "', à '" + emplacement.getX() + " : " + emplacement.getY() + "'."
-        );
+//        Log.info("Joueur", "Changement de l'emplacement du pion, de '" +
+//                getCoordsString() + "', à '" + emplacement.getX() + " : " + emplacement.getY() + "'."
+//        );
     }
     public void unsetPion(Emplacement emplacement) {
 
@@ -152,7 +152,7 @@ public class Joueur {
             //Log.info("Joueur","Le joueur "+this.nom+" a posé un mur en "+casegauche.toStringCoords()+" "+casedroite.toStringCoords()+" il lui reste "+this.listeMursNonPoses.size()+" mur(s)");
             return mur;
         }
-        Log.warn("Joueur","Mur non posé car le joueur n'a plus de mur");
+        //Log.warn("Joueur","Mur non posé car le joueur n'a plus de mur");
         return new Murs();
     }
     public boolean undoSetMur(Murs mur, Plateau plateau){

@@ -388,15 +388,9 @@ public class Game extends Parent {
 
             this.matriceBouton.clear();
             showPlateau();
-<<<<<<< HEAD
             if (!finPartie()) {
                 sauvegarde();
                 startGame();
-=======
-                if (!finPartie()) {
-                    sauvegarde();
-                    startGame();
->>>>>>> f551e70ee930eee36ad9c219bd89d21a697d7618
 
             }
         } else {
