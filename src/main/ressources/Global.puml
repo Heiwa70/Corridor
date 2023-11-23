@@ -265,54 +265,54 @@ package application.vue {
         - createGame(): void
         - setController(controller: NewGameController): void
     }
-Game --> Calculs
-Game --> Plateau
-Game --> Joueur
-Game --> LoadGameController
-Game --> HomeController
-Game --> NewGameController
-
-Calculs --> Plateau
-Calculs --> Joueur
-
-Plateau --> Emplacement
-Plateau --> Val
-Plateau --> Murs
-Plateau --> Pion
-
-GestionSauvegardes --> Plateau
-GestionSauvegardes --> Joueur
-
-Joueur --> Emplacement
-Joueur --> Murs
-Joueur --> Pion
-
-Log --> FileWriter
-
-LoadGameController --> Scene
-LoadGameController --> Home
-LoadGameController --> Game
-
-NewGameController --> Scene
-NewGameController --> Home
-NewGameController --> Game
-
-HomeController --> Home
-
-Home --> HomeController
-Home --> Scene
-Home --> LoadGame
-Home --> NewGame
-
-LoadGame --> Scene
-LoadGame --> LoadGameController
-LoadGame --> Plateau
-LoadGame --> Joueur
-
-NewGame --> Scene
-NewGame --> NewGameController
-NewGame --> Plateau
-NewGame --> Joueur
+'Game --> Calculs
+'Game --> Plateau
+'Game --> Joueur
+'Game --> LoadGameController
+'Game --> HomeController
+'Game --> NewGameController
+'
+'Calculs --> Plateau
+'Calculs --> Joueur
+'
+'Plateau --> Emplacement
+'Plateau --> Val
+'Plateau --> Murs
+'Plateau --> Pion
+'
+'GestionSauvegardes --> Plateau
+'GestionSauvegardes --> Joueur
+'
+'Joueur --> Emplacement
+'Joueur --> Murs
+'Joueur --> Pion
+'
+'Log --> FileWriter
+'
+'LoadGameController --> Scene
+'LoadGameController --> Home
+'LoadGameController --> Game
+'
+'NewGameController --> Scene
+'NewGameController --> Home
+'NewGameController --> Game
+'
+'HomeController --> Home
+'
+'Home --> HomeController
+'Home --> Scene
+'Home --> LoadGame
+'Home --> NewGame
+'
+'LoadGame --> Scene
+'LoadGame --> LoadGameController
+'LoadGame --> Plateau
+'LoadGame --> Joueur
+'
+'NewGame --> Scene
+'NewGame --> NewGameController
+'NewGame --> Plateau
+'NewGame --> Joueur
 
 
 @enduml

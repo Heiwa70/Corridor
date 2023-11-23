@@ -1,0 +1,6 @@
+module:application
+application
+application.controleur
+application.controleur.vue
+application.modele
+application.vue.pages
