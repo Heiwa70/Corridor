@@ -432,7 +432,7 @@ public class Game extends Parent {
 
         // Si le joueur est une IA, elle joue et actualise le plateau.
         if (joueurActuel.getNom().contains("IA")) {
-            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 2 + Integer.parseInt(joueurActuel.getNom().split(" ")[1]));
+            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 2 *Integer.parseInt(joueurActuel.getNom().split(" ")[1]));
 
             this.matriceBouton.clear();
             showPlateau();
