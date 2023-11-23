@@ -165,7 +165,7 @@ public class NewGame extends Parent {
     private HBox createPlayersRow() {
         HBox hbox = new HBox(10);
 
-        ObservableList<String> typeJoueurs = FXCollections.observableArrayList("Joueur1", "Joueur2", "Joueur3", "Joueur4", "IA");
+        ObservableList<String> typeJoueurs = FXCollections.observableArrayList("Joueur1", "Joueur2", "Joueur3", "Joueur4", "IA 1","IA 2","IA 3");
         ObservableList<String> couleurs = FXCollections.observableArrayList("Rouge", "Bleu", "Vert", "Jaune", "Violet");
 
         for (int i = 0; i < 4; i++) {
