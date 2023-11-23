@@ -25,13 +25,25 @@ public class Home extends VBox {
     private HomeController controller;
     private Scene scene;
 
-    public Home(double spacing ){
+
+    /**
+     * Constructeur pour créer le menu principal.
+     *
+     * @param spacing double
+     */
+    public Home(double spacing) {
         super(spacing);
         initializeComponents();
     }
+
+    /**
+     * Change la scène.
+     *
+     * @param scene
+     */
     public void setCustomScene(Scene scene) {
         this.scene = scene;
-        System.out.println("setCustomScene : "+scene);
+        System.out.println("setCustomScene : " + scene);
     }
 
     public void setController(HomeController controller) {
@@ -44,6 +56,9 @@ public class Home extends VBox {
         this.controller.SetScene(this.getScene());
     }
 
+    /**
+     * Affecte les boutons du menu à la scène.
+     */
     private void initializeComponents() {
         this.setAlignment(Pos.CENTER);
         setButtonStyle(newGame);
@@ -51,7 +66,7 @@ public class Home extends VBox {
         setButtonStyle(exit);
         setBackButtonStyle(back);
         getChildren().addAll(newGame, loadGame, exit);
-        if(this.controller == null){
+        if (this.controller == null) {
             setController(new HomeController());
         }
 
@@ -75,6 +90,5 @@ public class Home extends VBox {
 
     private void setBackButtonStyle(Button button) {
         //Créer un style pour les boutons mais bon je sais pas encore en faire un beau :/
-
     }
 }

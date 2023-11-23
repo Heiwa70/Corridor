@@ -1,7 +1,9 @@
-package application.controleur.vue;
+/**
+ * Classe GameController écrite par Clément, Maxence et Nicolas.
+ * FISA Informatique UTBM en PR70 2023.
+ */
 
-// On pourra changer les noms ect
-// je prefere juste avoir un controller pour chaque vue
+package application.controleur.vue;
 
 import application.vue.pages.Home;
 import application.vue.pages.LoadGame;

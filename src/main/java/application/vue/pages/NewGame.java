@@ -60,6 +60,11 @@ public class NewGame extends Parent {
         return colorMap.getOrDefault(colorName.toLowerCase(), colorName);
     }
 
+    /**
+     * Affiche la page de création d'une partie.
+     *
+     * @param scene
+     */
     public NewGame(Scene scene) {
         this.scene = scene;
         initializeComponents();
@@ -73,25 +78,27 @@ public class NewGame extends Parent {
         StackPane stackPane = createStackPane();
 
 
-        VBox root = new VBox(backButton,vBox, stackPane);
+        VBox root = new VBox(backButton, vBox, stackPane);
         VBox.setMargin(backButton, new Insets(10, 0, 0, 10));
-        // VBox.setMargin(stackPane, new Insets(50, 0, 0, 0));
-
         getChildren().add(root);
 
         applyGameStyle();
-
-        root.setPrefWidth(1280 / 2);
-
-
-
+        root.setPrefWidth(1280);
     }
 
+    /**
+     * Affiche le texte.
+     */
     private void initializeComponents() {
         nameGame = new TextField();
         labelGame = new Label("Nom de la partie : ");
     }
 
+    /**
+     * Affiche la boîte de joueur avec son nom et sa couleur.
+     *
+     * @return VBox
+     */
     private VBox createVBox() {
         VBox vBox = new VBox();
 
@@ -107,6 +114,11 @@ public class NewGame extends Parent {
         return vBox;
     }
 
+    /**
+     * Affecte le bouton à la stackPane.
+     *
+     * @return StackPane
+     */
     private StackPane createStackPane() {
         StackPane stackPane = new StackPane();
 
@@ -117,6 +129,11 @@ public class NewGame extends Parent {
         return stackPane;
     }
 
+    /**
+     * Ajote le bouton de démarrage du jeu.
+     *
+     * @return Button
+     */
     private Button createCreateButton() {
         Button button = new Button("Créer la partie");
         button.getStyleClass().add("createButton");
@@ -131,6 +148,11 @@ public class NewGame extends Parent {
         return button;
     }
 
+    /**
+     * Le bouton de retour.
+     *
+     * @return Button
+     */
     public Button createBackButton() {
         Button backButton = new Button();
         backButton.setFont(Font.font("Arial", 14));
@@ -155,6 +177,12 @@ public class NewGame extends Parent {
         return backButton;
     }
 
+    /**
+     * Ajoute l'effet de grossissement sur le bouton de création de jeu.
+     *
+     * @param button      Button
+     * @param scaleFactor double
+     */
     private void applyButtonHoverEffect(Button button, double scaleFactor) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), button);
         scaleTransition.setToX(scaleFactor);
@@ -162,10 +190,15 @@ public class NewGame extends Parent {
         scaleTransition.play();
     }
 
+    /**
+     * Ligne où la création de joueur sera affichée.
+     *
+     * @return HBox
+     */
     private HBox createPlayersRow() {
         HBox hbox = new HBox(10);
 
-        ObservableList<String> typeJoueurs = FXCollections.observableArrayList("Joueur1", "Joueur2", "Joueur3", "Joueur4", "IA 1","IA 2","IA 3");
+        ObservableList<String> typeJoueurs = FXCollections.observableArrayList("Joueur1", "Joueur2", "Joueur3", "Joueur4", "IA 1", "IA 2", "IA 3");
         ObservableList<String> couleurs = FXCollections.observableArrayList("Rouge", "Bleu", "Vert", "Jaune", "Violet");
 
         for (int i = 0; i < 4; i++) {
@@ -185,6 +218,12 @@ public class NewGame extends Parent {
         return hbox;
     }
 
+    /**
+     * Liste des choix.
+     *
+     * @param items ObservableList<String>
+     * @return ComboBox<String>
+     */
     private ComboBox<String> createComboBox(ObservableList<String> items) {
         ComboBox<String> comboBox = new ComboBox<>(items);
         comboBox.getStyleClass().add("comboBox");
@@ -192,6 +231,11 @@ public class NewGame extends Parent {
         return comboBox;
     }
 
+    /**
+     * Affichage de l'image du joueur.
+     *
+     * @return StackPane
+     */
     private StackPane createSquare() {
         StackPane square = new StackPane();
         square.setMinSize(80, 80);
@@ -212,11 +256,21 @@ public class NewGame extends Parent {
         return square;
     }
 
+    /**
+     * Change le style.
+     */
     private void applyGameStyle() {
         nameGame.getStyleClass().add("nameGame");
         labelGame.getStyleClass().add("labelGame");
     }
 
+    /**
+     * Modifie les listes déroulantes.
+     *
+     * @param comboBox
+     * @param items
+     * @param globalList
+     */
     private void configureComboBox(ComboBox<String> comboBox, ObservableList<String> items, ArrayList<String> globalList) {
         comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -232,6 +286,9 @@ public class NewGame extends Parent {
         });
     }
 
+    /**
+     * Créait un jeu en fonction des choix de l'utilisateur.
+     */
     private void createGame() {
         try {
             String title = this.nameGame.getText().trim();
@@ -244,7 +301,7 @@ public class NewGame extends Parent {
                         for (int i = 0; i < joueurs.size(); i++) {
                             String couleur = couleurs.get(i);
                             String couleurCode = getColorCode(couleur);
-                            listJoueurs.add(new Joueur(i+1, joueurs.get(i), couleurCode, 10, 0));
+                            listJoueurs.add(new Joueur(i + 1, joueurs.get(i), couleurCode, 10, 0));
                         }
 
                         this.nomDeLaPartie = title;
@@ -287,8 +344,6 @@ public class NewGame extends Parent {
             alert.showAndWait();
         }
     }
-
-
 
     private void setController(NewGameController controller) {
         this.controller = controller;

@@ -37,6 +37,11 @@ public class LoadGame extends Parent {
     private int height;
     private LoadGameController controller;
 
+    /**
+     * Constructeur qui initialise la vue.
+     *
+     * @param scene Scene
+     */
     public LoadGame(Scene scene) {
 
         this.width = (int) scene.getWidth();
@@ -46,6 +51,9 @@ public class LoadGame extends Parent {
         listeSauvegardes();
     }
 
+    /**
+     * Elle permet de charger les sauvegardes et les afficher dans une page javafx.
+     */
     public void listeSauvegardes() {
         String cheminDossier = "src//main//ressources//sauvegardes//";
 
@@ -63,6 +71,9 @@ public class LoadGame extends Parent {
             int pasLigne = pasCol;
             int x = pasCol;
             int y = pasLigne;
+
+            // Il affiche le menu du haut qui permet de quitter la page.
+
             VBox menuHaut = new VBox();
             VBox text = new VBox();
             VBox bouton = new VBox();
@@ -80,6 +91,8 @@ public class LoadGame extends Parent {
             Button backButton = createBackButton();
 
             menuHaut.getChildren().add(backButton);
+
+            // Il affiche le menu du bas qui permet de charger la partie sélectionnée.
 
             VBox menuBas = new VBox();
             text = new VBox();
@@ -102,7 +115,7 @@ public class LoadGame extends Parent {
             bouton.setAlignment(Pos.CENTER_RIGHT);
             menuBas.getChildren().add(bouton);
 
-
+            // Pour chaque sauvegarde, il affiche un rectangle sélectionnable pour charger la partie sélectionné.
             int nbr = 0;
             for (File fichier : fichiers) {
                 if (nbr > 5) {
@@ -122,6 +135,8 @@ public class LoadGame extends Parent {
                 Button button = new Button("Selectionner");
                 Button delete = new Button("X");
                 delete.setStyle("-fx-cursor: HAND;-fx-color-label-visible: white;-fx-pref-width: " + pasCol / 4 + "; -fx-pref-height: " + pasLigne / 4 + "; -fx-background-color: #ff0000; -fx-border-width:1; -fx-border-color:#000000");
+
+                // Change dynamiquement le texte et la fonction du menu bas.
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent event) {
                         nomMenuBas.setText("Nom de la sauvegarde chargé : " + nomFichier);
@@ -134,6 +149,8 @@ public class LoadGame extends Parent {
                         });
                     }
                 });
+
+                // Permet de supprimer une sauvegarde.
                 delete.setOnAction(event -> {
                     // Créer une boîte de dialogue de confirmation
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -188,12 +205,16 @@ public class LoadGame extends Parent {
                 }
             }
 
-
+            // Ajoute les tout à la page.
             getChildren().add(menuHaut);
             getChildren().add(menuBas);
         }
     }
 
+    /**
+     * Gère le bouton de retour vers le menu principal.
+     * @return Button
+     */
     public Button createBackButton() {
         Button backButton = new Button();
         backButton.setFont(Font.font("Arial", 14));

@@ -24,7 +24,7 @@ public class Murs {
     }
 
     /**
-     * Affecte 3 emplacements au murs et change leur l'état.
+     * Affecte 3 emplacements au murs et change l'état des emplacements.
      * @param casegauche Emplacement
      * @param casemilieu Emplacement
      * @param casedroite Emplacement
@@ -41,10 +41,10 @@ public class Murs {
     }
 
     /**
-     * Enlève les 3 emplacements murs et réinitialise leur état.
-     * @param casegauche
-     * @param casemilieu
-     * @param casedroite
+     * Enlève les 3 emplacements murs et réinitialise leur état des emplacements.
+     * @param casegauche Emplacement
+     * @param casemilieu Emplacement
+     * @param casedroite Emplacement
      */
     public void undosetPosition(Emplacement casegauche, Emplacement casemilieu, Emplacement casedroite) {
 
