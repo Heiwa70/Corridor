@@ -2,95 +2,317 @@
 
 package application.controleur {
     class Plateau {
-        - width: int
-        - height: int
-        - VALCASEPION: final int
-        - VALPION: final int
-        - VALCASEMURS: final int
-        - VALMURS: final int
-        - VALVIDE: final int
-        - listeToutesLesCases: ArrayList<ArrayList<Emplacement>>
-
+        - listeToutesLesCases: Emplacement[][]
         + Plateau(width: int, height: int)
-        - initialialisationPlateau(): void
+        + initialialisationPlateau(width: int, height: int): void
         + getEmplacementCasePion(x: int, y: int): Emplacement
+        + getEmplacement(x: int, y: int): Emplacement
         + getTypeEmplacement(x: int, y: int): String
         + getWidth(): int
-        + setWidth(width: int): void
         + getHeight(): int
-        + setHeight(height: int): void
+        + toString(vueValeur: boolean): String
+    }
+
+    class GameController {
+        - scene: Scene
+        + GameController(scene: Scene)
+        + goToLoadGame(): void
+        + goToHome(): void
+    }
+
+    class HomeController {
+        - homeView: Home
+        - scene: Scene
+        + HomeController()
+        + setHomeView(homeView: Home): void
+        + handleNewGameButtonClick(sceneTest: Scene): void
+        + handleLoadGameButtonClick(): void
+        + handleExitButtonClick(): void
+        + SetScene(scene: Scene): void
+    }
+
+    class LoadGameController {
+        - scene: Scene
+        + LoadGameController(scene: Scene)
+        + goToHome(): void
+        + goToGame(nomGame: String, data: Object[]): void
+    }
+
+    class NewGameController {
+        - scene: Scene
+        + NewGameController(scene: Scene)
+        + setCustomScene(scene: Scene): void
+        + goToHome(): void
+        + goToGame(nomGame: String, data: Object[]): void
+        - initializeNewGameView(): void
+    }
+}
+
+class Emplacement {
+    - x: int
+    - y: int
+    - valeur: Val
+}
+
+enum Val {
+    CASEPION
+    __PION__
+    CASEMURS
+    __MURS__
+    __VIDE__
+}
+
+class Log {
+    --> "Plateau"
+}
+
+package application.model {
+    class Calculs {
+        - plateau: Plateau
+        - width: int
+        - height: int
+        - listeFin: int[5]
+        - listeVecteurs: int[][][]
+        - idJoueurActuel: int
+        - coordinates: StringBuilder
+        + Calculs(plateau: Plateau)
+        + getPlateau(): Plateau
+        + setPlateau(plateau: Plateau): void
+        + listeMouvementsPion(x: int, y: int, idJoueur: int): List<int[]>
+        + listeMouvementsPion(x: int, y: int): List<int[]>
+        + testEmplacementSurPlateau(x: int, y: int): boolean
+        + testCase(x: int, y: int, type: Val): boolean
+        + dijkstra(x: int, y: int, idjoueur: int): int
+        + exist_chemin(x: int, y: int, idJoueur: int): boolean
+        + liste_coup_mur(x: int, y: int, listeJoueurs: HashMap<Integer, Joueur>, idJoueur: int): ArrayList<String>
+        + filtreliste_coup_murrandom(L: ArrayList<String>): ArrayList<String>
+        + inverse_id(id: int): int
+        + filtreliste_coup_mur(L: ArrayList<String>, listejoueur: HashMap<Integer, Joueur>, idJoueur: int): ArrayList<String>
+        + euristique(listeJoueur: HashMap<Integer, Joueur>, idJoueur: int): Integer
+        + min_max(profondeur: int, listeJoueur: HashMap<Integer, Joueur>, idJoueur: int): int
+        + use_min_max(listeJoueur: HashMap<Integer, Joueur>, idJoueur: int, profondeur: int): void
+    }
+
+    class Emplacement {
+        - x: int
+        - y: int
+        - valeur: Val
+        + Emplacement(x: int, y: int, valeur: Val)
+        + getX(): int
+        + getY(): int
+        + getValeur(): Val
+        + setValeur(valeur: Val): void
+        + toStringCoords(): String
         + toString(): String
     }
 
-    class Jeu {
-            - plateau: Plateau
-            - listeJoueurs: ArrayList<Joueur>
-            - joueurActuel: int
-            - pointsJoueur: HashMap<Joueur, Integer>
+    class GestionSauvegardes {
+        - path: String
+        - conversionCase: HashMap<String, Val>
+        + GestionSauvegardes()
+        + GestionSauvegardes(chemin: String)
+        - init(): void
+        + testSauvegardeExiste(nomSauvegarde: String): boolean
+        + enregistrement(nom: String, plateau: Plateau, pointsJoueur: HashMap<Joueur, Integer>, idJoueurActuel: int): boolean
+        + chargement(nom: String): Object[]
+    }
 
-            + Jeu(taillePlateauWidth: int, taillePlateauHeight: int, listeJoueur: ArrayList<Joueur>)
-            - initialisation(): void
-            + reinitialisation(): void
-            + listeMouvementsPion(x: int, y: int): void
-            + testCase(x: int, y: int, type: int): boolean
-        }
-
-    package application.model{
-         class Emplacement {
-                - x: int
-                - y: int
-                - valeur: int
-
-                + Emplacement(x: int, y: int, valeur: int)
-                + getX(): int
-                + setX(x: int): void
-                + getY(): int
-                + setY(y: int): void
-                + getValeur(): int
-                + setValeur(valeur: int): void
-                + toString(): String
-            }
- class Joueur {
+    class Joueur {
         - nom: String
         - couleur: String
         - listeMursNonPoses: ArrayList<Murs>
         - listeMursSurPlateau: ArrayList<Murs>
         - pion: Pion
-
-        + Joueur(nom: String, couleur: String, nombreMurs: int)
-        + initialisationListeMurs(nombre: int): void
+        - id: int
+        + Joueur(id: int, nom: String, couleur: String, nombreMurs: int, nombreMursPoses: int)
+        + initialisationListeMurs(nombre: int): ArrayList<Murs>
+        + setPion(emplacement: Emplacement): void
+        + unsetPion(emplacement: Emplacement): void
         + getNom(): String
-        + setNom(nom: String): void
         + getCouleur(): String
-        + setCouleur(couleur: String): void
+        + setId(id: int): void
+        + getId(): int
+        + getCoordsString(): String
+        + getX(): int
+        + getY(): int
+        + toString(): String
+        + toStringAvecCoords(): String
+        + testSetMur(): boolean
+        + setMur(casegauche: Emplacement, casemilieu: Emplacement, casedroite: Emplacement): Murs
+        + undoSetMur(mur: Murs, plateau: Plateau): boolean
+        + getNbrMurs(): int
     }
-      class Murs {
-            - casesPrises: ArrayList<Emplacement>
 
-            + Murs()
-            + setPosition(case1: Emplacement, case2: Emplacement): void
-        }
-  class Pion {
-        - couleur: String
+    class Log {
+        - listeEcriture: HashMap<String, FileWriter>
+        - chemin: String
+        - dateFormat: DateTimeFormatter
+        - chronoFormat: DateTimeFormatter
+        + error(nomClasse: String, message: String): void
+        + warn(nomClasse: String, message: String): void
+        + info(nomClasse: String, message: String): void
+        - send(type: String, nomClasse: String, message: String): void
+        + close(key: String): void
+    }
+
+    class Murs {
+        - casesPrisent: Emplacement[]
+        + getCasesPrisent(): Emplacement[]
+        + setPosition(casegauche: Emplacement, casemilieu: Emplacement, casedroite: Emplacement): void
+        + undosetPosition(casegauche: Emplacement, casemilieu: Emplacement, casedroite: Emplacement): void
+    }
+
+    class Pion {
         - emplacement: Emplacement
-
-        + Pion(couleur: String)
-        + getCouleur(): String
-        + setCouleur(couleur: String): void
+        + Pion(emplacement: Emplacement)
         + getEmplacement(): Emplacement
         + setEmplacement(emplacement: Emplacement): void
+        + unsetEmplacement(): void
     }
+
+    enum Val {
+        CASEPION
+        __PION__
+        CASEMURS
+        __MURS__
+        __VIDE__
     }
-    package application.vue{
-class Home {
-    }
-class Jeu {
 }
-class LoadGame {
-}
-class NewGame {
-}
+
+package application.vue {
+    class Game {
+        - calculs: Calculs
+        - plateau: Plateau
+        - nomPartie: String
+        - liste_joueur: HashMap<Integer, Joueur>
+        - idJoueurActuel: int
+        - matriceBouton: ArrayList<ArrayList<Button>>
+        - donneesJoueur: Label
+        - pointsJoueur: HashMap<Joueur, Integer>
+        - valeur: int
+        - gestionSauvegardes: GestionSauvegardes
+        - listeLigneWin: int[][]
+        - boiteText: VBox
+        - val: boolean
+        - listeText: ArrayList<String>
+        - listeLigne: ArrayList<Label>
+        - couleur: Button
+        - width: int
+        - height: int
+        - coordsMurs2: int[]
+        - coordsCentre: int[]
+        - controller: GameController
+        + Game(scene: Scene, nomGame: String, listeData: Object[])
+        + showDonneesJoueur(): void
+        + showActions(): void
+        + actualiseValeur(delta: int): void
+        + writeText(text: String): void
+        + showPlateau(): void
+        + changeCouleurBouton(bouton: Button, couleur: String): void
+        + startGame(): void
+        + finPartie(): boolean
+        + sauvegarde(): void
+        + createBackButton(): Button
     }
+
+    class Home {
+        - newGame: Button
+        - loadGame: Button
+        - exit: Button
+        - back: Button
+        - controller: HomeController
+        - scene: Scene
+        + Home(spacing: double)
+        + setCustomScene(scene: Scene): void
+        + setController(controller: HomeController): void
+        - initializeComponents(): void
+        + createButton(text: String): Button
+        - setButtonStyle(button: Button): void
+        - setBackButtonStyle(button: Button): void
+    }
+
+    class LoadGame {
+        - width: int
+        - height: int
+        - controller: LoadGameController
+        + LoadGame(scene: Scene)
+        + listeSauvegardes(): void
+        + createBackButton(): Button
+    }
+
+    class NewGame {
+        - controller: NewGameController
+        - nameGame: TextField
+        - labelGame: Label
+        - listJoueurs: ArrayList<Joueur>
+        - joueurs: ArrayList<String>
+        - couleurs: ArrayList<String>
+        - nomDeLaPartie: String
+        - scene: Scene
+        - static final colorMap: Map<String, String>
+        + NewGame(scene: Scene)
+        - initializeComponents(): void
+        - createVBox(): VBox
+        - createStackPane(): StackPane
+        - createCreateButton(): Button
+        + createBackButton(): Button
+        - applyButtonHoverEffect(button: Button, scaleFactor: double): void
+        - createPlayersRow(): HBox
+        - createComboBox(items: ObservableList<String>): ComboBox<String>
+        - createSquare(): StackPane
+        - applyGameStyle(): void
+        - configureComboBox(comboBox: ComboBox<String>, items: ObservableList<String>, globalList: ArrayList<String>): void
+        - createGame(): void
+        - setController(controller: NewGameController): void
+    }
+Game --> Calculs
+Game --> Plateau
+Game --> Joueur
+Game --> LoadGameController
+Game --> HomeController
+Game --> NewGameController
+
+Calculs --> Plateau
+Calculs --> Joueur
+
+Plateau --> Emplacement
+Plateau --> Val
+Plateau --> Murs
+Plateau --> Pion
+
+GestionSauvegardes --> Plateau
+GestionSauvegardes --> Joueur
+
+Joueur --> Emplacement
+Joueur --> Murs
+Joueur --> Pion
+
+Log --> FileWriter
+
+LoadGameController --> Scene
+LoadGameController --> Home
+LoadGameController --> Game
+
+NewGameController --> Scene
+NewGameController --> Home
+NewGameController --> Game
+
+HomeController --> Home
+
+Home --> HomeController
+Home --> Scene
+Home --> LoadGame
+Home --> NewGame
+
+LoadGame --> Scene
+LoadGame --> LoadGameController
+LoadGame --> Plateau
+LoadGame --> Joueur
+
+NewGame --> Scene
+NewGame --> NewGameController
+NewGame --> Plateau
+NewGame --> Joueur
 
 
 @enduml

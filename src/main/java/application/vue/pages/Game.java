@@ -58,6 +58,12 @@ public class Game extends Parent {
 
     private GameController controller;
 
+    /**
+     * Initialise le jeu.
+     * @param scene Scene
+     * @param nomGame String
+     * @param listeData Object[]
+     */
     public Game(Scene scene, String nomGame, Object[] listeData) {
 
         this.width = (int) scene.getWidth();
@@ -86,6 +92,9 @@ public class Game extends Parent {
         startGame();
     }
 
+    /**
+     * Affiche les informations du joueur actuel.
+     */
     private void showDonneesJoueur() {
         VBox boiteDonneesJoueur = new VBox();
         this.donneesJoueur = new Label();
@@ -104,6 +113,9 @@ public class Game extends Parent {
     }
 
 
+    /**
+     * Affiche l'historique des actions des joueurs.
+     */
     private void showActions() {
 
         VBox boiteLabel = new VBox();
@@ -137,6 +149,10 @@ public class Game extends Parent {
         getChildren().addAll(this.boiteText);
     }
 
+    /**
+     * Permet de scroll de haut en bas les historiques des actions.
+     * @param delta int, valeur de la molette de la sourie.
+     */
     private void actualiseValeur(int delta) {
         if (this.valeur + delta < this.listeText.size() - this.listeLigne.size() + 1 && this.valeur + delta >= 0) {
             this.valeur += delta;
@@ -152,15 +168,21 @@ public class Game extends Parent {
             }
             y++;
         }
-
     }
 
+    /**
+     * Ajoute un texte dans l'historique.
+     * @param text String
+     */
     private void writeText(String text) {
         this.listeText.add(text);
         actualiseValeur(1);
 
     }
 
+    /**
+     * Affiche le plateau.
+     */
     private void showPlateau() {
 
         int sizeW = (this.width * 2 / 3) / 14;
@@ -182,6 +204,7 @@ public class Game extends Parent {
                 int h = height;
                 Button buttonNext = new Button();
 
+                // Change la couleur, la taille et les fonctions des cases du plateau.
                 switch (valeur) {
                     case "CASEPION":
                         couleur = "#FFFFFF";
@@ -189,12 +212,15 @@ public class Game extends Parent {
                     case "__PION__":
                         couleur = "#0000ff";
                         break;
+
                     case "CASEMURS":
                         w = x % 2 == 1 ? width / 2 : width;
                         h = y % 2 == 1 ? height / 2 : height;
                         couleur = "#AAAAAA";
                         int finalX = x;
                         int finalY = y;
+
+                        // Change de couleur si le joueur peut pauser un mur.
                         buttonNext.setOnMouseEntered(event -> {
                             Platform.runLater(() -> {
                                 Joueur joueurActuel = this.liste_joueur.get(this.idJoueurActuel);
@@ -235,6 +261,8 @@ public class Game extends Parent {
                                     } else {
                                         centreY = finalY;
                                     }
+
+                                    // Vérifie si les cases occupées par un future mur sont disponibles.
                                     if (emplacementMurs2 != null && this.plateau.getEmplacement(centreX, centreY).getValeur() != Val._OCCUPE_) {
 
                                         if (emplacementMurs1.getValeur() == Val.CASEMURS && emplacementMurs2.getValeur() == Val.CASEMURS) {
@@ -267,6 +295,7 @@ public class Game extends Parent {
                             });
                         });
 
+                        // Efface la couleur si la sourie quitte le bouton.
                         buttonNext.setOnMouseExited(event -> {
                             Platform.runLater(() -> {
                                 Emplacement emplacementMurs1 = this.plateau.getEmplacement(finalX, finalY);
@@ -284,6 +313,7 @@ public class Game extends Parent {
                             });
                         });
 
+                        // Met en place le mur.
                         buttonNext.setOnAction(event -> {
                             Platform.runLater(() -> {
                                 if (!(this.coordsMurs2[0] == 0 && this.coordsMurs2[1] == 0)) {
@@ -348,6 +378,7 @@ public class Game extends Parent {
                     }
                 }
 
+                // Affecte les boutons au plateau.
                 buttonNext.setLayoutX(positionX);
                 buttonNext.setLayoutY(positionY);
                 buttonNext.setStyle("-fx-pref-width: " + w + "; -fx-pref-height: " + h + "; -fx-background-color: " + couleur + "; -fx-border-width:1; -fx-border-color:#000000");
@@ -361,6 +392,11 @@ public class Game extends Parent {
         }
     }
 
+    /**
+     * Change le style du bouton d'entrée.
+     * @param bouton Button
+     * @param couleur String
+     */
     private void changeCouleurBouton(Button bouton, String couleur) {
 
         String styleActuel = bouton.getStyle();
@@ -394,6 +430,7 @@ public class Game extends Parent {
         this.donneesJoueur.setText(text);
         this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:" + joueurActuel.getCouleur());
 
+        // Si le joueur est une IA, elle joue et actualise le plateau.
         if (joueurActuel.getNom().contains("IA")) {
             calculs.use_min_max(liste_joueur, joueurActuel.getId(), 2 + Integer.parseInt(joueurActuel.getNom().split(" ")[1]));
 
@@ -415,6 +452,7 @@ public class Game extends Parent {
 
             this.calculs.exist_chemin(joueurActuel.getX(), joueurActuel.getX(), this.idJoueurActuel);
 
+            // Change les cases pions vide pour montrer à l'utilisateur les coups qu'il peut jouer.
             for (int[] position : listeMouvementsPossibles) {
                 changeCouleurBouton(this.matriceBouton.get(position[1]).get(position[0]), "#AAFFAA");
                 this.matriceBouton.get(position[1]).get(position[0]).setOnAction(event -> {
@@ -443,11 +481,16 @@ public class Game extends Parent {
         }
     }
 
-
+    /**
+     * Vérifie les conditions de fin d'une partie.
+     * @return boolean
+     */
     public boolean finPartie() {
 
         Joueur joueur = this.liste_joueur.get(this.idJoueurActuel);
         boolean val = false;
+
+        // Vérifie les conditions de fin.
         if (this.listeLigneWin[this.idJoueurActuel - 1][0] == 0 ?
                 joueur.getX() == this.listeLigneWin[this.idJoueurActuel - 1][1] : joueur.getY() == this.listeLigneWin[this.idJoueurActuel - 1][1]
         ) {
@@ -455,6 +498,7 @@ public class Game extends Parent {
             System.out.println(joueur.getNom() + " gagne, x:" + joueur.getX() + " y:" + joueur.getY());
             this.pointsJoueur.put(joueur, this.pointsJoueur.get(joueur) + 1);
 
+            // Réinitialise les cases murs.
             val = true;
             for (int i = 0; i < this.matriceBouton.size(); i++) {
                 for (int j = 0; j < this.matriceBouton.get(0).size(); j++) {
@@ -467,7 +511,7 @@ public class Game extends Parent {
                 }
             }
         }
-
+        // Passe au joueur suivant.
         this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
         if (this.idJoueurActuel < 1) {
             this.idJoueurActuel = 1;
@@ -475,10 +519,17 @@ public class Game extends Parent {
         return val;
     }
 
+    /**
+     * Enregistre la partie actuelle.
+     */
     private void sauvegarde() {
         gestionSauvegardes.enregistrement(this.nomPartie, this.plateau, this.pointsJoueur, this.idJoueurActuel);
     }
 
+    /**
+     * Gère le bouton de retour vers le menu principal.
+     * @return Button
+     */
     public Button createBackButton() {
         Button backButton = new Button();
         backButton.setFont(Font.font("Arial", 14));
