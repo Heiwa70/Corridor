@@ -383,8 +383,8 @@ public class Game extends Parent {
         this.donneesJoueur.setText(text);
         this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:" + joueurActuel.getCouleur());
 
-        if (Objects.equals(joueurActuel.getNom(), "IA")) {
-            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 4);
+        if (joueurActuel.getNom().contains("IA")) {
+            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 2+Integer.parseInt(joueurActuel.getNom().split(" ")[1]));
 
             this.matriceBouton.clear();
             showPlateau();
