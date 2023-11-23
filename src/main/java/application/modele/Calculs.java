@@ -506,7 +506,7 @@ public class Calculs {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
             }
             //coups murs
-            List<String> coups = liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur);
+            List<String> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
             for (String coup : coups) {
                 String[] c = coup.split(";");
                 Murs mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
@@ -547,7 +547,7 @@ public class Calculs {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
             }
             //coups murs
-            List<String> coups = liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur);
+            List<String> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
             for (String coup : coups) {
                 String[] c = coup.split(";");
                 Murs mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
