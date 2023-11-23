@@ -10,6 +10,7 @@ import application.controleur.Plateau;
 import application.controleur.vue.GameController;
 import application.controleur.vue.LoadGameController;
 import application.modele.*;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -21,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -393,14 +395,19 @@ public class Game extends Parent {
         this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:" + joueurActuel.getCouleur());
 
         if (joueurActuel.getNom().contains("IA")) {
-            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 2+Integer.parseInt(joueurActuel.getNom().split(" ")[1]));
+            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 2 + Integer.parseInt(joueurActuel.getNom().split(" ")[1]));
 
             this.matriceBouton.clear();
             showPlateau();
-            if (!finPartie()) {
-                sauvegarde();
-                startGame();
-            }
+            PauseTransition pause = new PauseTransition(Duration.millis(100));
+            pause.setOnFinished(event -> {
+                if (!finPartie()) {
+                    sauvegarde();
+                    startGame();
+                }
+            });
+            pause.play();
+
 
         } else {
             // Demande le prochain coup à l'utilisateur.
@@ -435,6 +442,7 @@ public class Game extends Parent {
             }
         }
     }
+
 
     public boolean finPartie() {
 
