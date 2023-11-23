@@ -107,7 +107,11 @@ public class Calculs {
             } else {
                 xx = x + 2 * vecX;
                 yy = y + 2 * vecY;
-                b = testEmplacementSurPlateau(xx, yy) ? (testCase(xx, yy, Val.CASEPION) ? possibilites.add(new int[]{xx, yy}) : false) : false;
+                if (testEmplacementSurPlateau(xx, yy)) {
+                    if (testCase(xx, yy, Val.CASEPION)) {
+                        possibilites.add(new int[]{xx, yy});
+                    }
+                }
 
             }
         }
