@@ -1,3 +1,8 @@
+/**
+ * Classe Home écrite par Clément, Maxence et Nicolas.
+ * FISA Informatique UTBM en PR70 2023.
+ */
+
 package application.vue.pages;
 
 import javafx.geometry.Pos;
@@ -7,8 +12,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import application.controleur.vue.HomeController;
 
+/**
+ * La classe Game regroupe l'ensemble du code pour le menu du jeu.
+ */
+
 public class Home extends VBox {
-//pour test
 
     private Button newGame = createButton("Nouvelle partie");
     private Button loadGame = createButton("Partie sauvegardée");

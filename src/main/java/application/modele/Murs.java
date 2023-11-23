@@ -6,7 +6,7 @@
 package application.modele;
 
 /**
- * La classe Murs permet de gérerl'emplacement des murs sur le plateau.
+ * La classe Murs permet de gérer l'emplacement des murs sur le plateau.
  */
 public class Murs {
     private Emplacement[] casesPrisent;
@@ -17,34 +17,39 @@ public class Murs {
 
     /**
      * Constructeur de la classe Murs.
+     * Il initialise sa liste d'emplacement où il sera posé.
      */
     public Murs() {
-        //Log.info("Murs", "Création du murs : " + this.toString() + ".");
         this.casesPrisent = new Emplacement[3];
     }
 
-    public void setPosition(Emplacement casegauche, Emplacement casemilieu,Emplacement casedroite) {
-//        Log.info("Murs",
-//                "Affectation du murs '" + this.toString() + "', aux emplacements (" +
-//                        casegauche.toStringCoords() + ", " + casedroite.toStringCoords() + ")."
-//        );
+    /**
+     * Affecte 3 emplacements au murs et change leur l'état.
+     * @param casegauche Emplacement
+     * @param casemilieu Emplacement
+     * @param casedroite Emplacement
+     */
+    public void setPosition(Emplacement casegauche, Emplacement casemilieu, Emplacement casedroite) {
+
         this.casesPrisent[0] = casegauche;
         casegauche.setValeur(Val.__MURS__);
-        this.casesPrisent[1]=casemilieu;
+        this.casesPrisent[1] = casemilieu;
         casemilieu.setValeur(Val._OCCUPE_);
         this.casesPrisent[2] = casedroite;
         casedroite.setValeur(Val.__MURS__);
 
     }
-    public void undosetPosition(Emplacement casegauche, Emplacement casemilieu,Emplacement casedroite) {
-//        Log.info("Murs",
-//                "retire le mur " + this.toString() + "', aux emplacements (" +
-//                        casegauche.toStringCoords() + ", " + casedroite.toStringCoords() + ")."
-//        );
+
+    /**
+     * Enlève les 3 emplacements murs et réinitialise leur état.
+     * @param casegauche
+     * @param casemilieu
+     * @param casedroite
+     */
+    public void undosetPosition(Emplacement casegauche, Emplacement casemilieu, Emplacement casedroite) {
+
         casegauche.setValeur(Val.CASEMURS);
         casemilieu.setValeur(Val.__VIDE__);
         casedroite.setValeur(Val.CASEMURS);
-
     }
-
 }

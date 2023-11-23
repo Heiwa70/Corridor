@@ -67,14 +67,14 @@ public class Joueur {
         } else {
             this.pion = new Pion(couleur, emplacement);
         }
-//        Log.info("Joueur", "Changement de l'emplacement du pion, de '" +
-//                getCoordsString() + "', à '" + emplacement.getX() + " : " + emplacement.getY() + "'."
-//        );
     }
+
+    /**
+     * Réinitialise l'état de l'emplacement.
+     * @param emplacement Emplacement, emplacement du pion.
+     */
     public void unsetPion(Emplacement emplacement) {
-
         emplacement.setValeur(Val.CASEPION);
-
     }
 
     public String getNom() {
@@ -127,11 +127,14 @@ public class Joueur {
         return this.id + " : " +
                 this.nom + " : " +
                 this.couleur + " : " +
-                //getCoordsString() + " : " +
                 this.listeMursNonPoses.size() + " : " +
                 this.listeMursSurPlateau.size();
     }
 
+    /**
+     * Même fonction que toString mais rajoute les coordonnées du pion.
+     * @return String
+     */
     public String toStringAvecCoords() {
         return this.id + " : " +
                 this.nom + " : " +
@@ -140,30 +143,47 @@ public class Joueur {
                 this.listeMursNonPoses.size() + " : " +
                 this.listeMursSurPlateau.size();
     }
-    public  boolean testSetMur(){
+
+    /**
+     * Vérifie si le joueur à encore des murs en réserve.
+     * @return Boolean
+     */
+    public boolean testSetMur() {
         return !listeMursNonPoses.isEmpty();
     }
-    public Murs setMur(Emplacement casegauche,Emplacement casemilieu,Emplacement casedroite){
+
+    /**
+     * Affecte des emplacements à un mur et le déplace de la liste des murs disponibles à la liste de ceux posés.
+     * @param casegauche Emplacement
+     * @param casemilieu Emplacement
+     * @param casedroite Emplacement
+     * @return Murs
+     */
+    public Murs setMur(Emplacement casegauche, Emplacement casemilieu, Emplacement casedroite) {
         if (testSetMur()) {
             Murs mur = listeMursNonPoses.get(0);
             listeMursNonPoses.remove(0);
-            mur.setPosition(casegauche,casemilieu,casedroite);
+            mur.setPosition(casegauche, casemilieu, casedroite);
             listeMursSurPlateau.add(mur);
-            //Log.info("Joueur","Le joueur "+this.nom+" a posé un mur en "+casegauche.toStringCoords()+" "+casedroite.toStringCoords()+" il lui reste "+this.listeMursNonPoses.size()+" mur(s)");
             return mur;
         }
-        //Log.warn("Joueur","Mur non posé car le joueur n'a plus de mur");
         return new Murs();
     }
-    public boolean undoSetMur(Murs mur, Plateau plateau){
+
+    /**
+     * Reprend le mur posé et modifie l'état des emplacements où il était posé.
+     * @param mur Murs
+     * @param plateau Plateau
+     * @return Boolean
+     */
+    public boolean undoSetMur(Murs mur, Plateau plateau) {
         listeMursSurPlateau.remove(mur);
         listeMursNonPoses.add(new Murs());
-        mur.undosetPosition(plateau.getEmplacement(mur.getCasesPrisent()[0].getX(),mur.getCasesPrisent()[0].getY()),plateau.getEmplacement(mur.getCasesPrisent()[1].getX(),mur.getCasesPrisent()[1].getY()),plateau.getEmplacement(mur.getCasesPrisent()[2].getX(),mur.getCasesPrisent()[2].getY()));
-        //Log.info("Joueur","Le joueur "+this.nom+" a retiré un mur ");
+        mur.undosetPosition(plateau.getEmplacement(mur.getCasesPrisent()[0].getX(), mur.getCasesPrisent()[0].getY()), plateau.getEmplacement(mur.getCasesPrisent()[1].getX(), mur.getCasesPrisent()[1].getY()), plateau.getEmplacement(mur.getCasesPrisent()[2].getX(), mur.getCasesPrisent()[2].getY()));
         return true;
     }
 
-    public int getNbrMurs(){
+    public int getNbrMurs() {
         return this.listeMursNonPoses.size();
     }
 

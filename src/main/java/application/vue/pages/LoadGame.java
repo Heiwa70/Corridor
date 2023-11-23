@@ -1,11 +1,12 @@
+/**
+ * Classe LoadGame écrite par Clément, Maxence et Nicolas.
+ * FISA Informatique UTBM en PR70 2023.
+ */
+
 package application.vue.pages;
 
-import application.controleur.Plateau;
 import application.controleur.vue.LoadGameController;
-import application.controleur.vue.NewGameController;
-import application.modele.Emplacement;
 import application.modele.GestionSauvegardes;
-import application.modele.Val;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -15,19 +16,20 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
-import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+
+/**
+ * La classe LoadGame regroupe l'ensemble du code pour l'affichage des sauvegardes du jeu.
+ */
 
 public class LoadGame extends Parent {
 
@@ -37,8 +39,8 @@ public class LoadGame extends Parent {
 
     public LoadGame(Scene scene) {
 
-        this.width = (int)scene.getWidth();
-        this.height = (int)scene.getHeight();
+        this.width = (int) scene.getWidth();
+        this.height = (int) scene.getHeight();
 
         this.controller = (new LoadGameController(scene));
         listeSauvegardes();
@@ -103,7 +105,7 @@ public class LoadGame extends Parent {
 
             int nbr = 0;
             for (File fichier : fichiers) {
-                if(nbr>5){
+                if (nbr > 5) {
                     continue;
                 }
                 nbr++;
@@ -119,7 +121,7 @@ public class LoadGame extends Parent {
                 vBox.setStyle("-fx-pref-width: " + pasCol + "; -fx-pref-height: " + pasLigne + "; -fx-background-color: " + couleur + "; -fx-border-width:1; -fx-border-color:#000000");
                 Button button = new Button("Selectionner");
                 Button delete = new Button("X");
-                delete.setStyle("-fx-cursor: HAND;-fx-color-label-visible: white;-fx-pref-width: " + pasCol/4 + "; -fx-pref-height: " + pasLigne/4 + "; -fx-background-color: #ff0000; -fx-border-width:1; -fx-border-color:#000000");
+                delete.setStyle("-fx-cursor: HAND;-fx-color-label-visible: white;-fx-pref-width: " + pasCol / 4 + "; -fx-pref-height: " + pasLigne / 4 + "; -fx-background-color: #ff0000; -fx-border-width:1; -fx-border-color:#000000");
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent event) {
                         nomMenuBas.setText("Nom de la sauvegarde chargé : " + nomFichier);
@@ -169,15 +171,14 @@ public class LoadGame extends Parent {
                 });
 
 
-
                 button.setStyle(
-                        "-fx-pref-width: " + pasCol + "; -fx-pref-height: " + pasLigne/4 +
+                        "-fx-pref-width: " + pasCol + "; -fx-pref-height: " + pasLigne / 4 +
                                 "; -fx-background-color: " + couleur +
                                 "; -fx-border-width:1; -fx-border-color:#000000"
                 );
                 vBox.getChildren().addAll(new Region(), button, delete);
                 VBox.setVgrow(vBox.getChildren().get(0), Priority.ALWAYS);
-                VBox.setMargin(button, new Insets(pasLigne *3/ 4-2, 0, 0, 0));
+                VBox.setMargin(button, new Insets(pasLigne * 3 / 4 - 2, 0, 0, 0));
                 getChildren().add(vBox);
 
                 x += pasCol * 2;
@@ -186,7 +187,6 @@ public class LoadGame extends Parent {
                     y += pasLigne * 3 / 2;
                 }
             }
-
 
 
             getChildren().add(menuHaut);

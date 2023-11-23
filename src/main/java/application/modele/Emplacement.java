@@ -21,13 +21,6 @@ public class Emplacement {
      * @param valeur Val, Valeur d'une énumération.
      */
     public Emplacement(int x, int y, Val valeur) {
-        /*
-        Log.info(
-                "Emplacement",
-                "Création de l'emplacement de coodonnées X = "+x+", Y = "+y+" et de valeur : "+valeur+"."
-        );
-        */
-
         setX(x);
         setY(y);
         setValeur(valeur);
@@ -54,17 +47,14 @@ public class Emplacement {
     }
 
     public void setValeur(Val valeur) {
-//        Log.info(
-//                "Emplacement",
-//                "Valeur de l'emplacement X = " + getX() + ", Y = " + getY() + " : " + getValeur() + " -> " + valeur + "."
-//        );
         this.valeur = valeur;
     }
 
     public String toStringCoords() {
         return getX() + " : " + getY() + " : " + getValeur();
     }
+
     public String toString() {
-        return ""+getValeur();
+        return "" + getValeur();
     }
 }

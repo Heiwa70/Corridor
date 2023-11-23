@@ -71,26 +71,29 @@ public class Log {
     private static void send(String type, String nomClasse, String message) {
 
 
+        // Création du chemin où le fichier log sera sauvegardé.
         String pathWritter = chemin + dateFormat.format(LocalDateTime.now()) + "//" + nomClasse + ".log";
         try {
-
+            // Créer le fichier de log et conserve en mémoire son instance pour éviter de le réouvrir à chaque écriture de logs..
             if(!listeEcriture.containsKey(pathWritter)){
+                // Ferme le fichier de log sauvegardé si on veux écrire dans un autre.
                 if(listeEcriture.size()>0){
                     for(String key : listeEcriture.keySet())
                     close(key);
                 }
+                // Création des dossiers pour les logs (dossier logs et dossier avec la date actuelle).
                 new File(chemin).mkdir();
-                String filePath = chemin + dateFormat.format(LocalDateTime.now());
-                new File(filePath).mkdir();
+                new File(chemin + dateFormat.format(LocalDateTime.now())).mkdir();
 
-                File file = new File(filePath + "//" + nomClasse + ".log");
+                // Création du fichier.
+                File file = new File(pathWritter);
                 if (!file.exists()) {
                     file.createNewFile();
                 }
-                // Ouverture, écriture et fermeture du fichier log.
                 FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
                 listeEcriture.put(pathWritter, fw);
             }
+            // Ecriture des logs.
             listeEcriture.get(pathWritter).write(chronoFormat.format(LocalDateTime.now()) + " [" + type + "] = " + message + "\n");
 
         } catch (IOException e) {
@@ -98,6 +101,10 @@ public class Log {
         }
     }
 
+    /**
+     * Ferme le fichier de log.
+     * @param key String, nom du fichier en mémoire.
+     */
     public static void close(String key){
         try {
             listeEcriture.get(key).close();

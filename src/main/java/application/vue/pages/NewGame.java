@@ -1,3 +1,8 @@
+/**
+ * Classe NewGame écrite par Clément, Maxence et Nicolas.
+ * FISA Informatique UTBM en PR70 2023.
+ */
+
 package application.vue.pages;
 
 import application.controleur.Plateau;
@@ -27,7 +32,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * La classe NewGame regroupe l'ensemble du code pour la création d'une partie du jeu.
+ */
 public class NewGame extends Parent {
 
     private NewGameController controller;

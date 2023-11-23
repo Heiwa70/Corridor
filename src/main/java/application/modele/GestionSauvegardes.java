@@ -35,11 +35,19 @@ public class GestionSauvegardes {
         init();
     }
 
+    /**
+     * Permet, par surcharge, de changer le chemin par défaut.
+     *
+     * @param chemin String, chemin des sauvegardes.
+     */
     public GestionSauvegardes(String chemin) {
         this.path = chemin;
         init();
     }
 
+    /**
+     * Initialise la convertion des valeurs possible pour les emplacements d'un String vers l'énumération utilisée.
+     */
     private void init() {
         Log.info("GestionSauvegardes", "Instanciation du gestionnaire de sauvegarde.");
 
@@ -59,7 +67,7 @@ public class GestionSauvegardes {
      * @return Boolean, Résultat du test.
      */
     public boolean testSauvegardeExiste(String nomSauvegarde) {
-        Log.info("GestionSauvegardes", "Vérification de l'éxistance de la sauvegarde '"+nomSauvegarde+"'.");
+        Log.info("GestionSauvegardes", "Vérification de l'éxistance de la sauvegarde '" + nomSauvegarde + "'.");
         File file = new File(path + "//" + nomSauvegarde + ".save");
         if (file.exists()) {
             Log.info("GestionSauvegardes", "Cette sauvegarde existe.");
@@ -73,15 +81,15 @@ public class GestionSauvegardes {
     /**
      * La fonction enregistrement converti toutes les données nécessaires au jeu en String puis les enregistre dans un fichier.
      *
-     * @param nom String, Nom de la partie.
-     * @param plateau Plateau, Plateau de la partie.
-     * @param pointsJoueur HashMap<Joueur, int> Dictionnaire des points de chaques joueurs.
+     * @param nom            String, Nom de la partie.
+     * @param plateau        Plateau, Plateau de la partie.
+     * @param pointsJoueur   HashMap<Joueur, int> Dictionnaire des points de chaques joueurs.
      * @param idJoueurActuel int, Id du joueur qui jouera au tour prochain.
      * @return boolean, Si l'enregistrement c'est bien effectué.
      */
     public boolean enregistrement(String nom, Plateau plateau, HashMap<Joueur, Integer> pointsJoueur, int idJoueurActuel) {
 
-        Log.info("GestionSauvegardes", "Début de l'enregistrement de la partie '"+nom+"'.");
+        Log.info("GestionSauvegardes", "Début de l'enregistrement de la partie '" + nom + "'.");
         Log.info("GestionSauvegardes", "Convertion du plateau en String.");
         StringBuilder text = new StringBuilder(plateau.toString(true));
 
@@ -127,7 +135,7 @@ public class GestionSauvegardes {
      */
     public Object[] chargement(String nom) {
 
-        Log.info("GestionSauvegardes", "Chargement de la sauvegarde '"+nom+"'.");
+        Log.info("GestionSauvegardes", "Chargement de la sauvegarde '" + nom + "'.");
 
         HashMap<Joueur, Integer> pointsJoueur = new HashMap<>();
         Plateau plateau;
@@ -146,7 +154,6 @@ public class GestionSauvegardes {
             Log.info("GestionSauvegardes", "Lecture du plateau.");
             for (String ligne : text) {
 
-                //
                 if (ligne.equals("")) {
                     Log.info("GestionSauvegardes", "Lecture des joueurs.");
                     modeLectureJoueurs = true;
@@ -165,7 +172,7 @@ public class GestionSauvegardes {
                     // Affectation de ses points.
                     pointsJoueur.put(joueur, Integer.parseInt(donnees[4]));
                     // Garde en mémoire les coordonnées de son pion pour lui affecter un emplacement.
-                    coordsPionsEtJoueur.put(joueur,new Integer[]{Integer.parseInt(donnees[3]), Integer.parseInt(donnees[4])});
+                    coordsPionsEtJoueur.put(joueur, new Integer[]{Integer.parseInt(donnees[3]), Integer.parseInt(donnees[4])});
                 } else {
 
                     // Suppression des données superflux du plateau.

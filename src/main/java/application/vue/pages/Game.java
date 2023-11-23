@@ -1,3 +1,8 @@
+/**
+ * Classe Game écrite par Clément, Maxence et Nicolas.
+ * FISA Informatique UTBM en PR70 2023.
+ */
+
 package application.vue.pages;
 
 
@@ -21,6 +26,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+/**
+ * La classe Game regroupe l'ensemble du code pour le visuel du jeu.
+ */
 
 public class Game extends Parent {
 
