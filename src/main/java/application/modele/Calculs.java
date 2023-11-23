@@ -166,7 +166,13 @@ public class Calculs {
         }
         return false;
     }
-
+    /**
+     * calcul le plus court chemin entre un joueur et une de ses cases gagnantes (retourne -1 s'il n'existe pas de chemin)
+     * @param x int
+     * @param y int
+     * @param idjoueur int
+     * @return int
+     */
     public int dijkstra(int x, int y, int idjoueur) {
         //Log.info("Calculs", "Recherche distance chemin joueur : " + idjoueur + " , x = " + x + ", y = " + y);
         int x_courant = 0;
@@ -205,7 +211,13 @@ public class Calculs {
         return -1;
     }
 
-
+    /**
+     * retourne l'existence d'un chemin entre un joueur et l'une de ses cases d'arrivées
+     * @param x int
+     * @param y int
+     * @param noeuds_vus HashSet<String>
+     * @return boolean
+     */
     private boolean exist_recursif(int x, int y, HashSet<String> noeuds_vus) {
         if ((this.idJoueurActuel < 3 ? y == this.listeFin[this.idJoueurActuel] : x == this.listeFin[this.idJoueurActuel])) {
             return true;
@@ -230,7 +242,13 @@ public class Calculs {
         return false;
     }
 
-
+    /**
+     * retourne l'existence d'un chemin entre un joueur et l'une de ses cases d'arrivées
+     * @param x int
+     * @param y int
+     * @param idJoueur int
+     * @return boolean
+     */
     public boolean exist_chemin(int x, int y, int idJoueur) {
         //parcours en profondeur
         this.idJoueurActuel = idJoueur;
@@ -242,7 +260,14 @@ public class Calculs {
 //        //Log.info("Calculs", "Chemin introuvable.");
         return false;
     }
-
+    /**
+     * retourne la liste de tout les coups légaux de mur d'un joueur
+     * @param x int
+     * @param y int
+     * @param listeJoueurs HashMap<Integer,Joueur>
+     * @param idJoueur int
+     * @return ArrayList<String>
+     */
     public ArrayList<String> liste_coup_mur(int x, int y, HashMap<Integer, Joueur> listeJoueurs, int idJoueur) {
         //Log.info("Calculs", "Debut generation mur");
         ArrayList<String> possibilite = new ArrayList<>();
@@ -297,7 +322,11 @@ public class Calculs {
         //Log.info("Calculs", "Fin generation mur");
         return possibilite;
     }
-
+    /**
+     * retourne un nombre de mur de manière aléatoire
+     * @param L ArrayList<String>
+     * @return ArrayList<String>
+     */
     public ArrayList<String> filtreliste_coup_murrandom(ArrayList<String> L) {
         ArrayList<String> result = new ArrayList<>();
         Random random = new Random();
@@ -311,11 +340,22 @@ public class Calculs {
         }
         return result;
     }
-
+    /**
+     * retourne un nombre de mur de manière aléatoire
+     * @param id int
+     * @return int
+     */
     public int inverse_id(int id) {
         return 3 - id;
     }
 
+    /**
+     * retourne le coup de mur maximisant le chemin de l'adversaire moins le sien
+     * @param L ArrayList<String>
+     * @param listejoueur HashMap<Integer, Joueur>
+     * @param idJoueur int
+     * @return ArrayList<String>
+     */
     public ArrayList<String> filtreliste_coup_mur(ArrayList<String> L, HashMap<Integer, Joueur> listejoueur, int idJoueur) {
         int n = L.size();
         ArrayList<String> res = new ArrayList<String>();
@@ -327,8 +367,8 @@ public class Calculs {
         for (int i = 0; i < n; i++) {
             String[] c = L.get(i).split(";");
             Murs mur = listejoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
-            int a = this.dijkstra(listejoueur.get(idJoueur).getX(), listejoueur.get(idJoueur).getY(), inverse_id(idJoueur));
-            int b = this.dijkstra(listejoueur.get(inverse_id(idJoueur)).getX(), listejoueur.get(inverse_id(idJoueur)).getY(), idJoueur);
+            int a = this.dijkstra(listejoueur.get(inverse_id(idJoueur)).getX(), listejoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur));
+            int b = this.dijkstra(listejoueur.get(idJoueur).getX(), listejoueur.get(idJoueur).getY(), idJoueur);
             if (distance < a - b) {
                 distance = a - b;
                 indice = i;
@@ -341,10 +381,28 @@ public class Calculs {
         return res;
     }
 
+    /**
+     * retourne le coup de mur maximisant le chemin de l'adversaire moins le sien
+     * @param listeJoueur HashMap<Integer, Joueur>
+     * @param idJoueur int
+     * @return Integer
+     */
     public Integer euristique(HashMap<Integer, Joueur> listeJoueur, int idJoueur) {
-        return dijkstra(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur) - dijkstra(listeJoueur.get(inverse_id(idJoueur)).getX(), listeJoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur));
+        if (idJoueur == 2) {
+            return dijkstra(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur) - dijkstra(listeJoueur.get(inverse_id(idJoueur)).getX(), listeJoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur));
+        }
+        else {
+            return dijkstra(listeJoueur.get(inverse_id(idJoueur)).getX(), listeJoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur))-dijkstra(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
+        }
     }
 
+    /**
+     * retourne un entier représentant la qualité d'un coup
+     * @param listeJoueur HashMap<Integer, Joueur>
+     * @param idJoueur int
+     * @param profondeur int
+     * @return Integer
+     */
     public int min_max(int profondeur, HashMap<Integer, Joueur> listeJoueur, int idJoueur) {
         if ((listeJoueur.get(idJoueur).getId() == 1 && listeJoueur.get(idJoueur).getY() == 0)) {
             //Log.info("Calculs","p:"+profondeur+" max");
@@ -417,6 +475,12 @@ public class Calculs {
         }
     }
 
+    /**
+     * joue le meilleur coup pour le joueur donné en indice en utilisant min_max
+     * @param listeJoueur HashMap<Integer, Joueur>
+     * @param idJoueur int
+     * @param profondeur int
+     */
     public void use_min_max(HashMap<Integer, Joueur> listeJoueur, int idJoueur, int profondeur) {
 
 //        int profondeur = 1;
