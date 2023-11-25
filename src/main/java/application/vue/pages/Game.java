@@ -24,6 +24,9 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -441,6 +444,8 @@ public class Game extends Parent {
                 if (!finPartie()) {
                     sauvegarde();
                     startGame();
+                }else{
+                    pageFinPartie();
                 }
             });
             pause.play();
@@ -474,6 +479,8 @@ public class Game extends Parent {
                         if (!finPartie()) {
                             sauvegarde();
                             startGame();
+                        }else{
+                            pageFinPartie();
                         }
                     });
                 });
@@ -517,6 +524,43 @@ public class Game extends Parent {
             this.idJoueurActuel = 1;
         }
         return val;
+    }
+
+    /**
+     * Affiche la page de fin de partie.
+     */
+    private void pageFinPartie(){
+        VBox page = new VBox();
+        Label text = new Label(this.liste_joueur.get(this.idJoueurActuel).getNom()+" a gagné !!! \n Félicitation !!!");
+
+        Button backButton = new Button("Quitter");
+        backButton.setFont(Font.font("Arial", 14));
+
+        page.setAlignment(Pos.CENTER);
+
+        backButton.setOnAction(e -> {
+            //code un retour à la premiere page (home)
+            // Chemin du fichier à supprimer
+            String cheminFichier = "src/main/ressources/sauvegardes/" + this.nomPartie + ".save";
+            Path path = Paths.get(cheminFichier);
+
+            try {
+                // Supprimer le fichier
+                Files.deleteIfExists(path);
+                // Actualiser la vue en reconstruisant la liste des sauvegardes
+                getChildren().clear();  // Supprimer tous les éléments actuels
+            } catch (Exception ee) {
+                Log.error("Game","Erreur lors de la suppression du fichier");
+            }
+            controller.goToHome();
+        });
+        backButton.setStyle("-fx-cursor: hand;-fx-pref-width: 100; -fx-pref-height: 50; -fx-background-color: #FFFFFF; -fx-border-width:1; -fx-border-color:#000000");
+        page.setLayoutX(this.width/6);
+        page.setLayoutY(this.height/6);
+        page.setStyle("-fx-pref-width: "+this.width*4/6+"; -fx-pref-height: "+this.height*4/6+"; -fx-background-color: #FFFFFF; -fx-border-width:1; -fx-border-color:#000000");
+
+        page.getChildren().addAll(text, backButton);
+        getChildren().add(page);
     }
 
     /**
