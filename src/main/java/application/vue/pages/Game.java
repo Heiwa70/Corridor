@@ -442,11 +442,17 @@ public class Game extends Parent {
             PauseTransition pause = new PauseTransition(Duration.millis(100));
             pause.setOnFinished(event -> {
                 if (!finPartie()) {
+                    // Passe au joueur suivant.
+                    this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
+                    if (this.idJoueurActuel < 1) {
+                        this.idJoueurActuel = 1;
+                    }
                     sauvegarde();
                     startGame();
                 }else{
                     pageFinPartie();
                 }
+
             });
             pause.play();
 
@@ -477,11 +483,17 @@ public class Game extends Parent {
                             this.matriceBouton.get(post[1]).get(post[0]).setOnAction(null);
                         }
                         if (!finPartie()) {
+                            // Passe au joueur suivant.
+                            this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
+                            if (this.idJoueurActuel < 1) {
+                                this.idJoueurActuel = 1;
+                            }
                             sauvegarde();
                             startGame();
                         }else{
                             pageFinPartie();
                         }
+
                     });
                 });
             }
@@ -518,11 +530,7 @@ public class Game extends Parent {
                 }
             }
         }
-        // Passe au joueur suivant.
-        this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
-        if (this.idJoueurActuel < 1) {
-            this.idJoueurActuel = 1;
-        }
+
         return val;
     }
 
