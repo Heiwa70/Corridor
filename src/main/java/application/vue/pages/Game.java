@@ -344,6 +344,10 @@ public class Game extends Parent {
                                     }
 
                                     if (!finPartie()) {
+                                        this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
+                                        if (this.idJoueurActuel < 1) {
+                                            this.idJoueurActuel = 1;
+                                        }
                                         startGame();
                                     }
                                 }
