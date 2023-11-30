@@ -38,6 +38,8 @@ import java.util.Objects;
 
 public class Game extends Parent {
 
+    private boolean jeu = true;
+
     private Calculs calculs;
     private Plateau plateau;
     private String nomPartie;
@@ -63,8 +65,9 @@ public class Game extends Parent {
 
     /**
      * Initialise le jeu.
-     * @param scene Scene
-     * @param nomGame String
+     *
+     * @param scene     Scene
+     * @param nomGame   String
      * @param listeData Object[]
      */
     public Game(Scene scene, String nomGame, Object[] listeData) {
@@ -154,6 +157,7 @@ public class Game extends Parent {
 
     /**
      * Permet de scroll de haut en bas les historiques des actions.
+     *
      * @param delta int, valeur de la molette de la sourie.
      */
     private void actualiseValeur(int delta) {
@@ -175,6 +179,7 @@ public class Game extends Parent {
 
     /**
      * Ajoute un texte dans l'historique.
+     *
      * @param text String
      */
     private void writeText(String text) {
@@ -401,7 +406,8 @@ public class Game extends Parent {
 
     /**
      * Change le style du bouton d'entrée.
-     * @param bouton Button
+     *
+     * @param bouton  Button
      * @param couleur String
      */
     private void changeCouleurBouton(Button bouton, String couleur) {
@@ -424,87 +430,91 @@ public class Game extends Parent {
      */
     public void startGame() {
 
+        if (this.jeu) {
 
-        if (this.idJoueurActuel < 1) {
-            this.idJoueurActuel = 1;
-        }
 
-        // Informe l'utilisateur de l'état de la partie.
-        Joueur joueurActuel = this.liste_joueur.get(this.idJoueurActuel);
-        String text = "C'est à '" + joueurActuel.getNom() + "' de jouer.\n" +
-                "Votre pion est situé à : " + joueurActuel.getCoordsString() + ".\n" +
-                "Nombre de murs qu'il vous reste : " + joueurActuel.getNbrMurs();
-        this.donneesJoueur.setText(text);
-        this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:" + joueurActuel.getCouleur());
+            if (this.idJoueurActuel < 1) {
+                this.idJoueurActuel = 1;
+            }
 
-        // Si le joueur est une IA, elle joue et actualise le plateau.
-        if (joueurActuel.getNom().contains("IA")) {
-            calculs.use_min_max(liste_joueur, joueurActuel.getId(), 2*Integer.parseInt(joueurActuel.getNom().split(" ")[1]));
+            // Informe l'utilisateur de l'état de la partie.
+            Joueur joueurActuel = this.liste_joueur.get(this.idJoueurActuel);
+            String text = "C'est à '" + joueurActuel.getNom() + "' de jouer.\n" +
+                    "Votre pion est situé à : " + joueurActuel.getCoordsString() + ".\n" +
+                    "Nombre de murs qu'il vous reste : " + joueurActuel.getNbrMurs();
+            this.donneesJoueur.setText(text);
+            this.couleur.setStyle("-fx-pref-width: " + 50 + "; -fx-pref-height: " + 50 + "; -fx-border-width:1; -fx-border-color:#000000; -fx-background-color:" + joueurActuel.getCouleur());
 
-            this.matriceBouton.clear();
-            showPlateau();
-            PauseTransition pause = new PauseTransition(Duration.millis(100));
-            pause.setOnFinished(event -> {
-                if (!finPartie()) {
-                    // Passe au joueur suivant.
-                    this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
-                    if (this.idJoueurActuel < 1) {
-                        this.idJoueurActuel = 1;
+            // Si le joueur est une IA, elle joue et actualise le plateau.
+            if (joueurActuel.getNom().contains("IA")) {
+                calculs.use_min_max(liste_joueur, joueurActuel.getId(), 2 * Integer.parseInt(joueurActuel.getNom().split(" ")[1]));
+
+                this.matriceBouton.clear();
+                showPlateau();
+                PauseTransition pause = new PauseTransition(Duration.millis(100));
+                pause.setOnFinished(event -> {
+                    if (!finPartie()) {
+                        // Passe au joueur suivant.
+                        this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
+                        if (this.idJoueurActuel < 1) {
+                            this.idJoueurActuel = 1;
+                        }
+                        sauvegarde();
+                        startGame();
+                    } else {
+                        pageFinPartie();
                     }
-                    sauvegarde();
-                    startGame();
-                }else{
-                    pageFinPartie();
-                }
 
-            });
-            pause.play();
-
-
-        } else {
-            // Demande le prochain coup à l'utilisateur.
-            ArrayList<Integer[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY(), joueurActuel.getId());
-
-            this.calculs.exist_chemin(joueurActuel.getX(), joueurActuel.getX(), this.idJoueurActuel);
-            // Change les cases pions vide pour montrer à l'utilisateur les coups qu'il peut jouer.
-            for (Integer[] position : listeMouvementsPossibles) {
-                changeCouleurBouton(this.matriceBouton.get(position[1]).get(position[0]), "#AAFFAA");
-                this.matriceBouton.get(position[1]).get(position[0]).setOnAction(event -> {
-                    Platform.runLater(() -> {
-                        writeText(joueurActuel.getNom() + ", pion : " + position[0] + ", " + position[1]);
-                        this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(Val.CASEPION);
-
-                        changeCouleurBouton(this.matriceBouton.get(joueurActuel.getY()).get(joueurActuel.getX()), "#FFFFFF");
-                        joueurActuel.setPion(this.plateau.getEmplacement(position[0], position[1]));
-
-                        for (Integer[] post : listeMouvementsPossibles) {
-                            if (post[0] == position[0] && post[1] == position[1]) {
-                                changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), joueurActuel.getCouleur());
-                            } else {
-                                changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), "#FFFFFF");
-                            }
-                            this.matriceBouton.get(post[1]).get(post[0]).setOnAction(null);
-                        }
-                        if (!finPartie()) {
-                            // Passe au joueur suivant.
-                            this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
-                            if (this.idJoueurActuel < 1) {
-                                this.idJoueurActuel = 1;
-                            }
-                            sauvegarde();
-                            startGame();
-                        }else{
-                            pageFinPartie();
-                        }
-
-                    });
                 });
+                pause.play();
+
+
+            } else {
+                // Demande le prochain coup à l'utilisateur.
+                ArrayList<Integer[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY(), joueurActuel.getId());
+
+                this.calculs.exist_chemin(joueurActuel.getX(), joueurActuel.getX(), this.idJoueurActuel);
+                // Change les cases pions vide pour montrer à l'utilisateur les coups qu'il peut jouer.
+                for (Integer[] position : listeMouvementsPossibles) {
+                    changeCouleurBouton(this.matriceBouton.get(position[1]).get(position[0]), "#AAFFAA");
+                    this.matriceBouton.get(position[1]).get(position[0]).setOnAction(event -> {
+                        Platform.runLater(() -> {
+                            writeText(joueurActuel.getNom() + ", pion : " + position[0] + ", " + position[1]);
+                            this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(Val.CASEPION);
+
+                            changeCouleurBouton(this.matriceBouton.get(joueurActuel.getY()).get(joueurActuel.getX()), "#FFFFFF");
+                            joueurActuel.setPion(this.plateau.getEmplacement(position[0], position[1]));
+
+                            for (Integer[] post : listeMouvementsPossibles) {
+                                if (post[0] == position[0] && post[1] == position[1]) {
+                                    changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), joueurActuel.getCouleur());
+                                } else {
+                                    changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), "#FFFFFF");
+                                }
+                                this.matriceBouton.get(post[1]).get(post[0]).setOnAction(null);
+                            }
+                            if (!finPartie()) {
+                                // Passe au joueur suivant.
+                                this.idJoueurActuel = (this.idJoueurActuel + 1) % (this.liste_joueur.size() + 1);
+                                if (this.idJoueurActuel < 1) {
+                                    this.idJoueurActuel = 1;
+                                }
+                                sauvegarde();
+                                startGame();
+                            } else {
+                                pageFinPartie();
+                            }
+
+                        });
+                    });
+                }
             }
         }
     }
 
     /**
      * Vérifie les conditions de fin d'une partie.
+     *
      * @return boolean
      */
     public boolean finPartie() {
@@ -540,9 +550,9 @@ public class Game extends Parent {
     /**
      * Affiche la page de fin de partie.
      */
-    private void pageFinPartie(){
+    private void pageFinPartie() {
         VBox page = new VBox();
-        Label text = new Label(this.liste_joueur.get(this.idJoueurActuel).getNom()+" a gagné !!! \n Félicitation !!!");
+        Label text = new Label(this.liste_joueur.get(this.idJoueurActuel).getNom() + " a gagné !!! \n Félicitation !!!");
 
         Button backButton = new Button("Quitter");
         backButton.setFont(Font.font("Arial", 14));
@@ -561,14 +571,14 @@ public class Game extends Parent {
                 // Actualiser la vue en reconstruisant la liste des sauvegardes
                 getChildren().clear();  // Supprimer tous les éléments actuels
             } catch (Exception ee) {
-                Log.error("Game","Erreur lors de la suppression du fichier");
+                Log.error("Game", "Erreur lors de la suppression du fichier");
             }
             controller.goToHome();
         });
         backButton.setStyle("-fx-cursor: hand;-fx-pref-width: 100; -fx-pref-height: 50; -fx-background-color: #FFFFFF; -fx-border-width:1; -fx-border-color:#000000");
-        page.setLayoutX(this.width/6);
-        page.setLayoutY(this.height/6);
-        page.setStyle("-fx-pref-width: "+this.width*4/6+"; -fx-pref-height: "+this.height*4/6+"; -fx-background-color: #FFFFFF; -fx-border-width:1; -fx-border-color:#000000");
+        page.setLayoutX(this.width / 6);
+        page.setLayoutY(this.height / 6);
+        page.setStyle("-fx-pref-width: " + this.width * 4 / 6 + "; -fx-pref-height: " + this.height * 4 / 6 + "; -fx-background-color: #FFFFFF; -fx-border-width:1; -fx-border-color:#000000");
 
         page.getChildren().addAll(text, backButton);
         getChildren().add(page);
@@ -583,6 +593,7 @@ public class Game extends Parent {
 
     /**
      * Gère le bouton de retour vers le menu principal.
+     *
      * @return Button
      */
     public Button createBackButton() {
@@ -602,6 +613,7 @@ public class Game extends Parent {
 
         backButton.setOnAction(e -> {
             //code un retour à la premiere page (home)
+            this.jeu = false;
             controller.goToHome();
         });
         backButton.setStyle("-fx-cursor: hand");
