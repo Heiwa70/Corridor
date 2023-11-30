@@ -58,7 +58,7 @@ public class Calculs {
      * @param y int
      * @return List<int [ ]>
      */
-    public List<int[]> listeMouvementsPion(int x, int y, int idJoueur) {
+    public ArrayList<ArrayList<Integer>> listeMouvementsPion(int x, int y, int idJoueur) {
         this.idJoueurActuel = idJoueur;
         return listeMouvementsPion(x, y);
     }
@@ -70,9 +70,9 @@ public class Calculs {
      * @param y int
      * @return List<int [ ]>
      */
-    public List<int[]> listeMouvementsPion(int x, int y) {
+    public ArrayList<ArrayList<Integer>> listeMouvementsPion(int x, int y) {
 
-        List<int[]> possibilites = new ArrayList<>();
+        ArrayList<ArrayList<Integer>>possibilites = new ArrayList<>();
         boolean b;
         int xx, yy;
 
@@ -109,7 +109,7 @@ public class Calculs {
                 yy = y + 2 * vecY;
                 if (testEmplacementSurPlateau(xx, yy)) {
                     if (testCase(xx, yy, Val.CASEPION)) {
-                        possibilites.add(new int[]{xx, yy});
+                        possibilites.add(new ArrayList<>(Arrays.asList(xx, yy)));
                     }
                 }
 
@@ -125,9 +125,9 @@ public class Calculs {
      * @param x int
      * @param y int
      */
-    private void consitionAjoutPossibilite(List<int[]> possibilites, int x, int y) {
+    private void consitionAjoutPossibilite(ArrayList<ArrayList<Integer>> possibilites, int x, int y) {
         if (testCase(x, y, Val.CASEPION)) {
-            possibilites.add(new int[]{x, y});
+            possibilites.add(new ArrayList<>(Arrays.asList(x, y)));
         }
     }
 
@@ -195,10 +195,10 @@ public class Calculs {
                 return pronfondeurCourant;
             }
             boolean valide = false;
-            for (int[] coup : listeMouvementsPion(x_courant, y_courant, idjoueur)) {
+            for (ArrayList<Integer> coup : listeMouvementsPion(x_courant, y_courant, idjoueur)) {
                 if (!P.contains(x_courant + " " + y_courant)) {
-                    FileX.addLast(coup[0]);
-                    FileY.addLast(coup[1]);
+                    FileX.addLast(coup.get(0));
+                    FileY.addLast(coup.get(1));
                     FileProfondeur.addLast(pronfondeurCourant + 1);
                     valide = true;
                 }
@@ -228,12 +228,12 @@ public class Calculs {
 
         noeuds_vus.add(this.coordinates.toString());
 
-        for (int[] coup : listeMouvementsPion(x, y)) {
+        for (ArrayList<Integer> coup : listeMouvementsPion(x, y)) {
             this.coordinates.setLength(0); // Réinitialiser le StringBuilder
-            this.coordinates.append(coup[0]).append(" ").append(coup[1]);
+            this.coordinates.append(coup.get(0)).append(" ").append(coup.get(1));
 
             if (!noeuds_vus.contains(this.coordinates.toString())) {
-                if (exist_recursif(coup[0], coup[1], noeuds_vus)) {
+                if (exist_recursif(coup.get(0), coup.get(1), noeuds_vus)) {
                     return true;
                 }
             }
@@ -268,9 +268,9 @@ public class Calculs {
      * @param idJoueur int
      * @return ArrayList<String>
      */
-    public ArrayList<String> liste_coup_mur(int x, int y, HashMap<Integer, Joueur> listeJoueurs, int idJoueur) {
+    public ArrayList<ArrayList<Integer>> liste_coup_mur(int x, int y, HashMap<Integer, Joueur> listeJoueurs, int idJoueur) {
         //Log.info("Calculs", "Debut generation mur");
-        ArrayList<String> possibilite = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> possibilite = new ArrayList<>();
         if (listeJoueurs.get(idJoueur).testSetMur()) {
             for (int i = 1; i < plateau.getHeight() - 1; i = i + 2) {
                 for (int j = 0; j < plateau.getWidth() - 2; j++) {
@@ -289,7 +289,7 @@ public class Calculs {
 
                         }
                         if (b) {
-                            possibilite.add(i + ";" + j + ";" + i + ";" + (j + 1) + ";" + i + ";" + (j + 2));
+                            possibilite.add(new ArrayList<>(Arrays.asList(i,j,i,(j + 1),i,(j + 2))));
                         }
                         plateau.getEmplacement(i, j).setValeur(Val.CASEMURS);
                         plateau.getEmplacement(i, j + 1).setValeur(Val.__VIDE__);
@@ -309,7 +309,7 @@ public class Calculs {
                             }
                         }
                         if (b) {
-                            possibilite.add(j + ";" + i + ";" + (j + 1) + ";" + i + ";" + (j + 2) + ";" + i);
+                            possibilite.add(new ArrayList<>(Arrays.asList(j,i,(j + 1),i,(j + 2),i)));
                         }
                         plateau.getEmplacement(j, i).setValeur(Val.CASEMURS);
                         plateau.getEmplacement(j + 1, i).setValeur(Val.__VIDE__);
@@ -356,19 +356,22 @@ public class Calculs {
      * @param idJoueur int
      * @return ArrayList<String>
      */
-    public ArrayList<String> filtreliste_coup_mur(ArrayList<String> L, HashMap<Integer, Joueur> listejoueur, int idJoueur) {
+    public ArrayList<ArrayList<Integer>> filtreliste_coup_mur(ArrayList<ArrayList<Integer>> L, HashMap<Integer, Joueur> listejoueur, int idJoueur) {
         int n = L.size();
-        ArrayList<String> res = new ArrayList<String>();
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
         int indice = 0;
         int distance = Integer.MIN_VALUE;
         if (n == 0) {
             return res;
         }
+        int a,b;
+        ArrayList<Integer> c;
+        Murs mur;
         for (int i = 0; i < n; i++) {
-            String[] c = L.get(i).split(";");
-            Murs mur = listejoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
-            int a = this.dijkstra(listejoueur.get(inverse_id(idJoueur)).getX(), listejoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur));
-            int b = this.dijkstra(listejoueur.get(idJoueur).getX(), listejoueur.get(idJoueur).getY(), idJoueur);
+            c = L.get(i);
+            mur = listejoueur.get(idJoueur).setMur(plateau.getEmplacement(c.get(0), c.get(1)), plateau.getEmplacement(c.get(2), c.get(3)), plateau.getEmplacement(c.get(4), c.get(5)));
+            a = this.dijkstra(listejoueur.get(inverse_id(idJoueur)).getX(), listejoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur));
+            b = this.dijkstra(listejoueur.get(idJoueur).getX(), listejoueur.get(idJoueur).getY(), idJoueur);
             if (distance < a - b) {
                 distance = a - b;
                 indice = i;
@@ -414,18 +417,19 @@ public class Calculs {
             return Integer.MIN_VALUE;
         }
         if (profondeur == 0) {
-            int r = euristique(listeJoueur, idJoueur);
             //Log.info("Calculs","p:"+profondeur+" valeur "+r);
-            return r;
+            return euristique(listeJoueur, idJoueur);
         }
+        ArrayList<ArrayList<Integer>> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
+
+        //coups pion
+        int x = listeJoueur.get(idJoueur).getX();
+        int y = listeJoueur.get(idJoueur).getY();
+
         if (listeJoueur.get(idJoueur).getId() == 1) {
             int valeurMax = Integer.MIN_VALUE;
-            //coups pion
-            List<int[]> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
-            int x = listeJoueur.get(idJoueur).getX();
-            int y = listeJoueur.get(idJoueur).getY();
-            for (int[] coup_pion : coupspion) {
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+            for (ArrayList<Integer> coup_pion : coupspion) {
+                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion.get(0), coup_pion.get(1)));
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
                 //Log.info("Calculs","relance min_max avec le coup : p"+coup_pion[0]+" "+coup_pion[1]+ " profondeur "+profondeur);
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
@@ -435,12 +439,15 @@ public class Calculs {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
             }
             //coups murs
-            List<String> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur), listeJoueur, idJoueur);
-            for (String coup : coups) {
-                String[] c = coup.split(";");
-                Murs mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
+            ArrayList<ArrayList<Integer>> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur), listeJoueur, idJoueur);
+
+            int valeur;
+            Murs mur;
+            for (ArrayList<Integer> c : coups) {
+
+                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c.get(0), c.get(1)), plateau.getEmplacement(c.get(2), c.get(3)), plateau.getEmplacement(c.get(4), c.get(5)));
                 //Log.info("Calculs","relance min_max avec le coup : m"+c[0]+" "+c[1]+" "+c[2]+" profondeur "+profondeur);
-                int valeur = min_max(profondeur - 1, listeJoueur, 2);
+                valeur = min_max(profondeur - 1, listeJoueur, 2);
                 //Log.info("Calculs","reçu min_max du coup : m"+c[0]+" "+c[1]+" "+c[2]+" profondeur "+profondeur+" valeur "+valeur);
                 valeurMax = Math.max(valeurMax, valeur);
                 listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
@@ -450,12 +457,8 @@ public class Calculs {
             return valeurMax;
         } else {
             int valeurMin = Integer.MAX_VALUE;
-            //coups pion
-            List<int[]> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
-            int x = listeJoueur.get(idJoueur).getX();
-            int y = listeJoueur.get(idJoueur).getY();
-            for (int[] coup_pion : coupspion) {
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+            for (ArrayList<Integer> coup_pion : coupspion) {
+                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion.get(0), coup_pion.get(1)));
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 1);
                 valeurMin = Math.min(valeurMin, valeur);
@@ -463,11 +466,13 @@ public class Calculs {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
             }
             //coups murs
-            List<String> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur), listeJoueur, idJoueur);
-            for (String coup : coups) {
-                String[] c = coup.split(";");
-                Murs mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
-                int valeur = min_max(profondeur - 1, listeJoueur, 1);
+            ArrayList<ArrayList<Integer>> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur), listeJoueur, idJoueur);
+            int valeur;
+            Murs mur;
+
+            for (ArrayList<Integer> c : coups) {
+                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c.get(0), c.get(1)), plateau.getEmplacement(c.get(2), c.get(3)), plateau.getEmplacement(c.get(4), c.get(5)));
+                valeur = min_max(profondeur - 1, listeJoueur, 1);
                 valeurMin = Math.min(valeurMin, valeur);
                 listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
             }
@@ -486,14 +491,14 @@ public class Calculs {
 //        int profondeur = 1;
         Log.info("Calculs", "début min_max profondeur : " + profondeur);
         int[] meilleurCoupInt = null;
-        Object meilleurCoup = null;
+        ArrayList<Integer> meilleurCoup = null;
         if (idJoueur == 1) {
             int valeurMax = Integer.MIN_VALUE;
-            List<int[]> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
+            ArrayList<ArrayList<Integer>> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
             int x = listeJoueur.get(idJoueur).getX();
             int y = listeJoueur.get(idJoueur).getY();
-            for (int[] coup_pion : coupspion) {
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+            for (ArrayList<Integer> coup_pion : coupspion) {
+                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion.get(0), coup_pion.get(1)));
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
                 //Log.info("Calculs","valeur:"+valeur);
@@ -506,35 +511,38 @@ public class Calculs {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
             }
             //coups murs
-            List<String> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
-            for (String coup : coups) {
-                String[] c = coup.split(";");
-                Murs mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
-                int valeur = min_max(profondeur - 1, listeJoueur, 2);
+            ArrayList<ArrayList<Integer>> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
+            Murs mur;
+            int valeur;
+            boolean choix = false;
+            for (ArrayList<Integer> c : coups) {
+                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c.get(0), c.get(1)), plateau.getEmplacement(c.get(2), c.get(3)), plateau.getEmplacement(c.get(4), c.get(5)));
+                valeur = min_max(profondeur - 1, listeJoueur, 2);
                 if (valeur > valeurMax) {
                     valeurMax = valeur;
-                    meilleurCoup = coup;
+                    meilleurCoup = c;
+                    choix = true;
                 }
                 //Log.info("Calculs","(m)valeurmax "+valeur+", coup "+meilleurCoup);
                 listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
             }
-            if (meilleurCoup instanceof String) {
-                String[] c = ((String) meilleurCoup).split(";");
-                Murs mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
-                Log.info("Calculs", "le meilleur coup est mur : " + c[0] + " " + c[1] + " et " + c[4] + " " + c[5]);
+            if (choix) {
+                ArrayList<Integer> c = meilleurCoup;
+                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c.get(0), c.get(1)), plateau.getEmplacement(c.get(2), c.get(3)), plateau.getEmplacement(c.get(4), c.get(5)));
+                Log.info("Calculs", "le meilleur coup est mur : " + c.get(0) + " " + c.get(1) + " et " + c.get(4) + " " + c.get(5));
             } else {
-                int[] tab = (int[]) meilleurCoup;
+                ArrayList<Integer> tab = meilleurCoup;
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(Objects.requireNonNull(tab)[0], tab[1]));
-                Log.info("Calculs", "le meilleur coup est pion : " + tab[0] + " " + tab[1]);
+                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(Objects.requireNonNull(tab).get(0), tab.get(1)));
+                Log.info("Calculs", "le meilleur coup est pion : " + tab.get(0) + " " + tab.get(1));
             }
         } else {
             int valeurMin = Integer.MAX_VALUE;
-            List<int[]> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
+            ArrayList<ArrayList<Integer>> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
             int x = listeJoueur.get(idJoueur).getX();
             int y = listeJoueur.get(idJoueur).getY();
-            for (int[] coup_pion : coupspion) {
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+            for (ArrayList<Integer> coup_pion : coupspion) {
+                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion.get(0), coup_pion.get(1)));
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 1);
                 if (valeur < valeurMin) {
@@ -547,27 +555,30 @@ public class Calculs {
                 listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
             }
             //coups murs
-            List<String> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
-            for (String coup : coups) {
-                String[] c = coup.split(";");
-                Murs mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
-                int valeur = min_max(profondeur - 1, listeJoueur, 1);
+            ArrayList<ArrayList<Integer>> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
+            Murs mur;
+            boolean choix = false;
+            int valeur;
+            for (ArrayList<Integer> c : coups) {
+                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c.get(0), c.get(1)), plateau.getEmplacement(c.get(2), c.get(3)), plateau.getEmplacement(c.get(4), c.get(5)));
+                valeur = min_max(profondeur - 1, listeJoueur, 1);
                 if (valeur < valeurMin) {
                     valeurMin = valeur;
-                    meilleurCoup = coup;
+                    meilleurCoup = c;
+                    choix = true;
                 }
                 Log.info("Calculs", "(m)valeur " + valeur + ", coup " + meilleurCoup);
                 listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
             }
-            if (meilleurCoup instanceof String) {
-                String[] c = ((String) meilleurCoup).split(";");
-                Murs mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(Integer.parseInt(c[0]), Integer.parseInt(c[1])), plateau.getEmplacement(Integer.parseInt(c[2]), Integer.parseInt(c[3])), plateau.getEmplacement(Integer.parseInt(c[4]), Integer.parseInt(c[5])));
-                Log.info("Calculs", "le meilleur coup est mur : " + c[0] + " " + c[1] + " et " + c[4] + " " + c[5]);
+            if (choix) {
+                ArrayList<Integer> c = meilleurCoup;
+                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c.get(0), c.get(1)), plateau.getEmplacement(c.get(2), c.get(3)), plateau.getEmplacement(c.get(4), c.get(5)));
+                Log.info("Calculs", "le meilleur coup est mur : " + c.get(0) + " " + c.get(1) + " et " + c.get(4) + " " + c.get(5));
             } else {
-                int[] tab = (int[]) meilleurCoup;
+                ArrayList<Integer> tab = meilleurCoup;
                 listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(tab[0], tab[1]));
-                Log.info("Calculs", "le meilleur coup est pion : " + tab[0] + " " + tab[1]);
+                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(tab.get(0), tab.get(1)));
+                Log.info("Calculs", "le meilleur coup est pion : " + tab.get(0) + " " + tab.get(1));
             }
         }
 

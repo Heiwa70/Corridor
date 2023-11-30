@@ -463,28 +463,28 @@ public class Game extends Parent {
 
         } else {
             // Demande le prochain coup à l'utilisateur.
-            List<int[]> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY(), joueurActuel.getId());
+            ArrayList<ArrayList<Integer>> listeMouvementsPossibles = this.calculs.listeMouvementsPion(joueurActuel.getX(), joueurActuel.getY(), joueurActuel.getId());
 
             this.calculs.exist_chemin(joueurActuel.getX(), joueurActuel.getX(), this.idJoueurActuel);
 
             // Change les cases pions vide pour montrer à l'utilisateur les coups qu'il peut jouer.
-            for (int[] position : listeMouvementsPossibles) {
-                changeCouleurBouton(this.matriceBouton.get(position[1]).get(position[0]), "#AAFFAA");
-                this.matriceBouton.get(position[1]).get(position[0]).setOnAction(event -> {
+            for (ArrayList<Integer> position : listeMouvementsPossibles) {
+                changeCouleurBouton(this.matriceBouton.get(position.get(1)).get(position.get(0)), "#AAFFAA");
+                this.matriceBouton.get(position.get(1)).get(position.get(0)).setOnAction(event -> {
                     Platform.runLater(() -> {
-                        writeText(joueurActuel.getNom() + ", pion : " + position[0] + ", " + position[1]);
+                        writeText(joueurActuel.getNom() + ", pion : " + position.get(0) + ", " + position.get(1));
                         this.plateau.getEmplacement(joueurActuel.getX(), joueurActuel.getY()).setValeur(Val.CASEPION);
 
                         changeCouleurBouton(this.matriceBouton.get(joueurActuel.getY()).get(joueurActuel.getX()), "#FFFFFF");
-                        joueurActuel.setPion(this.plateau.getEmplacement(position[0], position[1]));
+                        joueurActuel.setPion(this.plateau.getEmplacement(position.get(0), position.get(1)));
 
-                        for (int[] post : listeMouvementsPossibles) {
-                            if (post[0] == position[0] && post[1] == position[1]) {
-                                changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), joueurActuel.getCouleur());
+                        for (ArrayList<Integer> post : listeMouvementsPossibles) {
+                            if (post.get(0) == position.get(0) && post.get(1) == position.get(1)) {
+                                changeCouleurBouton(this.matriceBouton.get(post.get(1)).get(post.get(0)), joueurActuel.getCouleur());
                             } else {
-                                changeCouleurBouton(this.matriceBouton.get(post[1]).get(post[0]), "#FFFFFF");
+                                changeCouleurBouton(this.matriceBouton.get(post.get(1)).get(post.get(0)), "#FFFFFF");
                             }
-                            this.matriceBouton.get(post[1]).get(post[0]).setOnAction(null);
+                            this.matriceBouton.get(post.get(1)).get(post.get(0)).setOnAction(null);
                         }
                         if (!finPartie()) {
                             // Passe au joueur suivant.
