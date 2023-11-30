@@ -100,7 +100,7 @@ public class LoadGame extends Parent {
         menuBas.setLayoutX(0);
         menuBas.setLayoutY(this.height * 4 / 5);
         menuBas.setStyle("-fx-pref-width: " + this.width + "; -fx-pref-height: " + this.height / 5 + "; -fx-background-color: " + couleur + "; -fx-border-width:1; -fx-border-color:#000000");
-        Label nomMenuBas = new Label("Nom de la sauvegarde chargé : ");
+        Label nomMenuBas = new Label("Nom de la sauvegarde chargée : ");
         text.getChildren().add(nomMenuBas);
         text.setAlignment(Pos.CENTER);
         menuBas.getChildren().add(text);
@@ -139,7 +139,7 @@ public class LoadGame extends Parent {
             // Change dynamiquement le texte et la fonction du menu bas.
             button.setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
-                    nomMenuBas.setText("Nom de la sauvegarde chargé : " + nomFichier);
+                    nomMenuBas.setText("Nom de la sauvegarde chargée : " + nomFichier);
                     buttonBas.setOnAction(new EventHandler<ActionEvent>() {
                         public void handle(ActionEvent event) {
                             GestionSauvegardes gestionSauvegardes = new GestionSauvegardes();

@@ -19,7 +19,7 @@ import application.controleur.vue.HomeController;
 public class Home extends VBox {
 
     private Button newGame = createButton("Nouvelle partie");
-    private Button loadGame = createButton("Partie sauvegardée");
+    private Button loadGame = createButton("Parties sauvegardées");
     private Button exit = createButton("Quitter");
     private Button back = createButton("Retour");
     private HomeController controller;

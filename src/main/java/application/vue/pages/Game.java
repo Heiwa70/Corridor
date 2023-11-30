@@ -284,6 +284,7 @@ public class Game extends Parent {
                                                 }
                                             }
                                             if (this.val) {
+
                                                 changeCouleurBouton(buttonNext, "#FF9900");
                                                 changeCouleurBouton(this.matriceBouton.get(yy).get(xx), "#FF9900");
                                                 this.coordsMurs2[0] = xx;
@@ -450,6 +451,7 @@ public class Game extends Parent {
                 calculs.use_min_max(liste_joueur, joueurActuel.getId(), 2 * Integer.parseInt(joueurActuel.getNom().split(" ")[1]));
 
                 this.matriceBouton.clear();
+
                 showPlateau();
                 PauseTransition pause = new PauseTransition(Duration.millis(100));
                 pause.setOnFinished(event -> {
