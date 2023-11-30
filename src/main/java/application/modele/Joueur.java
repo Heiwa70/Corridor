@@ -69,6 +69,12 @@ public class Joueur {
         }
     }
 
+    public void setPionSimple(Emplacement emplacement) {
+
+        emplacement.setValeur(Val.__PION__);
+        this.pion.setEmplacement(emplacement);
+    }
+
     /**
      * Réinitialise l'état de l'emplacement.
      * @param emplacement Emplacement, emplacement du pion.
@@ -167,7 +173,7 @@ public class Joueur {
             listeMursSurPlateau.add(mur);
             return mur;
         }
-        return new Murs();
+        return null;
     }
 
     /**
@@ -179,7 +185,8 @@ public class Joueur {
     public boolean undoSetMur(Murs mur, Plateau plateau) {
         listeMursSurPlateau.remove(mur);
         listeMursNonPoses.add(new Murs());
-        mur.undosetPosition(plateau.getEmplacement(mur.getCasesPrisent()[0].getX(), mur.getCasesPrisent()[0].getY()), plateau.getEmplacement(mur.getCasesPrisent()[1].getX(), mur.getCasesPrisent()[1].getY()), plateau.getEmplacement(mur.getCasesPrisent()[2].getX(), mur.getCasesPrisent()[2].getY()));
+        Emplacement[] a = mur.getCasesPrisent();
+        mur.undosetPosition(plateau.getEmplacement(a[0].getX(), a[0].getY()), plateau.getEmplacement(a[1].getX(), a[1].getY()), plateau.getEmplacement(a[2].getX(), a[2].getY()));
         return true;
     }
 

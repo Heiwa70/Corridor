@@ -190,6 +190,7 @@ public class Calculs {
             x_courant = FileX.removeFirst();
             y_courant = FileY.removeFirst();
             pronfondeurCourant = FileProfondeur.removeFirst();
+
             if ((idjoueur == 1 && y_courant == 0) || (idjoueur == 2 && y_courant == 16) || (idjoueur == 3 && x_courant == 0) || (idjoueur == 4 && x_courant == 16)) {
                 //Log.info("Calculs", "Nombre de coups : " + pronfondeurCourant);
                 return pronfondeurCourant;
@@ -286,7 +287,6 @@ public class Calculs {
                             if (!exist_chemin(joueur.getX(), joueur.getY(), joueur.getId())) {
                                 b = false;
                             }
-
                         }
                         if (b) {
                             possibilite.add(new Integer[]{i, j, i, (j + 1), i, (j + 2)});
@@ -367,17 +367,18 @@ public class Calculs {
         int a,b;
         Integer[] c;
         Murs mur;
+        Joueur joueur = listejoueur.get(idJoueur);
         for (int i = 0; i < n; i++) {
             c = L.get(i);
-            mur = listejoueur.get(idJoueur).setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
+            mur = joueur.setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
             a = this.dijkstra(listejoueur.get(inverse_id(idJoueur)).getX(), listejoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur));
-            b = this.dijkstra(listejoueur.get(idJoueur).getX(), listejoueur.get(idJoueur).getY(), idJoueur);
+            b = this.dijkstra(joueur.getX(), joueur.getY(), idJoueur);
             if (distance < a - b) {
                 distance = a - b;
                 indice = i;
 
             }
-            listejoueur.get(idJoueur).undoSetMur(mur, plateau);
+            joueur.undoSetMur(mur, plateau);
         }
 
         res.add(L.get(indice));
@@ -391,11 +392,12 @@ public class Calculs {
      * @return Integer
      */
     public Integer euristique(HashMap<Integer, Joueur> listeJoueur, int idJoueur) {
+        Joueur joueur = listeJoueur.get(idJoueur);
         if (idJoueur == 2) {
-            return dijkstra(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur) - dijkstra(listeJoueur.get(inverse_id(idJoueur)).getX(), listeJoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur));
+            return dijkstra(joueur.getX(), joueur.getY(), idJoueur) - dijkstra(listeJoueur.get(inverse_id(idJoueur)).getX(), listeJoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur));
         }
         else {
-            return dijkstra(listeJoueur.get(inverse_id(idJoueur)).getX(), listeJoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur))-dijkstra(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
+            return dijkstra(listeJoueur.get(inverse_id(idJoueur)).getX(), listeJoueur.get(inverse_id(idJoueur)).getY(), inverse_id(idJoueur))-dijkstra(joueur.getX(), joueur.getY(), idJoueur);
         }
     }
 
@@ -407,74 +409,73 @@ public class Calculs {
      * @return Integer
      */
     public int min_max(int profondeur, HashMap<Integer, Joueur> listeJoueur, int idJoueur) {
-        if ((listeJoueur.get(idJoueur).getId() == 1 && listeJoueur.get(idJoueur).getY() == 0)) {
+
+        Joueur joueur = listeJoueur.get(idJoueur);
+
+        if ((joueur.getId() == 1 && joueur.getY() == 0)) {
             //Log.info("Calculs","p:"+profondeur+" max");
             return Integer.MAX_VALUE;
         }
-        if (listeJoueur.get(idJoueur).getId() == 2 && listeJoueur.get(idJoueur).getY() == 16) {
+        else if (joueur.getId() == 2 && joueur.getY() == 16) {
             //Log.info("Calculs","p:"+profondeur+" min, joueur id:");
-            //System.out.println("min : "+listeJoueur.get(idJoueur).getId()+" y: "+listeJoueur.get(idJoueur).getY()+" id joueur : "+idJoueur);
+            //System.out.println("min : "+joueur.getId()+" y: "+ljoueur.getY()+" id joueur : "+idJoueur);
             return Integer.MIN_VALUE;
         }
-        if (profondeur == 0) {
+        else if (profondeur == 0) {
             //Log.info("Calculs","p:"+profondeur+" valeur "+r);
             return euristique(listeJoueur, idJoueur);
         }
-        ArrayList<Integer[]> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
+
+        ArrayList<Integer[]> coupspion = listeMouvementsPion(joueur.getX(), joueur.getY(), idJoueur);
 
         //coups pion
-        int x = listeJoueur.get(idJoueur).getX();
-        int y = listeJoueur.get(idJoueur).getY();
+        int x = joueur.getX();
+        int y = joueur.getY();
 
-        if (listeJoueur.get(idJoueur).getId() == 1) {
+        if (joueur.getId() == 1) {
             int valeurMax = Integer.MIN_VALUE;
             for (Integer[] coup_pion : coupspion) {
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
-                //Log.info("Calculs","relance min_max avec le coup : p"+coup_pion[0]+" "+coup_pion[1]+ " profondeur "+profondeur);
+                joueur.setPionSimple(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+                joueur.unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
-                //Log.info("Calculs","reçu min_max du coup : p"+coup_pion[0]+" "+coup_pion[1]+ " profondeur "+profondeur + " valeur "+valeur);
-                valeurMax = Math.max(valeurMax, valeur);
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
+                valeurMax = valeurMax>valeur?valeurMax:valeur;
+                joueur.unsetPion(plateau.getEmplacement(joueur.getX(), joueur.getY()));
+                joueur.setPionSimple(plateau.getEmplacement(x, y));
             }
             //coups murs
-            ArrayList<Integer[]> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur), listeJoueur, idJoueur);
+            ArrayList<Integer[]> coups = filtreliste_coup_mur(liste_coup_mur(joueur.getX(), joueur.getY(), listeJoueur, idJoueur), listeJoueur, idJoueur);
 
             int valeur;
             Murs mur;
             for (Integer[] c : coups) {
 
-                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
-                //Log.info("Calculs","relance min_max avec le coup : m"+c[0]+" "+c[1]+" "+c[2]+" profondeur "+profondeur);
+                mur = joueur.setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
                 valeur = min_max(profondeur - 1, listeJoueur, 2);
-                //Log.info("Calculs","reçu min_max du coup : m"+c[0]+" "+c[1]+" "+c[2]+" profondeur "+profondeur+" valeur "+valeur);
-                valeurMax = Math.max(valeurMax, valeur);
-                listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
-
+                valeurMax = valeurMax>valeur?valeurMax:valeur;
+                joueur.undoSetMur(mur, plateau);
 
             }
             return valeurMax;
         } else {
             int valeurMin = Integer.MAX_VALUE;
             for (Integer[] coup_pion : coupspion) {
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
+                joueur.setPionSimple(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+                joueur.unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 1);
-                valeurMin = Math.min(valeurMin, valeur);
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
+                valeurMin = valeurMin<valeur?valeurMin:valeur;
+                joueur.unsetPion(plateau.getEmplacement(joueur.getX(), joueur.getY()));
+                joueur.setPionSimple(plateau.getEmplacement(x, y));
             }
             //coups murs
-            ArrayList<Integer[]> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur), listeJoueur, idJoueur);
+            ArrayList<Integer[]> coups = filtreliste_coup_mur(liste_coup_mur(joueur.getX(), joueur.getY(), listeJoueur, idJoueur), listeJoueur, idJoueur);
             int valeur;
             Murs mur;
 
             for (Integer[] c : coups) {
-                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
+                mur = joueur.setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
                 valeur = min_max(profondeur - 1, listeJoueur, 1);
-                valeurMin = Math.min(valeurMin, valeur);
-                listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
+                valeurMin = valeurMin<valeur?valeurMin:valeur;
+                joueur.undoSetMur(mur, plateau);
             }
             return valeurMin;
         }
@@ -492,14 +493,15 @@ public class Calculs {
         Log.info("Calculs", "début min_max profondeur : " + profondeur);
         int[] meilleurCoupInt = null;
         Integer[] meilleurCoup = null;
+        Joueur joueur = listeJoueur.get(idJoueur);
         if (idJoueur == 1) {
             int valeurMax = Integer.MIN_VALUE;
-            ArrayList<Integer[]> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
-            int x = listeJoueur.get(idJoueur).getX();
-            int y = listeJoueur.get(idJoueur).getY();
+            ArrayList<Integer[]> coupspion = listeMouvementsPion(joueur.getX(),joueur.getY(), idJoueur);
+            int x = joueur.getX();
+            int y = joueur.getY();
             for (Integer[] coup_pion : coupspion) {
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
+                joueur.setPionSimple(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+                joueur.unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 2);
                 //Log.info("Calculs","valeur:"+valeur);
                 if (valeur >= valeurMax) {
@@ -507,16 +509,16 @@ public class Calculs {
                     meilleurCoup = coup_pion;
                 }
                 //Log.info("Calculs","(p)valeurmax "+valeurMax+", coup "+meilleurCoup);
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
+                joueur.unsetPion(plateau.getEmplacement(joueur.getX(), joueur.getY()));
+                joueur.setPionSimple(plateau.getEmplacement(x, y));
             }
             //coups murs
-            ArrayList<Integer[]> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
+            ArrayList<Integer[]> coups = filtreliste_coup_mur(liste_coup_mur(joueur.getX(), joueur.getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
             Murs mur;
             int valeur;
             boolean choix = false;
             for (Integer[] c : coups) {
-                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
+                mur = joueur.setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
                 valeur = min_max(profondeur - 1, listeJoueur, 2);
                 if (valeur > valeurMax) {
                     valeurMax = valeur;
@@ -524,43 +526,42 @@ public class Calculs {
                     choix = true;
                 }
                 //Log.info("Calculs","(m)valeurmax "+valeur+", coup "+meilleurCoup);
-                listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
+                joueur.undoSetMur(mur, plateau);
             }
             if (choix) {
                 Integer[] c = meilleurCoup;
-                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
+                mur = joueur.setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
                 Log.info("Calculs", "le meilleur coup est mur : " + c[0] + " " + c[1] + " et " + c[4] + " " + c[5] );
             } else {
                 Integer[] tab = meilleurCoup;
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(tab[0], tab[1]));
+                joueur.unsetPion(plateau.getEmplacement(joueur.getX(), joueur.getY()));
+                joueur.setPionSimple(plateau.getEmplacement(tab[0], tab[1]));
                 Log.info("Calculs", "le meilleur coup est pion : " + tab[0] + " " + tab[1]);
             }
         } else {
             int valeurMin = Integer.MAX_VALUE;
-            ArrayList<Integer[]> coupspion = listeMouvementsPion(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), idJoueur);
-            int x = listeJoueur.get(idJoueur).getX();
-            int y = listeJoueur.get(idJoueur).getY();
+            ArrayList<Integer[]> coupspion = listeMouvementsPion(joueur.getX(), joueur.getY(), idJoueur);
+            int x = joueur.getX();
+            int y = joueur.getY();
             for (Integer[] coup_pion : coupspion) {
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(x, y));
+                joueur.setPionSimple(plateau.getEmplacement(coup_pion[0], coup_pion[1]));
+                joueur.unsetPion(plateau.getEmplacement(x, y));
                 int valeur = min_max(profondeur - 1, listeJoueur, 1);
                 if (valeur < valeurMin) {
                     valeurMin = valeur;
                     meilleurCoup = coup_pion;
-
                 }
                 Log.info("Calculs", "(p)valeur " + valeur + ", coup " + meilleurCoup);
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(x, y));
+                joueur.unsetPion(plateau.getEmplacement(joueur.getX(),joueur.getY()));
+                joueur.setPionSimple(plateau.getEmplacement(x, y));
             }
             //coups murs
-            ArrayList<Integer[]> coups = filtreliste_coup_mur(liste_coup_mur(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
+            ArrayList<Integer[]> coups = filtreliste_coup_mur(liste_coup_mur(joueur.getX(), joueur.getY(), listeJoueur, idJoueur),listeJoueur,idJoueur);
             Murs mur;
             boolean choix = false;
             int valeur;
             for (Integer[] c : coups) {
-                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
+                mur = joueur.setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
                 valeur = min_max(profondeur - 1, listeJoueur, 1);
                 if (valeur < valeurMin) {
                     valeurMin = valeur;
@@ -568,16 +569,16 @@ public class Calculs {
                     choix = true;
                 }
                 Log.info("Calculs", "(m)valeur " + valeur + ", coup " + meilleurCoup);
-                listeJoueur.get(idJoueur).undoSetMur(mur, plateau);
+                joueur.undoSetMur(mur, plateau);
             }
             if (choix) {
                 Integer[] c = meilleurCoup;
-                mur = listeJoueur.get(idJoueur).setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
+                mur = joueur.setMur(plateau.getEmplacement(c[0], c[1]), plateau.getEmplacement(c[2], c[3]), plateau.getEmplacement(c[4], c[5]));
                 Log.info("Calculs", "le meilleur coup est mur : " + c[0] + " " + c[1] + " et " + c[4] + " " + c[5] );
             } else {
                 Integer[] tab = meilleurCoup;
-                listeJoueur.get(idJoueur).unsetPion(plateau.getEmplacement(listeJoueur.get(idJoueur).getX(), listeJoueur.get(idJoueur).getY()));
-                listeJoueur.get(idJoueur).setPion(plateau.getEmplacement(tab[0], tab[1]));
+                joueur.unsetPion(plateau.getEmplacement(joueur.getX(), joueur.getY()));
+                joueur.setPionSimple(plateau.getEmplacement(tab[0], tab[1]));
                 Log.info("Calculs", "le meilleur coup est pion : " + tab[0] + " " + tab[1]);
             }
         }

@@ -16,6 +16,6 @@
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   _OCCUPE_   ||   __MURS__   ||   _OCCUPE_   ||   __MURS__   ||   _OCCUPE_   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   __MURS__   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   __MURS__   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 
-2 : IA 2 : #FF0000 : 2 : 14 : 0 : 10 : 0
-1 : IA 1 : #00FF00 : 4 : 14 : 3 : 7 : 0
+1 : IA 1 : #FF0000 : 4 : 14 : 3 : 7 : 0
+2 : IA 2 : #00FF00 : 2 : 14 : 0 : 10 : 0
 2
