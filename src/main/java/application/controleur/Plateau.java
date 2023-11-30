@@ -68,7 +68,10 @@ public class Plateau {
      * @return Emplacement.
      */
     public Emplacement getEmplacement(int x, int y) {
-        return this.listeToutesLesCases[y][x];
+        if (0 <= x && x < getWidth() && 0 <= y && y < getHeight()) {
+            return this.listeToutesLesCases[y][x];
+        }
+        return null;
     }
 
     /**
