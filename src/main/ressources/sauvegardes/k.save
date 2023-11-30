@@ -2,11 +2,11 @@
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
-|   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   __PION__   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
-|   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
+|   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
+|   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   __PION__   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   __PION__   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
@@ -16,6 +16,6 @@
 |   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   ||   __VIDE__   ||   CASEMURS   |
 |   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   ||   CASEMURS   ||   CASEPION   |
 
-2 : IA 3 : #0000FF : 8 : 4 : 10 : 0 : 0
-1 : IA 2 : #00FF00 : 8 : 10 : 10 : 0 : 0
-2
+1 : IA 3 : #FF0000 : 6 : 8 : 10 : 0 : 0
+2 : IA 2 : #00FF00 : 8 : 10 : 10 : 0 : 0
+1
